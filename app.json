@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "TesteSupabase",
-    "slug": "TesteSupabase",
+    "name": "Hipica-Alameda-App",
+    "slug": "Hipica-Alameda-App",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/Logo2.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/Logo1.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -14,11 +14,9 @@ export default function SignInScreen({ navigation }){
 
                 <View style={styles.inputTexts}>
                     <BlackInputText
-                        label="Insira seu Email"
                         placeholder="Insira seu Email"
                     />
                     <BlackInputPassword
-                        label="Insira sua senha"
                         placeholder="Insira sua senha"
                     />
                 </View>
