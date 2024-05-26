@@ -1,19 +1,19 @@
-import React from "react";
+import { useState } from "react";
 import { TextInput } from "react-native-paper";
 import styles from "./styles";
 
 
 export default function BlackInputPassword(props){
     
-    const [password, setPassword] = React.useState("");
-    const [showPassword, setShowPassword] = React.useState(false);
+    const [password, setPassword] = useState();
+    const [showPassword, setShowPassword] = useState(false);
 
     const placeholder = props.placeholder;
     
     return (
        <TextInput style={styles.background}
-        value={password}
-        onChange={(text) => setPassword(text)}
+        value={props.value}
+        onChangeText={props.action}
         mode="outlined"
         underlineColor="#000000"
         activeUnderlineColor="#000000"

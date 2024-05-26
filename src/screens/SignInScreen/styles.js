@@ -38,6 +38,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: width*0.5,
     },
+    logo: {
+        width: width*0.7,
+        height: height*0.3,
+        resizeMode: "stretch",
+        marginTop: -height*0.22,
+    },
 });
 
 export default styles;

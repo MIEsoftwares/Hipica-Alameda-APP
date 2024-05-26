@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView } from "react-native";
+import { View, Text, KeyboardAvoidingView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import BlackInputText from "../../components/BlackInputText";
@@ -12,6 +12,7 @@ export default function SignUpScreen({ navigation }){
 
             <KeyboardAvoidingView style={styles.background} behaivor='position' enabled>
 
+                <Image style={styles.logo} source={require('../../assets/Logo2.png')}/>
                 <View style={styles.inputTexts}>
                     <BlackInputText
                         placeholder="Insira seu nome completo"

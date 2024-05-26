@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     },
     background: {
         width: width*0.8,
-        height: height*0.5,
+        height: height*0.6,
         backgroundColor: "#FFFFFF",
         borderRadius: 25,
         alignItems: "center",
@@ -33,6 +33,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         width: width*0.5,
+    },
+    logo: {
+        width: width*0.7,
+        height: height*0.3,
+        marginTop: -height*0.2,
+        resizeMode: "stretch",
     },
 });
 
