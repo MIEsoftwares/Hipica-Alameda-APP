@@ -13,18 +13,10 @@ export default function SignInScreen({ navigation }){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("");
 
-    const updateEmail = () => {
-        setEmail(email)
-    }
-
-    const updatePassword = () => {
-        setPassword(password)
-    }
-
     const [showError, setShowError] = useState({
         render: false,
         error: null
-      })
+      });
     
       const closeError = () => {
         setShowError(prevState => ({
@@ -81,9 +73,6 @@ export default function SignInScreen({ navigation }){
                         onPress={() => tryLogin(email, password)}
                     >Entrar
                     </Button>
-                </View>
-
-                <View name='authbox'>
                 </View>
 
                 <View>
