@@ -4,10 +4,10 @@
     "slug": "Hipica-Alameda-App",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/Logo2.png",
+    "icon": "./src/assets/images/Logo2.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/Logo1.png",
+      "image": "./src/assets/images/Logo1.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,6 +22,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": ["src/fonts"]
+        }
+      ]
+    ]
   }
 }

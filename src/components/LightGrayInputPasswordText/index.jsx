@@ -8,21 +8,20 @@ export default function BlackInputPassword(props){
     const [password, setPassword] = useState();
     const [showPassword, setShowPassword] = useState(false);
 
-    const placeholder = props.placeholder;
-    
     return (
        <TextInput style={styles.background}
         value={props.value}
         onChangeText={props.action}
         mode="outlined"
-        underlineColor="#000000"
-        activeUnderlineColor="#000000"
-        outlineColor="#000000"
-        activeOutlineColor="#000000"
+        underlineColor="#E0E0E0"
+        activeUnderlineColor="#E0E0E0"
+        outlineColor="#E0E0E0"
+        activeOutlineColor="#E0E0E0"
         textColor="#000000"
-        placeholder={placeholder}
+        placeholder={props.placeholder}
+        placeholderTextColor="#B0B0B0"
         secureTextEntry={!showPassword}
-        right={<TextInput.Icon icon={showPassword ? "eye-off" : "eye"} onPress={() => setShowPassword(!showPassword)}/>}
+        right={<TextInput.Icon icon={showPassword ? "eye-off" : "eye"} color="#B0B0B0" onPress={() => setShowPassword(!showPassword)}/>}
        />   
     ); 
 };

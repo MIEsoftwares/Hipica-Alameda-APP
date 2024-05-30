@@ -5,7 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = "ur Supabase url"
 const supabaseKey = "ur Supabase key"
 
-export const supabase = createClient(supabaseUrl, supabaseKey, {
+const supabase = createClient(supabaseUrl, supabaseKey, {
     auth: {
       storage: AsyncStorage,
       autoRefreshToken: true,
@@ -13,3 +13,5 @@ export const supabase = createClient(supabaseUrl, supabaseKey, {
       detectSessionInUrl: false,
     },
   });
+  
+export default supabase
