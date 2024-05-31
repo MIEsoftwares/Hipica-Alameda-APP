@@ -126,7 +126,7 @@ export default function SignUpScreen({ navigation }) {
               </View>
             </View>
             <Button
-              disabled={ phone === "" || cpf === "" || horseName === "" || lgpdTerm === false}
+              disabled={ phone === "" || cpf === "" || lgpdTerm === false}
               textColor="#FFFFFF"
               buttonColor="#000000"
               labelStyle={{fontSize: 16}}
