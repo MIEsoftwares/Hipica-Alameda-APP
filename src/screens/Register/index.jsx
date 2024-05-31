@@ -18,7 +18,7 @@ export default function SignUpScreen({ navigation }) {
   const [hasHorse, setHasHorse] = useState(false);
   const [horseName, setHorseName] = useState("");
   const [lgpdTerm, setLgpdTerm] = useState()
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
 
   const [showError, setShowError] = useState({
