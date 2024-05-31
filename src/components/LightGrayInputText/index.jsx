@@ -10,6 +10,7 @@ export default function BlackInputText(props) {
       style={styles.background}
       value={props.value}
       onChangeText={props.action}
+      outlineStyle={{borderRadius: 12}}
       mode="outlined"
       underlineColor="#E0E0E0"
       activeUnderlineColor="#E0E0E0"
@@ -17,7 +18,9 @@ export default function BlackInputText(props) {
       activeOutlineColor="#E0E0E0"
       textColor="#000000"
       placeholder={props.placeholder}
-      placeholderTextColor="#B0B0B0"
+      placeholderTextColor={props.error ? "red" : "#B0B0B0"}
+      right={(props.error && <TextInput.Icon icon="alert" color="red" rippleColor="transparent" />)}
+      onChange={props.onChange}
     />
   );
 }

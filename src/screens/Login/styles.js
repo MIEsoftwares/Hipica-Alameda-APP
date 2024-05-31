@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   TextView: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: height * 0.03,
+    marginBottom: height * 0.025,
   },
   Title: {
     fontSize: 18,
@@ -44,12 +44,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: width,
-    backgroundColor: "#green",
   },
   logo: {
-    width: width * 0.7,
-    height: height * 0.3,
+    width: 170,
+    height: 170,
     resizeMode: "stretch",
+    margin: 32,
   },
   ViewOrContinueWith: {
     flexDirection: "row",
