@@ -41,14 +41,6 @@ export default function Login({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {showError.render && (
-        <View>
-          <Text style={{ color: "red", marginTop: -height * 0.2 }}>
-            {"\t"}
-            {showError.error?.message}
-          </Text>
-        </View>
-      )}
       <Image
         style={styles.logo}
         source={require("../../assets/images/Logo2.png")}
@@ -64,21 +56,30 @@ export default function Login({ navigation }) {
           style={styles.SubTitle}
           variant="titleSmall"
         />
+        {showError.render && (
+          <Text style={{marginTop: 8, color: "red"}}> 
+          </Text>
+      )}
       </View>
+      
       <View style={styles.loginBox}>
         <LightGrayInputText
           value={email}
           action={setEmail}
           placeholder="Email"
+          error={showError.render}
+          onChange={() => setShowError({...showError, render: false})}
         />
         <LightGrayInputPasswordText
           value={password}
           action={setPassword}
           placeholder="Senha"
+          error={showError.render}
+          onChange={() => setShowError({...showError, render: false})}
         />
         <Button
           style={{
-            borderRadius: 6,
+            borderRadius: 12,
             height: height * 0.05,
             alignItems: "center",
             justifyContent: "center",
@@ -87,6 +88,7 @@ export default function Login({ navigation }) {
           buttonColor="#000000"
           children="Continuar"
           rippleColor="transparent"
+          labelStyle={{fontSize: 16}}
           onPress={() => tryLogin(email, password)}
         />
       </View>
@@ -114,9 +116,9 @@ export default function Login({ navigation }) {
           />
           <Button
             children={
-              <Text style={{ textWeight: "bold" }} children="Cadastre-se" />
+              <Text style={{ textWeight: "bold", textDecorationLine: "underline", color: "#0000CD" }} children="Cadastre-se" />
             }
-            style={{ marginHorizontal: -10, marginTop: -8.75 }}
+            style={{ marginHorizontal: -8, marginTop: -8.75 }}
             textColor="#828282"
             rippleColor="transparent"
             onPress={() => navigation.navigate("Register")}
@@ -129,7 +131,7 @@ export default function Login({ navigation }) {
               children="Termos de uso e política de condições"
             />
           }
-          style={{ marginHorizontal: -10, marginTop: -8.75 }}
+          style={{ marginHorizontal: -8, marginTop: -8.75 }}
           textColor="#828282"
           rippleColor="transparent"
           // onPress={() => navigation.navigate("")} Linkar para alguma página de termos de uso que mostre

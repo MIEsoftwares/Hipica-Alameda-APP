@@ -1,18 +1,25 @@
-import { View, Text, KeyboardAvoidingView, Image } from "react-native";
+import { View, KeyboardAvoidingView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import LightGrayInputText from "../../components/LightGrayInputText";
 import LightGrayInputPasswordText from "../../components/LightGrayInputPasswordText";
-import { Button } from "react-native-paper";
-import { height } from "../../constants/Dimensions";
+import { Button, Checkbox, Text } from "react-native-paper";
 import { useState } from "react";
 import { signUpWithEmail } from "../../../database/auth/register";
+import { height } from "../../constants/Dimensions";
 
 export default function SignUpScreen({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [cpf, setCpf] = useState();
+  const [hasHorse, setHasHorse] = useState(false);
+  const [horseName, setHorseName] = useState("");
+  const [lgpdTerm, setLgpdTerm] = useState()
+  const [page, setPage] = useState(0);
+
 
   const [showError, setShowError] = useState({
     render: false,
@@ -36,81 +43,110 @@ export default function SignUpScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        style={styles.background}
-        behaivor="position"
-        enabled
-      >
-        {showError.render && (
-          <View>
-            <Text style={{ color: "red", marginTop: -height * 0.2 }}>
-              {"\t"}
-              {showError.error}
-            </Text>
-          </View>
-        )}
 
-        <Image
-          style={styles.logo}
-          source={require("../../assets/images/Logo2.png")}
-        />
-        <View style={styles.inputTexts}>
-          <LightGrayInputText
-            value={name}
-            action={setName}
-            placeholder="Insira seu nome completo"
-          />
-          <LightGrayInputText
-            value={email}
-            action={setEmail}
-            placeholder="Insira seu email"
-          />
-          <LightGrayInputPasswordText
-            value={password}
-            action={setPassword}
-            placeholder="Insira sua senha"
-          />
-          <LightGrayInputPasswordText
-            value={confirmPassword}
-            action={setConfirmPassword}
-            placeholder="Confirme sua senha"
-          />
-        </View>
+      <Image style={styles.logo} source={require("../../assets/images/Logo1.png")}/>
 
-        <View style={{ marginVertical: height * 0.03 }}>
+      <Text style={styles.title}>Cadastro</Text>
+
+      
+      {page === 0 ?
+        <View> 
+          <KeyboardAvoidingView behavior="position" enabled >
+            <View style={styles.inputs}>
+              <LightGrayInputText
+                value={name}
+                action={setName}
+                placeholder="Nome Completo"
+              />
+              <LightGrayInputText
+                value={email}
+                action={setEmail}
+                placeholder="Email"
+              />
+              <LightGrayInputPasswordText
+                value={password}
+                action={setPassword}
+                placeholder="Senha"
+              />
+              <LightGrayInputPasswordText
+                value={confirmPassword}
+                action={setConfirmPassword}
+                placeholder="Confirme sua senha"
+              />
+            </View>
+          </KeyboardAvoidingView>
           <Button
-            style={styles.loginButton}
-            disabled={
-              name === "" ||
-              email === "" ||
-              password === "" ||
-              confirmPassword === "" ||
-              password !== confirmPassword
-                ? true
-                : false
-            }
+            disabled={ name === "" || email === "" || password === "" || confirmPassword === "" || password !== confirmPassword? true : false}
             textColor="#FFFFFF"
-            buttonColor="#0000CD"
-            onPress={() => tryRegister(email, password, name)}
+            buttonColor="#000000"
+            labelStyle={{fontSize: 16}}
+            style={styles.buttonProceed}
+            onPress={() => setPage(1)}
           >
-            Cadastrar
-          </Button>
-        </View>
-
+            Prosseguir
+          </Button> 
+        </View> 
+      : 
         <View>
-          <View style={styles.footerViews}>
-            <Text>Já possui cadastro?</Text>
+          <KeyboardAvoidingView behavior="position" enabled>
+            <View style={styles.inputs}>
+              <LightGrayInputText
+                value={phone}
+                action={setPhone}
+                placeholder="Telefone"
+              />
+              <LightGrayInputText
+                value={cpf}
+                action={setCpf}
+                placeholder="CPF"
+              />
+              <Text style={styles.text}>É proprietário de cavalo?</Text>
+              <View style={styles.checkboxContainer}>
+                 <View style={{flexDirection: "row", alignItems: "center", height: "100%"}}> 
+                    <Checkbox status={hasHorse ? "checked" : "unchecked"} onPress={() => setHasHorse(!hasHorse)} color="#000000"/>
+                    <Text children="Sim" style={styles.text}/>
+                 </View>
+                 <View style={{flexDirection: "row", alignItems: "center", height: "100%"}}> 
+                    <Checkbox status={!hasHorse ? "checked" : "unchecked"} onPress={() => setHasHorse(!hasHorse)} color="#000000"/>
+                    <Text children="Não" style={styles.text}/>
+                 </View>
+              </View>
+              <LightGrayInputText
+                value={horseName}
+                action={setHorseName}
+                placeholder="Nome do cavalo"
+                disabled={!hasHorse}
+              />
+              <Text style={{fontSize: 16, textAlign: "center",}}>Termo de uso e política de privacidade</Text>
+              <View style={styles.checkboxContainer}>
+                <View style={{flexDirection: "row", alignItems: "center", height: "100%"}}> 
+                  <Checkbox status={lgpdTerm ? "checked" : "unchecked"} onPress={() => setLgpdTerm(!lgpdTerm)} color="#000000"/>
+                  <Text children="Li e concordo" style={styles.text}/>
+                </View>
+              </View>
+            </View>
             <Button
-              style={{ marginHorizontal: -10, padding: 0 }}
-              textColor="#0000CD"
-              rippleColor="transparent"
-              onPress={() => navigation.navigate("Login")}
+              disabled={ phone === "" || cpf === "" || lgpdTerm === false}
+              textColor="#FFFFFF"
+              buttonColor="#000000"
+              labelStyle={{fontSize: 16}}
+              style={styles.buttonProceed}
+              onPress={() => setPage(1)}
             >
-              Clique aqui
+              Cadastrar
             </Button>
-          </View>
+          </KeyboardAvoidingView>          
         </View>
-      </KeyboardAvoidingView>
+      }
+      
+      
+      
+      <View style={styles.footer}>
+        <Text children="Já possui uma conta?" style={{color: "#828282"}}/>
+        <Button style={{marginHorizontal: -8, }} children={<Text style={{ textWeight: "bold", textDecorationLine: "underline", color: "#0000CD" }} children="Clique aqui" onPress={() => navigation.navigate("Login")}/>}>
+        </Button>
+      </View>
+      
     </SafeAreaView>
   );
 }
