@@ -30,13 +30,14 @@ export default function Login({ navigation }) {
     if (error) {
       setShowError({
         render: true,
-        error: error,
+        error: error.message,
       });
-
+      
       return;
     }
 
-    navigation.navigate("Home");
+    navigation.navigate("HomeTabs");
+    return;
   }
 
   return (
@@ -57,7 +58,8 @@ export default function Login({ navigation }) {
           variant="titleSmall"
         />
         {showError.render && (
-          <Text style={{marginTop: 8, color: "red"}}> 
+          <Text style={{marginTop: 8, color: "red"}}>
+            {showError.error}
           </Text>
       )}
       </View>
