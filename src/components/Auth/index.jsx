@@ -10,19 +10,20 @@ import Report from "../../screens/Report";
 import Announcements from "../../screens/Announcements/styles";
 import TestSearch from "../../screens/TestSearch";
 
+
 const Stack = createNativeStackNavigator();
 
 export default function Auth(props) {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="TestSearch"
+        initialRouteName="SearchBar"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
-        <Stack.Screen name="TestSearch" component={TestSearch}/>
+        <Stack.Screen name="SearchBar" component={TestSearch}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -33,7 +34,7 @@ const Tab = createBottomTabNavigator();
 export function HomeTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Início"
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
