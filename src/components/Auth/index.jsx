@@ -17,13 +17,12 @@ export default function Auth(props) {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SearchBar"
+        initialRouteName="Login"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
-        <Stack.Screen name="SearchBar" component={TestSearch}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
