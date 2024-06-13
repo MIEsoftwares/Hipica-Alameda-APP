@@ -42,103 +42,59 @@ export default function Login({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require("../../assets/images/Logo2.png")}
-      />
-      <View style={styles.TextView}>
-        <Text
-          children="Bem Vindo!"
-          style={styles.Title}
-          variant="titleMedium"
+      <View style={styles.allElements}>
+        <Image
+          style={styles.logo}
+          source={require("../../assets/images/Logo2.png")}
         />
-        <Text
-          children="Entre com sua conta Hípica"
-          style={styles.SubTitle}
-          variant="titleSmall"
-        />
-        {showError.render && (
-          <Text style={{marginTop: 8, color: "red"}}>
-            {showError.error}
-          </Text>
-      )}
-      </View>
-      
-      <View style={styles.loginBox}>
-        <LightGrayInputText
-          value={email}
-          action={setEmail}
-          placeholder="Email"
-          error={showError.render}
-          onChange={() => setShowError({...showError, render: false})}
-        />
-        <LightGrayInputPasswordText
-          value={password}
-          action={setPassword}
-          placeholder="Senha"
-          error={showError.render}
-          onChange={() => setShowError({...showError, render: false})}
-        />
-        <Button
-          style={{
-            borderRadius: 12,
-            height: height * 0.05,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          textColor="#FFFFFF"
-          buttonColor="#000000"
-          children="Continuar"
-          rippleColor="transparent"
-          labelStyle={{fontSize: 16}}
-          onPress={() => tryLogin(email, password)}
-        />
-      </View>
-
-      <View style={styles.ViewOrContinueWith}>
-        <View
-          style={styles.line}
-          children={<Text children="******************" />}
-        />
-        <Text
-          style={{ color: "#929292", marginHorizontal: 5 }}
-          children=" ou continue com "
-        />
-        <View
-          style={styles.line}
-          children={<Text children="******************" />}
-        />
-      </View>
-
-      <View style={styles.footerViews}>
-        <View style={{ flexDirection: "row" }}>
+        <View style={styles.TextView}>
           <Text
-            style={{ color: "#828282" }}
-            children="Não possui uma conta ainda?"
+            children="Bem Vindo!"
+            style={styles.Title}
+            variant="titleMedium"
+          />
+          <Text
+            children="Entre com sua conta Hípica"
+            style={styles.SubTitle}
+            variant="titleSmall"
+          />
+          {showError.render && (
+            <Text style={{marginTop: 8, color: "red"}}>
+              {showError.error}
+            </Text>
+        )}
+        </View>
+
+        <View style={styles.loginBox}>
+          <LightGrayInputText
+            value={email}
+            action={setEmail}
+            placeholder="Email"
+            error={showError.render}
+            onChange={() => setShowError({...showError, render: false})}
+          />
+          <LightGrayInputPasswordText
+            value={password}
+            action={setPassword}
+            placeholder="Senha"
+            error={showError.render}
+            onChange={() => setShowError({...showError, render: false})}
           />
           <Button
-            children={
-              <Text style={{ textWeight: "bold", textDecorationLine: "underline", color: "#0000CD" }} children="Cadastre-se" />
-            }
-            style={{ marginHorizontal: -8, marginTop: -8.75 }}
-            textColor="#828282"
+            style={{
+              borderRadius: 12,
+              height: height * 0.05,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            textColor="#FFFFFF"
+            buttonColor="#000000"
+            children="Continuar"
             rippleColor="transparent"
-            onPress={() => navigation.navigate("Register")}
+            labelStyle={{fontSize: 16}}
+            onPress={() => tryLogin(email, password)}
           />
         </View>
-        <Button
-          children={
-            <Text
-              style={{ textWeight: "bold" }}
-              children="Termos de uso e política de condições"
-            />
-          }
-          style={{ marginHorizontal: -8, marginTop: -8.75 }}
-          textColor="#828282"
-          rippleColor="transparent"
-          // onPress={() => navigation.navigate("")} Linkar para alguma página de termos de uso que mostre
-          // que nosso sistema concorde com o termo LGPD
-        />
       </View>
     </SafeAreaView>
   );
