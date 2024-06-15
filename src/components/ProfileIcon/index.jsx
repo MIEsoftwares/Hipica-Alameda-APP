@@ -1,6 +1,6 @@
-import { ImageBackground } from "react-native";
-import styles from "./styles";
 import { TouchableRipple } from "react-native-paper";
+import defaultIcon from "../../assets/images/Logo2.png";
+import { Avatar } from 'react-native-paper';
 
 
 export default function ProfileIcon({source}, {navigation}) {
@@ -10,9 +10,10 @@ export default function ProfileIcon({source}, {navigation}) {
     }
 
     return (
-        <TouchableRipple onPress={() => goToProfile} style={styles.profileIcon}
-            children={<ImageBackground source={source}/>}
+        <TouchableRipple 
+            onPress={() => goToProfile}
             rippleColor="transparent"
+            children={<Avatar.Image source={defaultIcon}/>}
         />
     );
 }
