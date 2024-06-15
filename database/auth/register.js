@@ -6,7 +6,7 @@ export async function signUpWithEmail(email, nome, senha, cpf, telefone, proprie
       error,
     } = await supabase.auth.signUp({
       email: email,
-      senha: senha,
+      password: senha,
       options:{
         data: {
           nome: nome,

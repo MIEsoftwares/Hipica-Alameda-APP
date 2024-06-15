@@ -8,6 +8,8 @@ import Register from "../../screens/Register";
 import Schedule from "../../screens/Schedule";
 import Report from "../../screens/Report";
 import Announcements from "../../screens/Announcements/styles";
+import TestSearch from "../../screens/TestSearch";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +33,7 @@ const Tab = createBottomTabNavigator();
 export function HomeTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Início"
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
@@ -47,9 +49,8 @@ export function HomeTabs() {
             iconName = focused ? "mail-open" : "mail";
           } else if(route.name === "Comunicados"){
             iconName = "chatbubbles"
-          }
+          }  
 
-          // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#000000",
