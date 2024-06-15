@@ -5,9 +5,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Login from "../../screens/Login";
 import Home from "../../screens/Home";
 import Register from "../../screens/Register";
-import Schedule from "../../screens/Schedule";
-import Report from "../../screens/Report";
-import Announcements from "../../screens/Announcements/styles";
+import Schedule from "../../screens/MainScreens/Schedule";
+import Report from "../../screens/MainScreens/Report";
+import Announcements from "../../screens/MainScreens/Announcements/styles";
 
 const Stack = createNativeStackNavigator();
 
