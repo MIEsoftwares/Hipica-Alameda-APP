@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useState, useEffect } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Login from "../../screens/Login";
 import Home from "../../screens/Home";
@@ -9,20 +10,37 @@ import Schedule from "../../screens/Schedule";
 import Report from "../../screens/Report";
 import Announcements from "../../screens/Announcements/styles";
 import TestSearch from "../../screens/TestSearch";
+import { sessionStorage } from "../../../database/classes/Storage";
 
 
 const Stack = createNativeStackNavigator();
 
-export default function Auth(props) {
+export default function Auth() {
+  const [token, setToken] = useState(false);
+
+  if (token) {
+    sessionStorage.setItem("token", JSON.stringify(token));
+  }
+
+  useEffect(() => {
+    if (sessionStorage.getItem("token")) {
+      let data = JSON.parse(sessionStorage.getItem("token"));
+      setToken(data);
+    }
+  },[])
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Login"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Login">
+          {(props) => <Login {...props} setToken={setToken} />}
+        </Stack.Screen>
         <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="HomeTabs" component={HomeTabs} />
+        {token && <Stack.Screen name="HomeTabs" component={HomeTabs}/>}
       </Stack.Navigator>
     </NavigationContainer>
   );
