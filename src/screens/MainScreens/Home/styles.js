@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { height, width } from "../../constants/Dimensions";
+import { height, width } from "../../../constants/Dimensions";
 
 const styles = StyleSheet.create({
     container: {
@@ -19,10 +19,8 @@ const styles = StyleSheet.create({
 
     },
     image: {
-        backgroundColor: "green",
         width: width*0.7,
         height: height * 0.23,
-        resizeMode: "",
     },
     titleWhileHasNothing: {
         justifyContent: "center",

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { height, width } from "../../constants/Dimensions";
+import { height, width } from "../../../constants/Dimensions";
 // import { useFonts } from 'expo-font';
 // import * as SplashScreen from 'expo-splash-screen'
 
@@ -8,9 +8,14 @@ const styles = StyleSheet.create({
     width: width,
     height: height,
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     paddingBottom: width * 0.18,
     backgroundColor: "#FFFFFF",
+  },
+  allElements: {
+    alignItems: "center", 
+    justifyContent: "center", 
+    marginTop: height*-0.2,
   },
   background: {
     width: width,

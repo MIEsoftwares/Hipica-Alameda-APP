@@ -1,6 +1,5 @@
 import supabase from "../SupabaseConfig";
 
-
 export const insert = async (item) => {
 
   try{

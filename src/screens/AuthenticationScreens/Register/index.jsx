@@ -1,12 +1,12 @@
 import { View, KeyboardAvoidingView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
-import LightGrayInputText from "../../components/LightGrayInputText";
-import LightGrayInputPasswordText from "../../components/LightGrayInputPasswordText";
+import LightGrayInputText from "../../../components/LightGrayInputText";
+import LightGrayInputPasswordText from "../../../components/LightGrayInputPasswordText";
 import { Button, Checkbox, Text } from "react-native-paper";
 import { useState } from "react";
-import { signUpWithEmail } from "../../../database/auth/register";
-import { height } from "../../constants/Dimensions";
+import { signUpWithEmail } from "../../../../database/auth/register";
+
 
 export default function SignUpScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -44,7 +44,7 @@ export default function SignUpScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
 
-      <Image style={styles.logo} source={require("../../assets/images/Logo1.png")}/>
+      <Image style={styles.logo} source={require("../../../assets/images/Logo1.png")}/>
 
       <Text style={styles.title}>Cadastro</Text>
 
