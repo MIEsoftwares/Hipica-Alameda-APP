@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import supabase from "../SupabaseConfig"
 
 export async function checkSession() {
     const sessionString = await AsyncStorage.getItem('supabase_session');
@@ -6,14 +7,14 @@ export async function checkSession() {
     if (sessionString) {
       const session = JSON.parse(sessionString);
       
-      supabase.auth.setSession(session);
+      await supabase.auth.setSession(session);
   
       const { error } = await supabase.auth.getUser();
   
       if (error) {
         await AsyncStorage.removeItem('supabase_session');
+
       }
-      
-      return true;
     }
+    return sessionString;
   }

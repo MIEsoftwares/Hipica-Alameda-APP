@@ -16,6 +16,7 @@ import { checkSession } from "../../../database/AsyncStorageFunctions/checkSessi
 const Stack = createNativeStackNavigator();
 
 export default function Auth() {
+
   const [token, setToken] = useState(false);
 
 

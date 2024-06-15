@@ -11,14 +11,19 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkSession } from "../../../database/AsyncStorageFunctions/checkSession";
 
+
 export default function Login({ setToken }, { navigation = useNavigation() }) {
-  
+
   useEffect(() => {
-    if(checkSession()){
-      navigation.navigate("HomeTabs");
+    const loadData = async () => {
+      const response = await checkSession();
+      if (response !== null) {
+        navigation.navigate("HomeTabs");
+      }
     }
-  },[])
-  
+    loadData();
+  }, [])
+   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
