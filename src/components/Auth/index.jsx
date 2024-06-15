@@ -9,25 +9,14 @@ import Register from "../../screens/Register";
 import Schedule from "../../screens/Schedule";
 import Report from "../../screens/Report";
 import Announcements from "../../screens/Announcements/styles";
-import TestSearch from "../../screens/TestSearch";
-import { sessionStorage } from "../../../database/classes/Storage";
+import { checkSession } from "../../../database/AsyncStorageFunctions/checkSession";
+
 
 
 const Stack = createNativeStackNavigator();
 
 export default function Auth() {
   const [token, setToken] = useState(false);
-
-  if (token) {
-    sessionStorage.setItem("token", JSON.stringify(token));
-  }
-
-  useEffect(() => {
-    if (sessionStorage.getItem("token")) {
-      let data = JSON.parse(sessionStorage.getItem("token"));
-      setToken(data);
-    }
-  },[])
 
 
   return (
@@ -40,7 +29,7 @@ export default function Auth() {
           {(props) => <Login {...props} setToken={setToken} />}
         </Stack.Screen>
         <Stack.Screen name="Register" component={Register} />
-        {token && <Stack.Screen name="HomeTabs" component={HomeTabs}/>}
+        <Stack.Screen name="HomeTabs" component={HomeTabs}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
