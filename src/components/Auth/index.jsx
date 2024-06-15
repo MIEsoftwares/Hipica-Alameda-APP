@@ -23,10 +23,6 @@ export default function Auth(props) {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
-        <Stack.Screen name="Início" component={Home} />
-        <Stack.Screen name="Agenda" component={Schedule} />
-        <Stack.Screen name="Relatórios" component={Announcements} />
-        <Stack.Screen name="Comunicados" component={HomeTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
