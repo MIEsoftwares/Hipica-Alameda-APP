@@ -1,9 +1,18 @@
-import { Image } from "react-native";
+import { ImageBackground } from "react-native";
 import styles from "./styles";
+import { TouchableRipple } from "react-native-paper";
 
 
-export default function ProfileIcon({source}) {
+export default function ProfileIcon({source}, {navigation}) {
+
+    const goToProfile = () => {
+        navigation.navigate("Profile");
+    }
+
     return (
-        <Image style={styles.profileIcon} source={source}/>
+        <TouchableRipple onPress={() => goToProfile} style={styles.profileIcon}
+            children={<ImageBackground source={source}/>}
+            rippleColor="transparent"
+        />
     );
 }
