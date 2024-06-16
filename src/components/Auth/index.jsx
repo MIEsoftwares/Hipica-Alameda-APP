@@ -43,7 +43,7 @@ export function HomeTabs() {
       .select("role").single()
       
       setUserRole(profile.role)
-    return console.log("get");
+    return 
   }
 
   if (userRole === "" || userRole === null || userRole === undefined) {
