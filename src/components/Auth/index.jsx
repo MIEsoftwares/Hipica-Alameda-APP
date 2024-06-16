@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useState, useEffect } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Login from "../../screens/Login";
 import Home from "../../screens/Home";
@@ -12,18 +13,26 @@ import Profile from "../../screens/Profile";
 import TestSearch from "../../screens/TestSearch";
 import supabase from "../../../database/SupabaseConfig";
 import { useState } from "react";
+import { checkSession } from "../../../database/AsyncStorageFunctions/checkSession";
+
 
 
 const Stack = createNativeStackNavigator();
 
-export default function Auth(props) {
+export default function Auth() {
+
+  const [token, setToken] = useState(false);
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Login"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Login">
+          {(props) => <Login {...props} setToken={setToken} />}
+        </Stack.Screen>
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
         <Stack.Screen name="Profile" component={Profile} />

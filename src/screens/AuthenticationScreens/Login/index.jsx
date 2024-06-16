@@ -4,11 +4,26 @@ import styles from "./styles";
 import LightGrayInputText from "../../../components/LightGrayInputText";
 import LightGrayInputPasswordText from "../../../components/LightGrayInputPasswordText";
 import { Button, Text } from "react-native-paper";
-import { height } from "../../../constants/Dimensions";
-import { useState } from "react";
-import { signInWithEmail } from "../../../../database/auth/login";
+import { height } from "../../constants/Dimensions";
+import { useEffect, useState } from "react";
+import { signInWithEmail } from "../../../database/auth/login";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { checkSession } from "../../../database/AsyncStorageFunctions/checkSession";
 
-export default function Login({ navigation }) {
+
+export default function Login({ setToken }, { navigation = useNavigation() }) {
+
+  useEffect(() => {
+    const loadData = async () => {
+      const response = await checkSession();
+      if (response !== null) {
+        navigation.navigate("HomeTabs");
+      }
+    }
+    loadData();
+  }, [])
+   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,7 +40,7 @@ export default function Login({ navigation }) {
   };
 
   async function tryLogin(email, password) {
-    const error = await signInWithEmail(email, password);
+    const {data, error} = await signInWithEmail(email, password);
 
     if (error) {
       setShowError({
@@ -36,6 +51,9 @@ export default function Login({ navigation }) {
       return;
     }
 
+    console.log(data);
+    setToken(data);
+    await AsyncStorage.setItem("supabase_session", JSON.stringify(data.session));
     navigation.navigate("HomeTabs");
     return;
   }
