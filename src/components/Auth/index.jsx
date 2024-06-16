@@ -43,11 +43,13 @@ export function HomeTabs() {
       .select("role").single()
       
       setUserRole(profile.role)
-    return
+    return console.log("get");
   }
 
-  getRole()
-  
+  if (userRole === "" || userRole === null || userRole === undefined) {
+    getRole();
+  }
+
   return (
     <Tab.Navigator
       initialRouteName="Início"
@@ -59,14 +61,16 @@ export function HomeTabs() {
           if (route.name === "Início") {
             iconName = focused
               ? "home"
-              : "home";
+              : "home-outline";
           } else if (route.name === "Agenda") {
-            iconName = focused ? "calendar" : "calendar-outline";
+            iconName = focused? "calendar-clear" : "calendar-clear-outline";
           } else if(route.name === "Relatórios"){
-            iconName = focused ? "mail-open" : "mail";
+            iconName = focused ? "book" : "book-outline";
           } else if(route.name === "Comunicados"){
-            iconName = "chatbubbles"
-          }  
+            iconName = focused? "mail" : "mail-outline"
+          }  else if(route.name === "Administração"){
+            iconName = focused ? "settings-sharp" : "settings-outline"
+          }
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
