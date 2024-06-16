@@ -17,17 +17,32 @@ export default function SignUpScreen({ navigation }) {
   const [cpf, setCpf] = useState();
   const [hasHorse, setHasHorse] = useState(false);
   const [horseName, setHorseName] = useState("");
-  const [lgpdTerm, setLgpdTerm] = useState()
-  const [page, setPage] = useState(0);
-
+  const [lgpdTerm, setLgpdTerm] = useState(false);
+  const [page, setPage] = useState(1);
 
   const [showError, setShowError] = useState({
     render: false,
     error: null,
   });
 
-  const tryRegister = async (email, password, name) => {
-    const error = await signUpWithEmail(email, password, name);
+  const tryRegister = async (
+    email,
+    nome,
+    senha,
+    cpf,
+    telefone,
+    proprietario_de_cavalo,
+    nome_do_cavalo
+  ) => {
+    const error = await signUpWithEmail(
+      email,
+      nome,
+      senha,
+      cpf,
+      telefone,
+      proprietario_de_cavalo,
+      nome_do_cavalo
+    );
 
     if (error.error) {
       setShowError({
@@ -38,115 +53,172 @@ export default function SignUpScreen({ navigation }) {
       return;
     }
 
-    navigation.navigate("SignIn");
+    navigation.navigate("Login");
   };
 
   return (
     <SafeAreaView style={styles.container}>
-
-      <Image style={styles.logo} source={require("../../assets/images/Logo1.png")}/>
+      <Image
+        style={styles.logo}
+        source={require("../../assets/images/Logo1.png")}
+      />
 
       <Text style={styles.title}>Cadastro</Text>
 
-      
-      {page === 0 ?
-        <View> 
-          <KeyboardAvoidingView behavior="position" enabled >
-            <View style={styles.inputs}>
-              <LightGrayInputText
-                value={name}
-                action={setName}
-                placeholder="Nome Completo"
-              />
-              <LightGrayInputText
-                value={email}
-                action={setEmail}
-                placeholder="Email"
-              />
-              <LightGrayInputPasswordText
-                value={password}
-                action={setPassword}
-                placeholder="Senha"
-              />
-              <LightGrayInputPasswordText
-                value={confirmPassword}
-                action={setConfirmPassword}
-                placeholder="Confirme sua senha"
-              />
-            </View>
-          </KeyboardAvoidingView>
+      {page === 0 ? (
+        <KeyboardAvoidingView
+          behavior="position"
+          enabled
+          contentContainerStyle={styles.inputs}
+        >
+          <LightGrayInputText
+            value={name}
+            action={setName}
+            placeholder="Nome Completo"
+          />
+          <LightGrayInputText
+            value={email}
+            action={setEmail}
+            placeholder="Email"
+          />
+          <LightGrayInputPasswordText
+            value={password}
+            action={setPassword}
+            placeholder="Senha"
+          />
+          <LightGrayInputPasswordText
+            value={confirmPassword}
+            action={setConfirmPassword}
+            placeholder="Confirme sua senha"
+          />
+
           <Button
-            disabled={ name === "" || email === "" || password === "" || confirmPassword === "" || password !== confirmPassword? true : false}
+            disabled={
+              name === "" ||
+              email === "" ||
+              password === "" ||
+              confirmPassword === "" ||
+              password !== confirmPassword
+                ? true
+                : false
+            }
             textColor="#FFFFFF"
             buttonColor="#000000"
-            labelStyle={{fontSize: 16}}
+            labelStyle={{ fontSize: 16 }}
             style={styles.buttonProceed}
             onPress={() => setPage(1)}
-          >
-            Prosseguir
-          </Button> 
-        </View> 
-      : 
-        <View>
-          <KeyboardAvoidingView behavior="position" enabled>
-            <View style={styles.inputs}>
-              <LightGrayInputText
-                value={phone}
-                action={setPhone}
-                placeholder="Telefone"
-              />
-              <LightGrayInputText
-                value={cpf}
-                action={setCpf}
-                placeholder="CPF"
-              />
-              <Text style={styles.text}>É proprietário de cavalo?</Text>
-              <View style={styles.checkboxContainer}>
-                 <View style={{flexDirection: "row", alignItems: "center", height: "100%"}}> 
-                    <Checkbox status={hasHorse ? "checked" : "unchecked"} onPress={() => setHasHorse(!hasHorse)} color="#000000"/>
-                    <Text children="Sim" style={styles.text}/>
-                 </View>
-                 <View style={{flexDirection: "row", alignItems: "center", height: "100%"}}> 
-                    <Checkbox status={!hasHorse ? "checked" : "unchecked"} onPress={() => setHasHorse(!hasHorse)} color="#000000"/>
-                    <Text children="Não" style={styles.text}/>
-                 </View>
+            children="Prosseguir"
+          />
+        </KeyboardAvoidingView>
+      ) : (
+        <KeyboardAvoidingView
+          behavior="position"
+          enabled
+          contentContainerStyle={styles.inputs}
+        >
+          <View style={styles.inputs}>
+            <LightGrayInputText
+              value={phone}
+              action={setPhone}
+              placeholder="Telefone"
+            />
+            <LightGrayInputText value={cpf} action={setCpf} placeholder="CPF" />
+            <Text style={styles.text}>É proprietário de cavalo?</Text>
+            <View style={styles.checkboxContainer}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <Checkbox
+                  status={hasHorse ? "checked" : "unchecked"}
+                  onPress={() => setHasHorse(!hasHorse)}
+                  color="#000000"
+                />
+                <Text children="Sim" style={styles.text} />
               </View>
-              <LightGrayInputText
-                value={horseName}
-                action={setHorseName}
-                placeholder="Nome do cavalo"
-                disabled={!hasHorse}
-              />
-              <Text style={{fontSize: 16, textAlign: "center",}}>Termo de uso e política de privacidade</Text>
-              <View style={styles.checkboxContainer}>
-                <View style={{flexDirection: "row", alignItems: "center", height: "100%"}}> 
-                  <Checkbox status={lgpdTerm ? "checked" : "unchecked"} onPress={() => setLgpdTerm(!lgpdTerm)} color="#000000"/>
-                  <Text children="Li e concordo" style={styles.text}/>
-                </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <Checkbox
+                  status={!hasHorse ? "checked" : "unchecked"}
+                  onPress={() => setHasHorse(!hasHorse)}
+                  color="#000000"
+                />
+                <Text children="Não" style={styles.text} />
               </View>
             </View>
-            <Button
-              disabled={ phone === "" || cpf === "" || lgpdTerm === false}
-              textColor="#FFFFFF"
-              buttonColor="#000000"
-              labelStyle={{fontSize: 16}}
-              style={styles.buttonProceed}
-              onPress={() => setPage(1)}
-            >
-              Cadastrar
-            </Button>
-          </KeyboardAvoidingView>          
-        </View>
-      }
-      
-      
-      
+            <LightGrayInputText
+              value={horseName}
+              action={setHorseName}
+              placeholder="Nome do cavalo"
+              disabled={!hasHorse}
+            />
+            <Text style={{ fontSize: 16, textAlign: "center" }}>
+              Termo de uso e política de privacidade
+            </Text>
+            <View style={styles.checkboxContainer}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <Checkbox
+                  status={lgpdTerm ? "checked" : "unchecked"}
+                  onPress={() => setLgpdTerm(!lgpdTerm)}
+                  color="#000000"
+                />
+                <Text children="Li e concordo" style={styles.text} />
+              </View>
+            </View>
+          </View>
+          <Button
+            disabled={phone === "" || cpf === "" || lgpdTerm === false}
+            textColor="#FFFFFF"
+            buttonColor="#000000"
+            labelStyle={{ fontSize: 16 }}
+            style={styles.buttonProceed}
+            onPress={() =>
+              tryRegister(
+                email,
+                name,
+                password,
+                cpf,
+                phone,
+                hasHorse,
+                horseName
+              )
+            }
+            children="Cadastrar"
+          />
+        </KeyboardAvoidingView>
+      )}
+
       <View style={styles.footer}>
-        <Text children="Já possui uma conta?" style={{color: "#828282"}}/>
-        <Button style={{marginHorizontal: -8, }} children={<Text style={{ textWeight: "bold", textDecorationLine: "underline", color: "#0000CD" }} children="Clique aqui" onPress={() => navigation.navigate("Login")}/>}>
-        </Button>
+        <Text children="Já possui uma conta?" style={{ color: "#828282" }} />
+        <Button
+          style={{ marginHorizontal: -8 }}
+          children={
+            <Text
+              style={{
+                textWeight: "bold",
+                textDecorationLine: "underline",
+                color: "#0000CD",
+              }}
+              children="Clique aqui"
+              onPress={() => navigation.navigate("Login")}
+            />
+          }
+        ></Button>
       </View>
-      
     </SafeAreaView>
   );
 }
