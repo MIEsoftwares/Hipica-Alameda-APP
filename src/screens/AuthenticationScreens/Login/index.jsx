@@ -4,12 +4,12 @@ import styles from "./styles";
 import LightGrayInputText from "../../../components/LightGrayInputText";
 import LightGrayInputPasswordText from "../../../components/LightGrayInputPasswordText";
 import { Button, Text } from "react-native-paper";
-import { height } from "../../constants/Dimensions";
+import { height } from "../../../constants/Dimensions.js";
 import { useEffect, useState } from "react";
-import { signInWithEmail } from "../../../database/auth/login";
+import { signInWithEmail } from "../../../../database/auth/login";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { checkSession } from "../../../database/AsyncStorageFunctions/checkSession";
+import { checkSession } from "../../../../database/AsyncStorageFunctions/checkSession.js";
 
 
 export default function Login({ setToken }, { navigation = useNavigation() }) {

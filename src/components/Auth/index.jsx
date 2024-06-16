@@ -3,16 +3,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useState, useEffect } from "react";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Login from "../../screens/Login";
-import Home from "../../screens/Home";
-import Register from "../../screens/Register";
-import Schedule from "../../screens/Schedule";
-import Report from "../../screens/Report";
-import Announcements from "../../screens/Announcements/styles";
-import Profile from "../../screens/Profile";
+import Login from "../../screens/AuthenticationScreens/Login";
+import Home from "../../screens/MainScreens/Home";
+import Register from "../../screens/AuthenticationScreens/Register";
+import Schedule from "../../screens/MainScreens/Schedule";
+import Report from "../../screens/MainScreens/Report";
+import Announcements from "../../screens/MainScreens/Announcements";
+import Profile from "../../screens/ProfileScreens/Profile";
 import TestSearch from "../../screens/TestSearch";
 import supabase from "../../../database/SupabaseConfig";
-import { useState } from "react";
 import { checkSession } from "../../../database/AsyncStorageFunctions/checkSession";
 
 
