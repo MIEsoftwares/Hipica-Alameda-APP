@@ -26,8 +26,8 @@ export default function SignUpScreen({ navigation }) {
     error: null,
   });
 
-  const tryRegister = async (email, password, name) => {
-    const error = await signUpWithEmail(email, password, name);
+  const tryRegister = async (email, password, name, cpf, phone, hasHorse, horseName) => {
+    const error = await signUpWithEmail(email, password, name, cpf, phone, hasHorse, horseName);
 
     if (error.error) {
       setShowError({
@@ -38,7 +38,7 @@ export default function SignUpScreen({ navigation }) {
       return;
     }
 
-    navigation.navigate("SignIn");
+    navigation.navigate("Login");
   };
 
   return (
@@ -131,7 +131,7 @@ export default function SignUpScreen({ navigation }) {
               buttonColor="#000000"
               labelStyle={{fontSize: 16}}
               style={styles.buttonProceed}
-              onPress={() => setPage(1)}
+              onPress={() => tryRegister(email, password, name, cpf, phone, hasHorse, horseName)}
             >
               Cadastrar
             </Button>
