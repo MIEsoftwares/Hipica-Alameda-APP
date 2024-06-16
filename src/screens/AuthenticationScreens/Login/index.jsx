@@ -65,7 +65,7 @@ export default function Login({ navigation }) {
         )}
         </View>
 
-        <View style={styles.loginBox}>
+        <KeyboardAvoidingView behavior="position" contentContainerStyle={styles.loginBox} style={styles.loginBox}>
           <LightGrayInputText
             value={email}
             action={setEmail}
@@ -94,7 +94,7 @@ export default function Login({ navigation }) {
             labelStyle={{fontSize: 16}}
             onPress={() => tryLogin(email, password)}
           />
-        </View>
+        </KeyboardAvoidingView>
       </View>
     </SafeAreaView>
   );
