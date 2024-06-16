@@ -21,6 +21,7 @@ export default function BlackInputText(props) {
       placeholderTextColor={props.error ? "red" : "#B0B0B0"}
       right={(props.error && <TextInput.Icon icon="alert" color="red" rippleColor="transparent" />)}
       onChange={props.onChange}
+      disabled={props.disabled}
     />
   );
 }

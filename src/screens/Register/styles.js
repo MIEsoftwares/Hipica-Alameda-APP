@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     marginBottom: height*0.02,
   },
   inputs: {
+    backgroundColor: "#ffffff",
     gap: height*0.02,
     width: width * 0.83,
     marginBottom: width * 0.04,

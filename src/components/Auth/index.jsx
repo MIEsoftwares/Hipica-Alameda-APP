@@ -8,7 +8,10 @@ import Register from "../../screens/Register";
 import Schedule from "../../screens/Schedule";
 import Report from "../../screens/Report";
 import Announcements from "../../screens/Announcements/styles";
+import Profile from "../../screens/Profile";
 import TestSearch from "../../screens/TestSearch";
+import supabase from "../../../database/SupabaseConfig";
+import { useState } from "react";
 
 
 const Stack = createNativeStackNavigator();
@@ -23,6 +26,7 @@ export default function Auth(props) {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -31,6 +35,19 @@ export default function Auth(props) {
 const Tab = createBottomTabNavigator();
 
 export function HomeTabs() {
+  const [userRole, setUserRole] = useState()
+
+  async function getRole(){
+    const {data: profile, error} = await supabase
+      .from("profiles")
+      .select("role").single()
+      
+      setUserRole(profile.role)
+    return
+  }
+
+  getRole()
+  
   return (
     <Tab.Navigator
       initialRouteName="Início"
@@ -61,6 +78,8 @@ export function HomeTabs() {
       <Tab.Screen name="Agenda" component={Schedule} />
       <Tab.Screen name="Relatórios" component={Report} />
       <Tab.Screen name="Comunicados" component={Announcements} />
+      {userRole === "admin" && <Tab.Screen name="Administração" component={Announcements} />}
+
     </Tab.Navigator>
   );
 }
