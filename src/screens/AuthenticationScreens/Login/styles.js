@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { height, width } from "../../constants/Dimensions";
+import { height, width } from "../../../constants/Dimensions";
 // import { useFonts } from 'expo-font';
 // import * as SplashScreen from 'expo-splash-screen'
 

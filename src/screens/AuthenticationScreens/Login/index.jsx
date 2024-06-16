@@ -1,12 +1,12 @@
 import { View, KeyboardAvoidingView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
-import LightGrayInputText from "../../components/LightGrayInputText";
-import LightGrayInputPasswordText from "../../components/LightGrayInputPasswordText";
+import LightGrayInputText from "../../../components/LightGrayInputText";
+import LightGrayInputPasswordText from "../../../components/LightGrayInputPasswordText";
 import { Button, Text } from "react-native-paper";
-import { height } from "../../constants/Dimensions";
+import { height } from "../../../constants/Dimensions";
 import { useState } from "react";
-import { signInWithEmail } from "../../../database/auth/login";
+import { signInWithEmail } from "../../../../database/auth/login";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
@@ -45,7 +45,7 @@ export default function Login({ navigation }) {
       <View style={styles.allElements}>
         <Image
           style={styles.logo}
-          source={require("../../assets/images/Logo2.png")}
+          source={require("../../../assets/images/Logo2.png")}
         />
         <View style={styles.TextView}>
           <Text

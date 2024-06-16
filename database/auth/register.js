@@ -1,22 +1,26 @@
 import supabase from "../SupabaseConfig";
 
-export async function signUpWithEmail(email, nome, senha, cpf, telefone, proprietario_de_cavalo, nome_do_cavalo) {
+export async function signUpWithEmail(email, password, name, cpf, phone, hasHorse, horseName) {
     const {
       data: { session },
       error,
     } = await supabase.auth.signUp({
       email: email,
-      password: senha,
+      password: password,
       options:{
         data: {
-          nome: nome,
+          nome: name,
           cpf: cpf,
-          telefone: telefone,
-          proprietario_de_cavalo: proprietario_de_cavalo,
-          nome_do_cavalo: nome_do_cavalo,
+          telefone: phone,
+          proprietarioDeCavalo: hasHorse,
+          nomeDoCavalo: horseName,
         }
       }
     });
-  
+    if (error) {
+      console.error(error.message);
+      return;
+    }
+
     return { session, error };
   };
