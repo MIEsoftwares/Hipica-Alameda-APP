@@ -171,8 +171,8 @@ export default function SignUpScreen({ navigation }) {
             onPress={() =>
               tryRegister(
                 email,
-                name,
                 password,
+                name,
                 cpf,
                 phone,
                 hasHorse,
