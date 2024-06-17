@@ -3,11 +3,28 @@ import { Text, View } from "react-native";
 import { Button, Icon, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
+import supabase from "../../../../database/SupabaseConfig"
+import { useState } from "react";
 
 export default function Profile({ navigation }) {
+    
+  const [ userData, setUserData ] = useState({});
 
-    // const name = 
-    // const email =
+  const getData = async () => {
+    const {data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .single()
+    
+    setUserData({
+      nome: profile.nome,
+      email: profile.email,
+    })
+    return 
+  }
+  getData();
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -31,7 +48,7 @@ export default function Profile({ navigation }) {
         <View>
             <Pressable onPress={() => navigation.navigate("EmBreve")} style={styles.lineComponents}>
                 <Text children="Nome" style={styles.titles} />
-                <Text children="AAA" />
+                <Text>{userData.nome}</Text>
                 <Icon source={"menu-right"} size={25} />
             </Pressable>
         </View>
@@ -47,7 +64,7 @@ export default function Profile({ navigation }) {
         <View>
             <Pressable onPress={() => navigation.navigate("EmBreve")} style={styles.lineComponents}>
                 <Text children="Email" style={styles.titles} />
-                <Text children="AAA" />
+                <Text children={userData.email} />
                 <Icon source={"menu-right"} size={25} />
             </Pressable>
         </View>
