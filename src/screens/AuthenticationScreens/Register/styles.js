@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: width * 0.83,
-    marginBottom: width * 0.04,
+    marginTop: height*0.03
   },
   footer: {
     flexDirection: "row",

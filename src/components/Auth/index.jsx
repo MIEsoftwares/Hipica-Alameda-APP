@@ -10,6 +10,8 @@ import Schedule from "../../screens/MainScreens/Schedule";
 import Report from "../../screens/MainScreens/Report";
 import Announcements from "../../screens/MainScreens/Announcements";
 import Profile from "../../screens/ProfileScreens/Profile";
+import MainAdminPage from "../../screens/Administration/MainAdminPage";
+import EditUsers from "../../screens/Administration/EditUsers";
 import TestSearch from "../../screens/TestSearch";
 import supabase from "../../../database/SupabaseConfig";
 import { checkSession } from "../../../database/AsyncStorageFunctions/checkSession";
@@ -35,6 +37,7 @@ export default function Auth() {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="EditUsers" component={EditUsers} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -90,7 +93,7 @@ export function HomeTabs() {
       <Tab.Screen name="Agenda" component={Schedule} />
       <Tab.Screen name="Relatórios" component={Report} />
       <Tab.Screen name="Comunicados" component={Announcements} />
-      {userRole === "admin" && <Tab.Screen name="Administração" component={Announcements} />}
+      {userRole === "admin" && <Tab.Screen name="Administração" component={MainAdminPage} />}
 
     </Tab.Navigator>
   );
