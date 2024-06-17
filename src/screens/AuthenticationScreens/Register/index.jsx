@@ -18,7 +18,7 @@ export default function SignUpScreen({ navigation }) {
   const [hasHorse, setHasHorse] = useState(false);
   const [horseName, setHorseName] = useState("");
   const [lgpdTerm, setLgpdTerm] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   const [showError, setShowError] = useState({
     render: false,
@@ -184,23 +184,6 @@ export default function SignUpScreen({ navigation }) {
         </KeyboardAvoidingView>
       )}
 
-      <View style={styles.footer}>
-        <Text children="Já possui uma conta?" style={{ color: "#828282" }} />
-        <Button
-          style={{ marginHorizontal: -8 }}
-          children={
-            <Text
-              style={{
-                textWeight: "bold",
-                textDecorationLine: "underline",
-                color: "#0000CD",
-              }}
-              children="Clique aqui"
-              onPress={() => navigation.navigate("Login")}
-            />
-          }
-        ></Button>
-      </View>
     </SafeAreaView>
   );
 }
