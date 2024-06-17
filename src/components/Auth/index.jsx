@@ -9,6 +9,7 @@ import Schedule from "../../screens/MainScreens/Schedule";
 import Report from "../../screens/MainScreens/Report";
 import Announcements from "../../screens/MainScreens/Announcements/styles";
 import Profile from "../../screens/ProfileScreens/Profile";
+import EmBreve from "../../screens/ProfileScreens/EmBreve";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,13 +17,14 @@ export default function Auth(props) {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="HomeTabs"
+        initialRouteName="Profile"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="EmBreve" component={EmBreve} />
       </Stack.Navigator>
     </NavigationContainer>
   );
