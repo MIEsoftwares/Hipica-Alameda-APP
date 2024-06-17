@@ -10,11 +10,8 @@ import Schedule from "../../screens/MainScreens/Schedule";
 import Report from "../../screens/MainScreens/Report";
 import Announcements from "../../screens/MainScreens/Announcements";
 import Profile from "../../screens/ProfileScreens/Profile";
-import TestSearch from "../../screens/TestSearch";
 import supabase from "../../../database/SupabaseConfig";
-import { checkSession } from "../../../database/AsyncStorageFunctions/checkSession";
-
-
+import EmBreve from "../../screens/ProfileScreens/EmBreve";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +32,7 @@ export default function Auth() {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="EmBreve" component={EmBreve} />
       </Stack.Navigator>
     </NavigationContainer>
   );
