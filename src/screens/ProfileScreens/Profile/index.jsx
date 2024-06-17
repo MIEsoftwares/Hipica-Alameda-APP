@@ -5,6 +5,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 
 export default function Profile({ navigation }) {
+
+    // const name = 
+    // const email =
+
   return (
     <SafeAreaView style={styles.container}>
 
