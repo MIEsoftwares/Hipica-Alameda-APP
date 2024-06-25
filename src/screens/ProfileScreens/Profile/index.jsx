@@ -1,11 +1,12 @@
 import { Pressable } from "react-native";
 import { Text, View } from "react-native";
-import { Button, Icon, TextInput } from "react-native-paper";
+import { Button, Icon } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import supabase from "../../../../database/SupabaseConfig";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Profile({ navigation }) {
   const [profileInfo, setProfileInfo] = useState({ nome: "", email: "" });
@@ -26,6 +27,11 @@ export default function Profile({ navigation }) {
 
   if (profileInfo.nome === "" || profileInfo.email === "") {
     metadata();
+  }
+
+  const logout = async () => {
+    await AsyncStorage.removeItem("supabase_session")
+    navigation.navigate("Login");
   }
 
   return (
@@ -96,6 +102,13 @@ export default function Profile({ navigation }) {
             <Icon source={"menu-right"} size={25} />
           </Pressable>
         </View>
+      </View>
+      <View>
+        <Button 
+          children="Sair"
+          mode="elevated"
+          onPress={logout}
+        />
       </View>
     </SafeAreaView>
   );
