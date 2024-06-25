@@ -51,7 +51,6 @@ export default function Login({ setToken }, { navigation = useNavigation() }) {
       return;
     }
 
-    console.log(data);
     setToken(data);
     await AsyncStorage.setItem("supabase_session", JSON.stringify(data.session));
     navigation.navigate("HomeTabs");

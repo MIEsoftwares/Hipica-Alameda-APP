@@ -7,23 +7,21 @@ import supabase from "../../../../database/SupabaseConfig"
 import { useState } from "react";
 
 export default function Profile({ navigation }) {
-    
-  const [ userData, setUserData ] = useState({});
-
-  const getData = async () => {
-    const {data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .single()
-    
-    setUserData({
-      nome: profile.nome,
-      email: profile.email,
-    })
-    return 
+  
+  const [ profileInfo, setProfileInfo ] = useState({})
+ const metadata = async () => {
+  try{
+    const { data: { user }  } = await supabase.auth.getUser();
+    setProfileInfo({
+      nome: user.user_metadata.nome,
+      email: user.user_metadata.email,
+    });
+    return;
+  }catch(e){
+    return (e)
   }
-  getData();
-
+ }
+ metadata()
 
 
   return (
@@ -48,7 +46,7 @@ export default function Profile({ navigation }) {
         <View>
             <Pressable onPress={() => navigation.navigate("EmBreve")} style={styles.lineComponents}>
                 <Text children="Nome" style={styles.titles} />
-                <Text>{userData.nome}</Text>
+                <Text>{profileInfo.nome}</Text>
                 <Icon source={"menu-right"} size={25} />
             </Pressable>
         </View>
@@ -64,7 +62,7 @@ export default function Profile({ navigation }) {
         <View>
             <Pressable onPress={() => navigation.navigate("EmBreve")} style={styles.lineComponents}>
                 <Text children="Email" style={styles.titles} />
-                <Text children={userData.email} />
+                <Text children={profileInfo.email} />
                 <Icon source={"menu-right"} size={25} />
             </Pressable>
         </View>
