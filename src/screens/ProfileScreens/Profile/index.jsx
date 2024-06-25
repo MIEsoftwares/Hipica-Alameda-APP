@@ -7,6 +7,7 @@ import supabase from "../../../../database/SupabaseConfig";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { width } from "../../../constants/Dimensions";
 
 export default function Profile({ navigation }) {
   const [profileInfo, setProfileInfo] = useState({ nome: "", email: "" });
@@ -103,12 +104,13 @@ export default function Profile({ navigation }) {
           </Pressable>
         </View>
       </View>
-      <View>
-        <Button 
-          children="Sair"
-          mode="elevated"
+      <View style={{justifyContent: "flex-start"}}>
+        <Pressable
+          style={{ alignSelf: "flex-start"}}
           onPress={logout}
-        />
+        >
+          <Text children="Desconectar" style={{color: "#ff0000", fontSize: 16}}/>
+        </Pressable>
       </View>
     </SafeAreaView>
   );

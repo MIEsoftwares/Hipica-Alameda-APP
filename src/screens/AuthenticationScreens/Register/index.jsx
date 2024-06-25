@@ -123,12 +123,14 @@ export default function SignUpScreen({ navigation }) {
               action={setPhone}
               placeholder="Telefone"
               keyboardType="phone-pad"
+              maxLength={11} 
             />
             <LightGrayInputText 
               value={cpf} 
               action={setCpf} 
               placeholder="CPF"
-              keyboardType="numeric" 
+              keyboardType="numeric"
+              maxLength={11} 
             />
             <Text style={styles.text}>
               É proprietário de cavalo?
@@ -190,7 +192,7 @@ export default function SignUpScreen({ navigation }) {
             </View>
           </View>
           <Button
-            disabled={phone === "" || cpf === "" || lgpdTerm === false}
+            disabled={phone === "" || cpf === "" || lgpdTerm === false || (JSON.stringify(cpf).length -2) < 11 || (JSON.stringify(phone).length -2) < 11 }
             textColor="#FFFFFF"
             buttonColor="#000000"
             labelStyle={{ fontSize: 16 }}
