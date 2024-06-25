@@ -2,9 +2,8 @@ import supabase from "../SupabaseConfig";
 
 export async function signUpWithEmail(email, password, name, cpf, phone, hasHorse, horseName) {
     const {
-      data: { session },
-      error,
-    } = await supabase.auth.signUp({
+      error
+    } = await supabase.auth.admin.createUser({
       email: email,
       password: password,
       options:{
@@ -19,8 +18,8 @@ export async function signUpWithEmail(email, password, name, cpf, phone, hasHors
     });
     if (error) {
       console.error(error.message);
-      return;
+      return { error };
     }
 
-    return { session, error };
+    return { error };
   };

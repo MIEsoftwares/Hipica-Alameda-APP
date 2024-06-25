@@ -6,6 +6,7 @@ import LightGrayInputPasswordText from "../../../components/LightGrayInputPasswo
 import { Button, Checkbox, Text } from "react-native-paper";
 import { useState } from "react";
 import { signUpWithEmail } from "../../../../database/auth/register";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function SignUpScreen({ navigation }) {
@@ -37,7 +38,7 @@ export default function SignUpScreen({ navigation }) {
       return;
     }
 
-    navigation.navigate("Login");
+    navigation.goBack();
   };
 
   return (
