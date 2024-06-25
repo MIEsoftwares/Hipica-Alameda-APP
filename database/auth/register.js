@@ -6,14 +6,13 @@ export async function signUpWithEmail(email, password, name, cpf, phone, hasHors
     } = await supabase.auth.admin.createUser({
       email: email,
       password: password,
-      options:{
-        data: {
-          nome: name,
-          cpf: cpf,
-          telefone: phone,
-          proprietarioDeCavalo: hasHorse,
-          nomeDoCavalo: horseName,
-        }
+      user_metadata: {
+        nome: name,
+        cpf: cpf,
+        telefone: phone,
+        proprietarioDeCavalo: hasHorse,
+        nomeDoCavalo: horseName,
+        role: horseName
       }
     });
     if (error) {

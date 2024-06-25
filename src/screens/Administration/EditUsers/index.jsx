@@ -1,11 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  ActivityIndicator,
-  Card,
-  Paragraph,
-  Searchbar,
-  Title,
-} from "react-native-paper";
+import { ActivityIndicator, Card, Paragraph, Searchbar, Title } from "react-native-paper";
 import styles from "./styles";
 import { useState, useEffect } from "react";
 import { FlatList } from "react-native";
@@ -18,14 +12,11 @@ export default function EditUsers() {
 
   useEffect(() => {
     const fetchItems = async () => {
-      const { data, error } = await supabase
-      .from("profiles")
-      .select("*");
+      const { data, error } = await supabase.from("profiles").select("*");
 
       if (error) {
         console.error("Erro ao buscar dados:", error);
       } else {
-        console.log(data);
         setAllItems(data);
         setFilteredItems(data);
         setLoading(false);

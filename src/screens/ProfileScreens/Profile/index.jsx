@@ -3,34 +3,35 @@ import { Text, View } from "react-native";
 import { Button, Icon, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
-import supabase from "../../../../database/SupabaseConfig"
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import supabase from "../../../../database/SupabaseConfig";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { useState } from "react";
 
 export default function Profile({ navigation }) {
-  
-  const [ profileInfo, setProfileInfo ] = useState({})
- const metadata = async () => {
-  try{
-    const { data: { user }  } = await supabase.auth.getUser();
-    setProfileInfo({
-      nome: user.user_metadata.nome,
-      email: user.user_metadata.email,
-    });
-    return;
-  }catch(e){
-    return (e)
-  }
- }
- metadata()
+  const [profileInfo, setProfileInfo] = useState({ nome: "", email: "" });
+  const metadata = async () => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setProfileInfo({
+        nome: user.user_metadata.nome,
+        email: user.email,
+      });
+      return;
+    } catch (e) {
+      return e;
+    }
+  };
 
+  if (profileInfo.nome === "" || profileInfo.email === "") {
+    metadata();
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-
       <View style={styles.profileStylePic}>
-
-      <Ionicons name="person-circle" size={126}/>
+        <Ionicons name="person-circle" size={126} />
 
         <Button
           mode="text"
@@ -41,49 +42,61 @@ export default function Profile({ navigation }) {
       </View>
 
       <View>
-
         <View>
-            <Pressable onPress={() => navigation.navigate("EmBreve")} style={styles.lineComponents}>
-                <Text children="Nome" style={styles.titles} />
-                <Text>{profileInfo.nome}</Text>
-                <Icon source={"menu-right"} size={25} />
-            </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate("EmBreve")}
+            style={styles.lineComponents}
+          >
+            <Text children="Nome" style={styles.titles} />
+            <Text>{profileInfo.nome}</Text>
+            <Icon source={"menu-right"} size={25} />
+          </Pressable>
         </View>
 
         <View>
-            <Pressable onPress={() => navigation.navigate("EmBreve")} style={styles.lineComponents}>
-                <Text children="Senha" style={styles.titles} />
-                <Text children="*******" />
-                <Icon source={"menu-right"} size={25} />
-            </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate("EmBreve")}
+            style={styles.lineComponents}
+          >
+            <Text children="Senha" style={styles.titles} />
+            <Text children="*******" />
+            <Icon source={"menu-right"} size={25} />
+          </Pressable>
         </View>
 
         <View>
-            <Pressable onPress={() => navigation.navigate("EmBreve")} style={styles.lineComponents}>
-                <Text children="Email" style={styles.titles} />
-                <Text children={profileInfo.email} />
-                <Icon source={"menu-right"} size={25} />
-            </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate("EmBreve")}
+            style={styles.lineComponents}
+          >
+            <Text children="Email" style={styles.titles} />
+            <Text children={profileInfo.email} />
+            <Icon source={"menu-right"} size={25} />
+          </Pressable>
         </View>
 
         <View>
-            <Pressable onPress={() => navigation.navigate("EmBreve")} style={styles.lineComponents}>
-                <Text children="Proprietário" style={styles.titles} />
+          <Pressable
+            onPress={() => navigation.navigate("EmBreve")}
+            style={styles.lineComponents}
+          >
+            <Text children="Proprietário" style={styles.titles} />
 
-                <Icon source={"menu-right"} size={25} />
-            </Pressable>
+            <Icon source={"menu-right"} size={25} />
+          </Pressable>
         </View>
 
         <View>
-            <Pressable onPress={() => navigation.navigate("EmBreve")} style={styles.lineComponents}>
-                <Text children="Financeiro" style={styles.titles} />
-                <Text children="AAA" />
-                <Icon source={"menu-right"} size={25} />
-            </Pressable>
+          <Pressable
+            onPress={() => navigation.navigate("EmBreve")}
+            style={styles.lineComponents}
+          >
+            <Text children="Financeiro" style={styles.titles} />
+            <Text children="AAA" />
+            <Icon source={"menu-right"} size={25} />
+          </Pressable>
         </View>
-
       </View>
-
     </SafeAreaView>
   );
 }
