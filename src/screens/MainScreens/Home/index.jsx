@@ -5,15 +5,22 @@ import styles from "./styles";
 import ProfileIcon from "../../../components/ProfileIcon"; 
 import SearchBar from "../../../components/SearchBar";
 import { Text } from "react-native-paper";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function Home({ navigation }){
 
+    const isFocused = useIsFocused();
+
     useEffect(
-        () =>
-            navigation.addListener("beforeRemove", (e) => {
-                e.preventDefault();
-            }),
-            []
+        () => {
+            if(isFocused){
+                const beforeRemoveListener = navigation.addListener('beforeRemove', (e) => {
+                        e.preventDefault();
+                    })
+
+                return beforeRemoveListener
+                };
+        },[isFocused, navigation]
     );
     
     return(
