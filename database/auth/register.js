@@ -12,6 +12,7 @@ export async function signUpWithEmail(email, password, name, cpf, phone, hasHors
         telefone: phone,
         proprietarioDeCavalo: hasHorse,
         nomeDoCavalo: horseName,
+        role: horseName
       }
     });
     if (error) {

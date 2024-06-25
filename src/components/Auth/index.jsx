@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useState, useEffect } from "react";
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Ionicons from "react-native-vector-icons/Ionicons";
 import Login from "../../screens/AuthenticationScreens/Login";
 import Home from "../../screens/MainScreens/Home";
 import Register from "../../screens/AuthenticationScreens/Register";
@@ -19,9 +19,7 @@ import EmBreve from "../../screens/ProfileScreens/EmBreve";
 const Stack = createNativeStackNavigator();
 
 export default function Auth() {
-
   const [token, setToken] = useState(false);
-
 
   return (
     <NavigationContainer>
@@ -45,18 +43,16 @@ export default function Auth() {
 const Tab = createBottomTabNavigator();
 
 export function HomeTabs() {
-  const [userRole, setUserRole] = useState()
+  const [userRole, setUserRole] = useState("");
 
-  async function getRole(){
-    const {data: profile, error} = await supabase
-      .from("profiles")
-      .select("role").single()
-      
-      setUserRole(profile.role)
-    return 
+  async function getRole() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    setUserRole(user.user_metadata.role);
   }
 
-  if (userRole === "" || userRole === null || userRole === undefined) {
+  if (userRole === "") {
     getRole();
   }
 
@@ -69,17 +65,15 @@ export function HomeTabs() {
           let iconName;
 
           if (route.name === "Início") {
-            iconName = focused
-              ? "home"
-              : "home-outline";
+            iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Agenda") {
-            iconName = focused? "calendar-clear" : "calendar-clear-outline";
-          } else if(route.name === "Relatórios"){
+            iconName = focused ? "calendar-clear" : "calendar-clear-outline";
+          } else if (route.name === "Relatórios") {
             iconName = focused ? "book" : "book-outline";
-          } else if(route.name === "Comunicados"){
-            iconName = focused? "mail" : "mail-outline"
-          }  else if(route.name === "Administração"){
-            iconName = focused ? "settings-sharp" : "settings-outline"
+          } else if (route.name === "Comunicados") {
+            iconName = focused ? "mail" : "mail-outline";
+          } else if (route.name === "Administração") {
+            iconName = focused ? "settings-sharp" : "settings-outline";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -92,8 +86,9 @@ export function HomeTabs() {
       <Tab.Screen name="Agenda" component={Schedule} />
       <Tab.Screen name="Relatórios" component={Report} />
       <Tab.Screen name="Comunicados" component={Announcements} />
-      {userRole === "admin" && <Tab.Screen name="Administração" component={MainAdminPage} />}
-
+      {userRole === "admin" && (
+        <Tab.Screen name="Administração" component={MainAdminPage} />
+      )}
     </Tab.Navigator>
   );
 }
