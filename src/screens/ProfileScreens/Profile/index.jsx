@@ -1,9 +1,10 @@
-import { Image, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import { Text, View } from "react-native";
 import { Button, Icon, TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import supabase from "../../../../database/SupabaseConfig"
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useState } from "react";
 
 export default function Profile({ navigation }) {
@@ -31,10 +32,8 @@ export default function Profile({ navigation }) {
 
       <View style={styles.profileStylePic}>
 
-        <Image
-          source={require("../../../assets/images/Logo2.png")}
-          style={styles.image}
-        />
+      <Ionicons name="person-circle" size={126}/>
+
         <Button
           mode="text"
           children={

@@ -14,7 +14,7 @@ export default styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginTop: height*0.05,
-        marginBottom: height*0.125,
+        marginBottom: height*0.05,
     },
     image: {
         resizeMode: "stretch",

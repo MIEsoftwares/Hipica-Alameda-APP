@@ -22,6 +22,7 @@ export default function BlackInputText(props) {
       right={(props.error && <TextInput.Icon icon="alert" color="red" rippleColor="transparent" />)}
       onChange={props.onChange}
       disabled={props.disabled}
+      keyboardType={props.keyboardType}
     />
   );
 }
