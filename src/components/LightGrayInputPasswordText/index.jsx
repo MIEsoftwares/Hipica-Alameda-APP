@@ -27,6 +27,7 @@ export default function BlackInputPassword(props){
         secureTextEntry={!showPassword}
         right={props.error? <TextInput.Icon icon="alert" color="red" rippleColor="transparent"/> : <TextInput.Icon icon={showPassword ? "eye-off" : "eye"} color="#B0B0B0" onPress={() => setShowPassword(!showPassword)}/>}
         onChange={props.onChange}
+        keyboardType={props.keyboardType}
        />   
     ); 
 };

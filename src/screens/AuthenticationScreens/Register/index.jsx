@@ -8,7 +8,6 @@ import { useState } from "react";
 import { signUpWithEmail } from "../../../../database/auth/register";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
 export default function SignUpScreen({ navigation }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,8 +25,24 @@ export default function SignUpScreen({ navigation }) {
     error: null,
   });
 
-  const tryRegister = async (email, password, name, cpf, phone, hasHorse, horseName) => {
-    const error = await signUpWithEmail(email, password, name, cpf, phone, hasHorse, horseName);
+  const tryRegister = async (
+    email,
+    password,
+    name,
+    cpf,
+    phone,
+    hasHorse,
+    horseName
+  ) => {
+    const error = await signUpWithEmail(
+      email,
+      password,
+      name,
+      cpf,
+      phone,
+      hasHorse,
+      horseName
+    );
 
     if (error.error) {
       setShowError({
@@ -43,8 +58,10 @@ export default function SignUpScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-
-      <Image style={styles.logo} source={require("../../../assets/images/Logo1.png")}/>
+      <Image
+        style={styles.logo}
+        source={require("../../../assets/images/Logo1.png")}
+      />
 
       <Text style={styles.title}>Cadastro</Text>
 
@@ -63,6 +80,7 @@ export default function SignUpScreen({ navigation }) {
             value={email}
             action={setEmail}
             placeholder="Email"
+            keyboardType="email-address"
           />
           <LightGrayInputPasswordText
             value={password}
@@ -104,9 +122,17 @@ export default function SignUpScreen({ navigation }) {
               value={phone}
               action={setPhone}
               placeholder="Telefone"
+              keyboardType="phone-pad"
             />
-            <LightGrayInputText value={cpf} action={setCpf} placeholder="CPF" />
-            <Text style={styles.text}>É proprietário de cavalo?</Text>
+            <LightGrayInputText 
+              value={cpf} 
+              action={setCpf} 
+              placeholder="CPF"
+              keyboardType="numeric" 
+            />
+            <Text style={styles.text}>
+              É proprietário de cavalo?
+            </Text>
             <View style={styles.checkboxContainer}>
               <View
                 style={{
@@ -184,7 +210,6 @@ export default function SignUpScreen({ navigation }) {
           />
         </KeyboardAvoidingView>
       )}
-
     </SafeAreaView>
   );
 }
