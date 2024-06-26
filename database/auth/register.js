@@ -1,6 +1,6 @@
 import supabase from "../SupabaseConfig";
 
-export async function signUpWithEmail(email, password, name, cpf, phone, hasHorse, horseName) {
+export async function signUpWithEmail(email, password, name, cpf, phone, hasHorse, horseName, role) {
     const {
       error
     } = await supabase.auth.admin.createUser({
@@ -12,7 +12,7 @@ export async function signUpWithEmail(email, password, name, cpf, phone, hasHors
         telefone: phone,
         proprietarioDeCavalo: hasHorse,
         nomeDoCavalo: horseName,
-        role: horseName
+        role: role,
       }
     });
     if (error) {

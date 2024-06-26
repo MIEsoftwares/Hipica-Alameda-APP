@@ -9,11 +9,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  header:{
+    width: width,
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 28,
+  }, 
   logo: {
     width: 170,
     height: 170,
     resizeMode: "stretch",
-    marginBottom: 28,
   },
   title: {
     fontSize: 26,
