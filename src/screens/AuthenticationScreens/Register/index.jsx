@@ -1,12 +1,13 @@
-import { View, KeyboardAvoidingView, Image } from "react-native";
+import { View, KeyboardAvoidingView, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import LightGrayInputText from "../../../components/LightGrayInputText";
 import LightGrayInputPasswordText from "../../../components/LightGrayInputPasswordText";
-import { Button, Checkbox, Text } from "react-native-paper";
+import { Button, Checkbox, SegmentedButtons, Text } from "react-native-paper";
 import { useState } from "react";
 import { signUpWithEmail } from "../../../../database/auth/register";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { height } from "../../../constants/Dimensions";
 
 export default function SignUpScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -14,10 +15,11 @@ export default function SignUpScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [cpf, setCpf] = useState();
+  const [cpf, setCpf] = useState("");
   const [hasHorse, setHasHorse] = useState(false);
   const [horseName, setHorseName] = useState("");
   const [lgpdTerm, setLgpdTerm] = useState(false);
+  const [role, setRole] = useState("");
   const [page, setPage] = useState(0);
 
   const [showError, setShowError] = useState({
@@ -32,7 +34,8 @@ export default function SignUpScreen({ navigation }) {
     cpf,
     phone,
     hasHorse,
-    horseName
+    horseName,
+    role
   ) => {
     const error = await signUpWithEmail(
       email,
@@ -41,7 +44,8 @@ export default function SignUpScreen({ navigation }) {
       cpf,
       phone,
       hasHorse,
-      horseName
+      horseName,
+      role
     );
 
     if (error.error) {
@@ -58,11 +62,20 @@ export default function SignUpScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require("../../../assets/images/Logo1.png")}
-      />
-
+      <View style={styles.header}>
+        {page === 1 && (
+          <Pressable
+            style={{ position: "absolute", left: 16 }}
+            onPress={() => setPage(0)}
+          >
+            <Ionicons name="chevron-back" size={32} />
+          </Pressable>
+        )}
+        <Image
+          style={styles.logo}
+          source={require("../../../assets/images/Logo1.png")}
+        />
+      </View>
       <Text style={styles.title}>Cadastro</Text>
 
       {page === 0 ? (
@@ -93,13 +106,23 @@ export default function SignUpScreen({ navigation }) {
             placeholder="Confirme sua senha"
           />
 
+          <LightGrayInputText
+            value={phone}
+            action={setPhone}
+            placeholder="Telefone"
+            keyboardType="phone-pad"
+            maxLength={11}
+          />
+
           <Button
             disabled={
               name === "" ||
               email === "" ||
               password === "" ||
               confirmPassword === "" ||
-              password !== confirmPassword
+              password !== confirmPassword ||
+              JSON.stringify(phone).length - 2 < 11 ||
+              phone === ""
                 ? true
                 : false
             }
@@ -118,23 +141,43 @@ export default function SignUpScreen({ navigation }) {
           contentContainerStyle={styles.inputs}
         >
           <View style={styles.inputs}>
-            <LightGrayInputText
-              value={phone}
-              action={setPhone}
-              placeholder="Telefone"
-              keyboardType="phone-pad"
-              maxLength={11} 
+            <SegmentedButtons
+              value={role}
+              onValueChange={setRole}
+              theme={{
+                colors: {
+                  secondaryContainer: "#000000",
+                  onSecondaryContainer: "#ffffff",
+                },
+              }}
+              buttons={[
+                {
+                  value: "cliente",
+                  label: "Cliente",
+                },
+                {
+                  value: "professor",
+                  label: "Professor",
+                  style: { minWidth: 90 },
+                },
+                {
+                  value: "staff",
+                  label: "Staff",
+                },
+                {
+                  value: "admin",
+                  label: "Admin",
+                },
+              ]}
             />
-            <LightGrayInputText 
-              value={cpf} 
-              action={setCpf} 
+            <LightGrayInputText
+              value={cpf}
+              action={setCpf}
               placeholder="CPF"
               keyboardType="numeric"
-              maxLength={11} 
+              maxLength={11}
             />
-            <Text style={styles.text}>
-              É proprietário de cavalo?
-            </Text>
+            <Text style={styles.text}>É proprietário de cavalo?</Text>
             <View style={styles.checkboxContainer}>
               <View
                 style={{
@@ -192,7 +235,12 @@ export default function SignUpScreen({ navigation }) {
             </View>
           </View>
           <Button
-            disabled={phone === "" || cpf === "" || lgpdTerm === false || (JSON.stringify(cpf).length -2) < 11 || (JSON.stringify(phone).length -2) < 11 }
+            disabled={
+              cpf === "" ||
+              role === "" ||
+              lgpdTerm === false ||
+              JSON.stringify(cpf).length - 2 < 11
+            }
             textColor="#FFFFFF"
             buttonColor="#000000"
             labelStyle={{ fontSize: 16 }}
@@ -205,7 +253,8 @@ export default function SignUpScreen({ navigation }) {
                 cpf,
                 phone,
                 hasHorse,
-                horseName
+                horseName,
+                role
               )
             }
             children="Cadastrar"
