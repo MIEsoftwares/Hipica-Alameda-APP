@@ -23,6 +23,7 @@ export default function BlackInputText(props) {
       onChange={props.onChange}
       disabled={props.disabled}
       keyboardType={props.keyboardType}
+      maxLength={props.maxLength}
     />
   );
 }

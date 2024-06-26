@@ -89,6 +89,7 @@ export default function Login({ setToken }, { navigation = useNavigation() }) {
             placeholder="Email"
             error={showError.render}
             onChange={() => setShowError({...showError, render: false})}
+            keyboardType="email-address"
           />
           <LightGrayInputPasswordText
             value={password}
@@ -101,7 +102,6 @@ export default function Login({ setToken }, { navigation = useNavigation() }) {
             style={{
               borderRadius: 12,
               height: height * 0.05,
-              alignItems: "center",
               justifyContent: "center",
             }}
             textColor="#FFFFFF"
