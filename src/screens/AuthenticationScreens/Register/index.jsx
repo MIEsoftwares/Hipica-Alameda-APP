@@ -154,6 +154,7 @@ export default function SignUpScreen({ navigation }) {
                 {
                   value: "cliente",
                   label: "Cliente",
+                  style: {borderRadius: 8},
                 },
                 {
                   value: "professor",
@@ -167,6 +168,7 @@ export default function SignUpScreen({ navigation }) {
                 {
                   value: "admin",
                   label: "Admin",
+                  style: {borderRadius: 8},
                 },
               ]}
             />

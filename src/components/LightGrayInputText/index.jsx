@@ -7,6 +7,7 @@ export default function BlackInputText(props) {
 
   return (
     <TextInput
+      label={props.label}
       style={styles.background}
       value={props.value}
       onChangeText={props.action}

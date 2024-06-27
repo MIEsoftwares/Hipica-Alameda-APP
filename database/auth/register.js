@@ -6,6 +6,7 @@ export async function signUpWithEmail(email, password, name, cpf, phone, hasHors
     } = await supabase.auth.admin.createUser({
       email: email,
       password: password,
+      email_confirm: true,
       user_metadata: {
         nome: name,
         cpf: cpf,
