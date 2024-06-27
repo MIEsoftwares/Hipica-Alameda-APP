@@ -1,14 +1,14 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Card, IconButton } from "react-native-paper";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import styles from "./styles";
+import { height } from "../../../constants/Dimensions";
+import styles from "../../../constants/defaultStyles";
 
 export default function MainAdminPage ({navigation}){
 
     return (
         <SafeAreaView style={styles.container}> 
-            <Card onPress={() => navigation.navigate("Register")} elevation={2}>
+            <Card onPress={() => navigation.navigate("Register")} elevation={2} style={{marginBottom: height*0.015}}>
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Adicionar Usuário"
@@ -18,17 +18,17 @@ export default function MainAdminPage ({navigation}){
                 />
             </Card>
 
-            <Card onPress={() => navigation.navigate("EditUsers")} elevation={2}>
+            <Card onPress={() => navigation.navigate("ListUsers")} elevation={2} style={{marginBottom: height*0.015}}>
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
-                    title="Editar Usuários"
+                    title="Listar Usuários"
                     left={(props) => <Ionicons name="id-card-outline" size={40}/>}
-                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("EditUsers")} rippleColor="transparent"/>}
+                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("ListUsers")} rippleColor="transparent"/>}
                     style={{backgroundColor:"#ffffff", borderRadius: 14}}
                 />
             </Card>
 
-            <Card onPress={() => navigation.navigate("Register")} elevation={2}>
+            <Card onPress={() => navigation.navigate("Register")} elevation={2} style={{marginBottom: height*0.015}}>
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Adicionar comunicados"

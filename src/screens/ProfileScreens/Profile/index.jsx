@@ -104,9 +104,9 @@ export default function Profile({ navigation }) {
           </Pressable>
         </View>
       </View>
-      <View style={{justifyContent: "flex-start"}}>
+      <View style={{ marginTop: 64}}>
         <Pressable
-          style={{ alignSelf: "flex-start"}}
+          style={{ alignSelf: "center"}}
           onPress={logout}
         >
           <Text children="Desconectar" style={{color: "#ff0000", fontSize: 16}}/>

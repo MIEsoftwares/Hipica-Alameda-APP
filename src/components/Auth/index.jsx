@@ -15,6 +15,7 @@ import EditUsers from "../../screens/Administration/EditUsers";
 import TestSearch from "../../screens/TestSearch";
 import supabase from "../../../database/SupabaseConfig";
 import EmBreve from "../../screens/ProfileScreens/EmBreve";
+import ListUsers from "../../screens/Administration/ListUsers";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,7 @@ export default function Auth() {
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="EmBreve" component={EmBreve} />
+        <Stack.Screen name="ListUsers" component={ListUsers} />
         <Stack.Screen name="EditUsers" component={EditUsers} />
       </Stack.Navigator>
     </NavigationContainer>
