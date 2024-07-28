@@ -3,6 +3,7 @@ import { TextInput } from "react-native-paper";
 import styles from "./styles";
 
 export default function BlackInputText(props) {
+  
   const [text, setText] = useState(props.value);
 
   return (

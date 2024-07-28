@@ -4,16 +4,17 @@ import { Provider, TextInput as PaperTextInput } from 'react-native-paper';
 import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
 import styles from './styles';
 
-const InputSelectTime = ({ label }) => {
+const InputSelectDateTime = ({ label }) => {
   const [visibleDate, setVisibleDate] = useState(false);
   const [visibleTime, setVisibleTime] = useState(false);
   const [date, setDate] = useState(undefined);
   const [time, setTime] = useState(undefined);
+  const now = new Date();
 
   const onConfirmDate = (params) => {
     setVisibleDate(false);
     setDate(params.date);
-    setVisibleTime(true); // Open time picker after date is selected
+    setVisibleTime(true);
   };
 
   const onConfirmTime = (params) => {
@@ -57,7 +58,9 @@ const InputSelectTime = ({ label }) => {
           onDismiss={() => setVisibleDate(false)}
           date={date}
           onConfirm={onConfirmDate}
-          locale="pt" // Locale para português
+          locale="pt" //Mudar para idioma selecionado quando tiver opção de idiomas(i18n)
+          startYear={now.getFullYear()}
+          endYear={now.getFullYear() + 1}
         />
 
         <TimePickerModal
@@ -66,11 +69,11 @@ const InputSelectTime = ({ label }) => {
           onConfirm={onConfirmTime}
           hours={time?.hours}
           minutes={time?.minutes}
-          locale="pt" // Locale para português
+          locale="pt" //Mudar para idioma selecionado quando tiver opção de idiomas(i18n)
         />
       </View>
     </Provider>
   );
 };
 
-export default InputSelectTime;
+export default InputSelectDateTime;
