@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Login from "../../screens/AuthenticationScreens/Login";
 import Home from "../../screens/MainScreens/Home";
@@ -12,10 +12,13 @@ import Announcements from "../../screens/MainScreens/Announcements";
 import Profile from "../../screens/ProfileScreens/Profile";
 import MainAdminPage from "../../screens/Administration/MainAdminPage";
 import EditUsers from "../../screens/Administration/EditUsers";
-import TestSearch from "../../screens/TestSearch";
 import supabase from "../../../database/SupabaseConfig";
 import EmBreve from "../../screens/ProfileScreens/EmBreve";
 import ListUsers from "../../screens/Administration/ListUsers";
+import NewAnnouncement from "../../screens/Administration/NewAnnouncement";
+import { en, pt, registerTranslation } from 'react-native-paper-dates'
+registerTranslation('en', en)
+registerTranslation('pt', pt)
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +28,7 @@ export default function Auth() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="NewAnnouncement"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Login">
@@ -37,6 +40,7 @@ export default function Auth() {
         <Stack.Screen name="EmBreve" component={EmBreve} />
         <Stack.Screen name="ListUsers" component={ListUsers} />
         <Stack.Screen name="EditUsers" component={EditUsers} />
+        <Stack.Screen name="NewAnnouncement" component={NewAnnouncement} />
       </Stack.Navigator>
     </NavigationContainer>
   );
