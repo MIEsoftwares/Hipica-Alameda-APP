@@ -77,7 +77,6 @@ export default function Profile({ navigation }) {
             style={styles.lineComponents}
           >
             <Text children="Email" style={styles.titles} />
-            <Text children={profileInfo.email} />
             <Icon source={"menu-right"} size={25} />
           </Pressable>
         </View>
@@ -99,7 +98,6 @@ export default function Profile({ navigation }) {
             style={styles.lineComponents}
           >
             <Text children="Financeiro" style={styles.titles} />
-            <Text children="AAA" />
             <Icon source={"menu-right"} size={25} />
           </Pressable>
         </View>
