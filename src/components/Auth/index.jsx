@@ -8,7 +8,6 @@ import Home from "../../screens/MainScreens/Home";
 import Register from "../../screens/AuthenticationScreens/Register";
 import Schedule from "../../screens/MainScreens/Schedule";
 import Report from "../../screens/MainScreens/Report";
-import Announcements from "../../screens/MainScreens/Announcements";
 import Profile from "../../screens/ProfileScreens/Profile";
 import MainAdminPage from "../../screens/Administration/MainAdminPage";
 import EditUsers from "../../screens/Administration/EditUsers";
@@ -76,8 +75,6 @@ export function HomeTabs() {
             iconName = focused ? "calendar-clear" : "calendar-clear-outline";
           } else if (route.name === "Relatórios") {
             iconName = focused ? "book" : "book-outline";
-          } else if (route.name === "Comunicados") {
-            iconName = focused ? "mail" : "mail-outline";
           } else if (route.name === "Administração") {
             iconName = focused ? "settings-sharp" : "settings-outline";
           }
@@ -91,7 +88,6 @@ export function HomeTabs() {
       <Tab.Screen name="Início" component={Home} />
       <Tab.Screen name="Agenda" component={Schedule} />
       <Tab.Screen name="Relatórios" component={Report} />
-      <Tab.Screen name="Comunicados" component={Announcements} />
       {userRole === "admin" && (
         <Tab.Screen name="Administração" component={MainAdminPage} />
       )}

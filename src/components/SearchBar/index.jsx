@@ -11,8 +11,8 @@ export default function SearchBar() {
       activeOutlineColor="#999999"
       outlineColor="#999999"
       textColor="#000000"
-      outlineStyle={{height: 50, borderRadius: 10}}
-      contentStyle={{height: 56.5}}
+      outlineStyle={{height: 50, borderRadius: 10,}}
+      contentStyle={{height: 56}}
       left={<TextInput.Icon icon="magnify" rippleColor="transparent"/>}
     />
   );
