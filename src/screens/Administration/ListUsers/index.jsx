@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { FlatList } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import defaultStyles from "../../../constants/defaultStyles";
+import supabase from "../../../../database/SupabaseConfig";
 
 export default function ListUsers({navigation}) {
   const [searchQuery, setSearchQuery] = useState("");

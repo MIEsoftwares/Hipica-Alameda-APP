@@ -1,7 +1,6 @@
 import { SafeAreaView } from 'react-native-safe-area-context';
-import InputSelectDate from '../../../components/InputSelectDate';
-import InputSelectDateTime from '../../../components/InputSelectDateTime';
 import { View } from 'react-native';
+import AnnouncementCard from '../../../components/AnnouncementCard';
 
 
 // import { Container } from './styles';
@@ -9,12 +8,7 @@ import { View } from 'react-native';
 const NewAnnouncement = () => {
   return( 
     <SafeAreaView style={{ width: "100%", height: "100%", justifyContent: "center", alignContent: "center", alignItems: "center" }}>
-          <InputSelectDate
-            label="krlh"
-          />
-        <InputSelectDateTime
-          label="krlh2"
-        />
+      <AnnouncementCard/>
     </SafeAreaView>
   );
 }
