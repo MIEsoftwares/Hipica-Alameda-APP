@@ -18,7 +18,6 @@ export default styles = StyleSheet.create({
     imageView: {
         width: "35%",
         height: "100%",
-        // backgroundColor: "blue",
         borderTopLeftRadius: 20,
         borderBottomLeftRadius: 20,
     },
@@ -32,7 +31,6 @@ export default styles = StyleSheet.create({
     infos: {
         width: "65%",
         height: "100%",
-        // backgroundColor: "red",
         borderTopRightRadius: 20,
         borderBottomRightRadius: 20,
         alignItems: "center",
