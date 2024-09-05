@@ -13,12 +13,11 @@ export default styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 4,
-        elevation: 15,
+        elevation: 3,
     },
     imageView: {
         width: "35%",
         height: "100%",
-        // backgroundColor: "blue",
         borderTopLeftRadius: 20,
         borderBottomLeftRadius: 20,
     },
@@ -32,10 +31,10 @@ export default styles = StyleSheet.create({
     infos: {
         width: "65%",
         height: "100%",
-        // backgroundColor: "red",
         borderTopRightRadius: 20,
         borderBottomRightRadius: 20,
-        alignItems: "center",
-        justifyContent: "center",
+        marginTop: height*0.01,
+        marginLeft: width*0.02,
+        gap: 10,
     }
 });

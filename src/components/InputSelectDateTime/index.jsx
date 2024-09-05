@@ -41,14 +41,20 @@ const InputSelectDateTime = ({ label }) => {
 
   return (
     <Provider>
-      <View style={styles.container}>
-        <TouchableOpacity onPress={() => setVisibleDate(true)}>
+      <View>
+        <TouchableOpacity style={styles.container} onPress={() => setVisibleDate(true)}>
           <PaperTextInput
             label={label}
             value={formattedDateTime}
             style={styles.input}
             editable={false}
-            placeholder={label}
+            placeholder={"Selecione a data e hora do evento"}
+            mode='outlined'
+            underlineColor="#E0E0E0"
+            activeUnderlineColor="#E0E0E0"
+            outlineColor="#E0E0E0"
+            activeOutlineColor="#E0E0E0"
+            outlineStyle={{borderRadius: 12}}
           />
         </TouchableOpacity>
 

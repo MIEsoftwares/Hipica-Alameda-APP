@@ -5,7 +5,7 @@ const defaultStyles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: width*0.025,
-        paddingTop: height*0.02
+        paddingTop: height*0.02,
     }
 })
 

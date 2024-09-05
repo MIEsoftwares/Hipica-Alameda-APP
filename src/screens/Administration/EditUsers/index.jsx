@@ -1,11 +1,19 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Card, Text, Title, Checkbox, SegmentedButtons, Button} from "react-native-paper";
+import {
+  Card,
+  Text,
+  Title,
+  Checkbox,
+  SegmentedButtons,
+  Button,
+} from "react-native-paper";
 import { useState } from "react";
 import { View } from "react-native";
 import { deleteUser } from "../../../../database/auth/delete";
 import styles from "./styles";
 import defaultStyles from "../../../constants/defaultStyles";
 import LightGrayInputText from "../../../components/LightGrayInputText";
+import supabase from "../../../../database/SupabaseConfig";
 
 export default function EditUsers({ route, navigation }) {
   const { item } = route.params;
@@ -25,17 +33,16 @@ export default function EditUsers({ route, navigation }) {
     return error;
   }
 
-  async function getId(){
+  async function getId() {
     const {
       data: { user },
     } = await supabase.auth.getUser();
     setId(user.id);
   }
 
-  if(id === ""){
-    getId()
+  if (id === "") {
+    getId();
   }
-  
 
   return (
     <SafeAreaView
