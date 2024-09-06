@@ -111,8 +111,8 @@ export default function NewAnnouncement({ navigation }) {
               value={link}
             />
             
-            <InputSelectDateTime/>
-
+            <InputSelectDateTime setDate2={(test) => setData(test)}/>
+            
 
             <View style={{flexDirection: "row-reverse", justifyContent: "space-evenly"}}>
             <Button
