@@ -9,11 +9,9 @@ import styles from "./styles";
 import { insertAnnouncement } from "../../../../database/actions/insertAnnouncement";
 import { updateAnnouncement } from "../../../../database/actions/updateAnnouncement";
 import { deleteAnnouncement } from "../../../../database/actions/deleteAnnouncement";
-import { height, width } from "../../../constants/Dimensions";
 import DefButton from "../../../components/DefButton";
 import LightGrayInputText from "../../../components/LightGrayInputText";
 import InputSelectDateTime from "../../../components/InputSelectDateTime";
-import { Link } from "@react-navigation/native";
 
 export default function NewAnnouncement({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,19 +21,17 @@ export default function NewAnnouncement({ navigation }) {
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
   const [link, setLink] = useState()
-  const [date, setDate] = useState()
-  const [hour, setHour] = useState()
   const [data, setData] = useState()
   const [id, setId] = useState()
   const [updateModalVisibility, setUpdateModalVisibility] = useState(false)
 
-  const newAnnouncement = async (titulo, desc, created, dia, hora, link) => {
-    await insertAnnouncement(titulo, desc, created, dia, hora, link);
+  const newAnnouncement = async (titulo, desc, created, data, link) => {
+    await insertAnnouncement(titulo, desc, created, data, link);
     fetchItems();
   };
 
-  const update = async (id, titulo, desc, dia, hora, link) => {
-    await updateAnnouncement(id, titulo, desc, dia, hora, link);
+  const update = async (id, titulo, desc, data, link) => {
+    await updateAnnouncement(id, titulo, desc, data, link);
     fetchItems();
   }
 
@@ -62,7 +58,7 @@ export default function NewAnnouncement({ navigation }) {
   
   const renderItem = ({ item }) => (
     <View style={{ marginBottom: 12 }}>
-      <AnnouncementCard title={item.titulo} description={item.descricao} onPress={() => {setTitle(item.titulo); setDescription(item.descricao); setDate(item.dia_evento); setHour(item.horario_evento); setLink(item.link_externo); setUpdateModalVisibility(true); setId(item.id)}} onIconPress={() => deleteAnn(item.id)}/>
+      <AnnouncementCard title={item.titulo} description={item.descricao} onPress={() => {setTitle(item.titulo); setDescription(item.descricao); setData(item.data); setLink(item.link_externo); setUpdateModalVisibility(true); setId(item.id)}} onIconPress={() => deleteAnn(item.id)}/>
     </View>
   );
 
@@ -87,9 +83,6 @@ export default function NewAnnouncement({ navigation }) {
             <Text style={{fontSize: 26, textAlign: "center"}}>Novo Anúncio</Text>
             <DefButton
               children="Selecione sua imagem"
-              labelStyle={{fontSize: 18}}
-              style={{alignSelf: "center", marginTop: 4}}
-              // FAZER ONPRESS DE SELECIONAR IMG
             />
 
             <LightGrayInputText
@@ -112,7 +105,7 @@ export default function NewAnnouncement({ navigation }) {
             />
             
             <InputSelectDateTime setDate2={(test) => setData(test)}/>
-            
+
 
             <View style={{flexDirection: "row-reverse", justifyContent: "space-evenly"}}>
             <Button
@@ -121,7 +114,7 @@ export default function NewAnnouncement({ navigation }) {
                 mode="contained"
                 theme={{ colors: { primary: "#53C64D" } }}
                 disabled={title === undefined || description === undefined}
-                onPress={() => {newAnnouncement(title, description, new Date().toISOString(), date, hour, link); fetchItems(); setModalVisibility(false);}}
+                onPress={() => {newAnnouncement(title, description, new Date().toISOString(), data, link); fetchItems(); setModalVisibility(false);}}
               />
               <Button
                 icon="cancel"
@@ -179,7 +172,7 @@ export default function NewAnnouncement({ navigation }) {
                 children="Salvar"
                 mode="contained"
                 theme={{ colors: { primary: "#53C64D" } }}
-                onPress={() => {update(id, title, description, date, hour, link); setUpdateModalVisibility(false)}}
+                onPress={() => {update(id, title, description, data, link); setUpdateModalVisibility(false)}}
               />
               <Button
                 icon="cancel"
@@ -206,7 +199,7 @@ export default function NewAnnouncement({ navigation }) {
       />
       <View style={styles.divisionBar} />
       <DefButton 
-        onPress={() => {setModalVisibility(true); setTitle(undefined); setDescription(undefined); setDate(undefined); setHour(undefined); setLink(undefined)}} 
+        onPress={() => {setModalVisibility(true); setTitle(undefined); setDescription(undefined); setData(undefined); setLink(undefined)}} 
         children="Novo"
         style={{alignSelf: "flex-end", marginTop: 12}}
         labelStyle={{fontSize: 20}}
