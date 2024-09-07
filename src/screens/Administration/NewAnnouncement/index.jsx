@@ -58,7 +58,7 @@ export default function NewAnnouncement({ navigation }) {
   
   const renderItem = ({ item }) => (
     <View style={{ marginBottom: 12 }}>
-      <AnnouncementCard title={item.titulo} description={item.descricao} onPress={() => {setTitle(item.titulo); setDescription(item.descricao); setData(item.data); setLink(item.link_externo); setUpdateModalVisibility(true); setId(item.id)}} onIconPress={() => deleteAnn(item.id)}/>
+      <AnnouncementCard title={item.titulo} description={item.descricao} onPress={() => {setTitle(item.titulo); setDescription(item.descricao); setData(item.data_evento); setLink(item.link_externo); setUpdateModalVisibility(true); setId(item.id)}} onIconPress={() => deleteAnn(item.id)}/>
     </View>
   );
 
@@ -163,7 +163,7 @@ export default function NewAnnouncement({ navigation }) {
               value={link}
             />
             
-            <InputSelectDateTime/>
+            <InputSelectDateTime setDate2={(test) => setData(test)}/>
 
 
             <View style={{flexDirection: "row-reverse", justifyContent: "space-evenly"}}>
