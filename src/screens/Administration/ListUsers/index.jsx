@@ -63,7 +63,7 @@ export default function ListUsers({navigation}) {
       />
 
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#000000" />
       ) : (
         <FlatList
           data={filteredItems}

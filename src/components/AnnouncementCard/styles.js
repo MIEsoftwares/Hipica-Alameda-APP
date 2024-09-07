@@ -5,15 +5,17 @@ import { height, width } from "../../constants/Dimensions";
 export default styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        width: width*0.9,
-        height: height*0.15,
+        width: width * 0.9,
+        height: height * 0.15,
         borderRadius: 20,
         backgroundColor: "white",
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-        elevation: 3,
+        shadowOffset: { width: 0, height: 6 }, // Aumentado para maior profundidade
+        shadowOpacity: 0.15, // Reduzido para sombra mais suave
+        shadowRadius: 12, // Aumentado para um efeito de desfoque mais amplo
+        elevation: 6, // Aumentado para uma sombra mais pronunciada em dispositivos Android
+        padding: 10, // Adicionado padding para melhorar a disposição do conteúdo
+        margin: 10, // Adicionado margin para separar do conteúdo ao redor
     },
     imageView: {
         width: "35%",

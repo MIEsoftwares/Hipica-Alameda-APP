@@ -1,12 +1,16 @@
 // import { StyleSheet } from "react-native";
 // import { height, width } from "../../constants/Dimensions";
 
+import { StyleSheet } from "react-native";
+import { height, width } from "../../constants/Dimensions";
 
 
-// export default styles = StyleSheet.create({
-//     profileIcon: {
-//         width: width*0.13,
-//         height: height*0.06,
+
+export default styles = StyleSheet.create({
+    profileIcon: {
+        marginTop: height*-0.015,
+        // width: width*0.13,
+        // height: height*0.06,
 //         borderRadius: 50,
 //         borderWidth: 2,
 //         borderColor: '#000', 
@@ -15,5 +19,5 @@
 //         shadowOpacity: 0.8,
 //         shadowRadius: 2,
 //         elevation: 5,
-//     }
-// });
+    }
+});

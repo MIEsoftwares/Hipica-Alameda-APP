@@ -3,15 +3,18 @@ import { FlatList, Image, View, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import ProfileIcon from "../../../components/ProfileIcon"; 
-import SearchBar from "../../../components/SearchBar";
 import { Text } from "react-native-paper";
 import { useIsFocused } from "@react-navigation/native";
 import supabase from "../../../../database/SupabaseConfig";
 import AnnouncementCard from "../../../components/AnnouncementCard";
+import { Searchbar } from 'react-native-paper';
+import { height, width } from "../../../constants/Dimensions";
 
 export default function Home({ navigation }) {
     const [announcements, setAnnouncements] = useState([]);
+    const [filteredAnnouncements, setFilteredAnnouncements] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const isFocused = useIsFocused();
 
@@ -28,6 +31,7 @@ export default function Home({ navigation }) {
                     }
 
                     setAnnouncements(data);
+                    setFilteredAnnouncements(data); // Set filtered announcements initially
                 } catch (error) {
                     console.error('Erro ao buscar dados:', error.message);
                 } finally {
@@ -45,19 +49,24 @@ export default function Home({ navigation }) {
         }
     }, [isFocused, navigation]);
 
+    useEffect(() => {
+        if (searchQuery) {
+            setFilteredAnnouncements(
+                announcements.filter(item =>
+                    item.titulo.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    item.descricao.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+            );
+        } else {
+            setFilteredAnnouncements(announcements);
+        }
+    }, [searchQuery, announcements]);
+
     const renderItem = ({ item }) => (
         <View style={{ marginBottom: 12 }}>
             <AnnouncementCard
                 title={item.titulo} 
-                description={item.descricao} 
-                onPress={() => {
-                    setTitle(item.titulo);
-                    setDescription(item.descricao);
-                    setData(item.data_evento);
-                    setLink(item.link_externo);
-                    setUpdateModalVisibility(true);
-                    setId(item.id);
-                }}
+                description={item.descricao}
             />
         </View>
     );
@@ -65,13 +74,19 @@ export default function Home({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <SearchBar />
+                <Searchbar
+                    placeholder="Buscar"
+                    theme={{ colors: { elevation: { level3: "white" } } }}
+                    style={{width: width*0.85, borderWidth: 1, borderRadius: 20, marginBottom: 12, marginLeft: width*0.025 }}
+                    onChangeText={setSearchQuery}
+                    value={searchQuery}
+                />
                 <ProfileIcon source={require('../../../assets/images/Logo1.png')} />
             </View>
             <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", flex: 1 }}>
                 {loading ? (
                     <ActivityIndicator size="large" color="#000000" />
-                ) : announcements.length === 0 ? (
+                ) : filteredAnnouncements.length === 0 ? (
                     <>
                         <Image style={styles.image} source={require('../../../assets/images/home-inicial-photo.png')} />
                         <Text style={styles.titleWhileHasNothing}>Você encontrará notificações aqui</Text>
@@ -79,7 +94,7 @@ export default function Home({ navigation }) {
                     </>
                 ) : (
                     <FlatList
-                        data={announcements}
+                        data={filteredAnnouncements}
                         renderItem={renderItem}
                         keyExtractor={(item) => item.id}
                     />
