@@ -97,7 +97,7 @@ export default function Profile({ navigation }) {
             onPress={() => navigation.navigate("EmBreve")}
             style={styles.lineComponents}
           >
-            <Text children="Financeiro" style={styles.titles} />
+            <Text children="Planos" style={styles.titles} />
             <Icon source={"menu-right"} size={25} />
           </Pressable>
         </View>
