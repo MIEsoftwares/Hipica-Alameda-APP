@@ -17,6 +17,7 @@ import ListUsers from "../../screens/Administration/ListUsers";
 import NewAnnouncement from "../../screens/Administration/NewAnnouncement";
 import { en, pt, registerTranslation } from 'react-native-paper-dates'
 import Planos from "../../screens/ProfileScreens/Planos";
+import RealizarPagamento from "../../screens/ProfileScreens/RealizarPagamento";
 registerTranslation('en', en)
 registerTranslation('pt', pt)
 
@@ -38,6 +39,7 @@ export default function Auth() {
         <Stack.Screen name="HomeTabs" component={HomeTabs} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Planos" component={Planos} />
+        <Stack.Screen name="RealizarPagamento" component={RealizarPagamento} />
         <Stack.Screen name="EmBreve" component={EmBreve} />
         <Stack.Screen name="ListUsers" component={ListUsers} />
         <Stack.Screen name="EditUsers" component={EditUsers} />
