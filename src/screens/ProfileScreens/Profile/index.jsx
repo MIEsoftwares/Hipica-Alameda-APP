@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import supabase from "../../../../database/SupabaseConfig";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { width } from "../../../constants/Dimensions";
 
@@ -94,7 +94,7 @@ export default function Profile({ navigation }) {
 
         <View>
           <Pressable
-            onPress={() => navigation.navigate("EmBreve")}
+            onPress={() => navigation.navigate("Planos")}
             style={styles.lineComponents}
           >
             <Text children="Financeiro" style={styles.titles} />
