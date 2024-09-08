@@ -65,6 +65,7 @@ export default function Home({ navigation }) {
     const renderItem = ({ item }) => (
         <View style={{ marginBottom: 12 }}>
             <AnnouncementCard
+                admin={false}
                 title={item.titulo} 
                 description={item.descricao}
             />
