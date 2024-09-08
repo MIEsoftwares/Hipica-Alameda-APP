@@ -94,7 +94,7 @@ export default function Profile({ navigation }) {
 
         <View>
           <Pressable
-            onPress={() => navigation.navigate("EmBreve")}
+            onPress={() => navigation.navigate("Planos")}
             style={styles.lineComponents}
           >
             <Text children="Planos" style={styles.titles} />
