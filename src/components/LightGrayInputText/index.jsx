@@ -2,14 +2,14 @@ import { useState } from "react";
 import { TextInput } from "react-native-paper";
 import styles from "./styles";
 
-export default function BlackInputText(props) {
+export default function LightGrayInputText(props) {
   
   const [text, setText] = useState(props.value);
 
   return (
     <TextInput
       label={props.label}
-      style={styles.background}
+      style={[styles.background, props.style]}
       value={props.value}
       onChangeText={props.action}
       outlineStyle={{borderRadius: 12}}

@@ -2,13 +2,14 @@ import { TouchableRipple } from "react-native-paper";
 import { Avatar } from 'react-native-paper';
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import styles from "./styles";
 
 
 export default function ProfileIcon({navigation = useNavigation()}) {
 
 
     return (
-        <TouchableRipple 
+        <TouchableRipple style={styles.profileIcon}
             onPress={() => {
                 navigation.navigate("Profile")
             }}

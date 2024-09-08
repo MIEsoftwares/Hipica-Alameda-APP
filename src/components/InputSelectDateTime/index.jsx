@@ -4,7 +4,7 @@ import { Provider, TextInput as PaperTextInput } from 'react-native-paper';
 import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
 import styles from './styles';
 
-const InputSelectDateTime = ({ label }) => {
+const InputSelectDateTime = ({ label, setDate2}) => {
   const [visibleDate, setVisibleDate] = useState(false);
   const [visibleTime, setVisibleTime] = useState(false);
   const [date, setDate] = useState(undefined);
@@ -17,9 +17,24 @@ const InputSelectDateTime = ({ label }) => {
     setVisibleTime(true);
   };
 
-  const onConfirmTime = (params) => {
-    setVisibleTime(false);
-    setTime(params);
+  const onConfirmTime = ({ hours, minutes }) => {
+    if (date) {
+      setVisibleTime(false);
+  
+      const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+      const formattedDateTime = `${formatDate(date)} - ${formattedTime}`;
+      setTime({ hours, minutes });
+  
+      setDate2(
+        new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          hours,
+          minutes
+        )
+      );
+    }
   };
 
   const formatDate = (date) => {
@@ -41,14 +56,20 @@ const InputSelectDateTime = ({ label }) => {
 
   return (
     <Provider>
-      <View style={styles.container}>
-        <TouchableOpacity onPress={() => setVisibleDate(true)}>
+      <View>
+        <TouchableOpacity style={styles.container} onPress={() => setVisibleDate(true)}>
           <PaperTextInput
             label={label}
             value={formattedDateTime}
             style={styles.input}
             editable={false}
-            placeholder={label}
+            placeholder={"Selecione a data e hora do evento"}
+            mode='outlined'
+            underlineColor="#E0E0E0"
+            activeUnderlineColor="#E0E0E0"
+            outlineColor="#E0E0E0"
+            activeOutlineColor="#E0E0E0"
+            outlineStyle={{borderRadius: 12}}
           />
         </TouchableOpacity>
 
