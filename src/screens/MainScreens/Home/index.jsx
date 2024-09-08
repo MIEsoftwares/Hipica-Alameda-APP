@@ -63,8 +63,9 @@ export default function Home({ navigation }) {
     }, [searchQuery, announcements]);
 
     const renderItem = ({ item }) => (
-        <View style={{ marginBottom: 12 }}>
+        <View style={{ marginVertical: height*0.002 }}>
             <AnnouncementCard
+                admin={false}
                 title={item.titulo} 
                 description={item.descricao}
             />
@@ -77,7 +78,7 @@ export default function Home({ navigation }) {
                 <Searchbar
                     placeholder="Buscar"
                     theme={{ colors: { elevation: { level3: "white" } } }}
-                    style={{width: width*0.85, borderWidth: 1, borderRadius: 20, marginBottom: 12, marginLeft: width*0.025 }}
+                    style={{width: width*0.8, borderWidth: 1, borderRadius: 20, marginBottom: 12, marginLeft: width*0.03 }}
                     onChangeText={setSearchQuery}
                     value={searchQuery}
                 />
