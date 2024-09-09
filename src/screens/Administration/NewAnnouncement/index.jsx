@@ -81,7 +81,7 @@ export default function NewAnnouncement({ navigation }) {
           <Pressable style={styles.pressable} onPress={() => setModalVisibility(false)}/>
           <View style={styles.form}>
             <Text style={{fontSize: 26, textAlign: "center"}}>Novo Anúncio</Text>
-            <DefButton
+            <DefButton style={{alignSelf:"center"}}
               children="Selecione sua imagem"
             />
 
