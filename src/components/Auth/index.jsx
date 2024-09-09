@@ -18,6 +18,7 @@ import NewAnnouncement from "../../screens/Administration/NewAnnouncement";
 import { en, pt, registerTranslation } from 'react-native-paper-dates'
 import Planos from "../../screens/ProfileScreens/Planos";
 import RealizarPagamento from "../../screens/ProfileScreens/RealizarPagamento";
+import 'react-native-get-random-values';
 registerTranslation('en', en)
 registerTranslation('pt', pt)
 

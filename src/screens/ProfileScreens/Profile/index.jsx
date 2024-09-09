@@ -77,6 +77,7 @@ export default function Profile({ navigation }) {
             style={styles.lineComponents}
           >
             <Text children="Email" style={styles.titles} />
+            <Text> {profileInfo.email} </Text>
             <Icon source={"menu-right"} size={25} />
           </Pressable>
         </View>

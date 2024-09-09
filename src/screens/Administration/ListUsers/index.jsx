@@ -46,7 +46,7 @@ export default function ListUsers({navigation}) {
         titleStyle={{fontSize: 18, fontWeight: "bold"}}
         title={item.nome}
         subtitle={"Email: " + item.email}
-        right={() => <Ionicons name="create-outline" size={24} onPress={() => navigation.navigate("EditUsers", item)}/>}
+        right={() => <Ionicons name="create-outline" size={24} onPress={() => navigation.navigate("EditUsers", {item: item})}/>}
         rightStyle={{marginRight: 16}}
       />
     </Card>
