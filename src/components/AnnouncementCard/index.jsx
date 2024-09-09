@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Pressable, Image, Text } from "react-native";
 import styles from "./styles";
-import Teste from "../../assets/images/home-inicial-photo.png";
+import Teste from "../../assets/images/logo_default_card.png";
 import { IconButton, MD3Colors } from "react-native-paper";
 import { height } from "../../constants/Dimensions";
 
