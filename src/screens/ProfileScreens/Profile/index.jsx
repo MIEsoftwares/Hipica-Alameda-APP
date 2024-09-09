@@ -77,6 +77,7 @@ export default function Profile({ navigation }) {
             style={styles.lineComponents}
           >
             <Text children="Email" style={styles.titles} />
+            <Text> {profileInfo.email} </Text>
             <Icon source={"menu-right"} size={25} />
           </Pressable>
         </View>
@@ -97,7 +98,7 @@ export default function Profile({ navigation }) {
             onPress={() => navigation.navigate("Planos")}
             style={styles.lineComponents}
           >
-            <Text children="Financeiro" style={styles.titles} />
+            <Text children="Planos" style={styles.titles} />
             <Icon source={"menu-right"} size={25} />
           </Pressable>
         </View>
