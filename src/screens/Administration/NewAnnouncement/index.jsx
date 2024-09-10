@@ -12,6 +12,7 @@ import { deleteAnnouncement } from "../../../../database/actions/deleteAnnouncem
 import DefButton from "../../../components/DefButton";
 import LightGrayInputText from "../../../components/LightGrayInputText";
 import InputSelectDateTime from "../../../components/InputSelectDateTime";
+import { height } from "../../../constants/Dimensions";
 
 export default function NewAnnouncement({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,7 +59,7 @@ export default function NewAnnouncement({ navigation }) {
   
   const renderItem = ({ item }) => (
     <View style={{ marginBottom: 12 }}>
-      <AnnouncementCard title={item.titulo} admin={true} description={item.descricao} onPress={() => {setTitle(item.titulo); setDescription(item.descricao); setData(item.data_evento); setLink(item.link_externo); setUpdateModalVisibility(true); setId(item.id)}} onIconPress={() => deleteAnn(item.id)}/>
+      <AnnouncementCard title={item.titulo} admin={true} description={item.descricao} event_date={item.data_evento} onPress={() => {setTitle(item.titulo); setDescription(item.descricao); setData(item.data_evento); setLink(item.link_externo); setUpdateModalVisibility(true); setId(item.id)}} onIconPress={() => deleteAnn(item.id)}/>
     </View>
   );
 
@@ -81,7 +82,7 @@ export default function NewAnnouncement({ navigation }) {
           <Pressable style={styles.pressable} onPress={() => setModalVisibility(false)}/>
           <View style={styles.form}>
             <Text style={{fontSize: 26, textAlign: "center"}}>Novo Anúncio</Text>
-            <DefButton
+            <DefButton style={{alignSelf:"center"}}
               children="Selecione sua imagem"
             />
 
@@ -208,13 +209,13 @@ export default function NewAnnouncement({ navigation }) {
       {modalVisibility && openNewModal()}
       {updateModalVisibility && updateModal()}
 
-
       <View style={styles.cardView}>
-        <FlatList
-          data={filteredItems}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
-        />
+          <FlatList
+            style={{flexGrow: 1, height: height*0.8}}
+            data={filteredItems}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderItem}
+          />
       </View>
       
     </SafeAreaView>
