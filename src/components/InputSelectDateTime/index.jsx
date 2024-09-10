@@ -30,8 +30,8 @@ const InputSelectDateTime = ({ label, setDate2}) => {
           date.getFullYear(),
           date.getMonth(),
           date.getDate(),
-          hours,
-          minutes
+          {hours}.hours,
+          {minutes}.minutes,
         )
       );
     }

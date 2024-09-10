@@ -15,6 +15,8 @@ export default function DefButton(props){
 
 const styles = StyleSheet.create({
     default:{
+        minHeight: 43,
+        minWidth: 111.2,
         justifyContent: "center",
         alignItems: "center",
         paddingHorizontal: 32,

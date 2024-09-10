@@ -68,6 +68,7 @@ export default function Home({ navigation }) {
                 admin={false}
                 title={item.titulo} 
                 description={item.descricao}
+                event_date={item.data_evento}
             />
         </View>
     );
