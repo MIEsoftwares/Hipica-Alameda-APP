@@ -132,6 +132,19 @@ export default function NewAnnouncement({ navigation }) {
   }
 
   function updateModal() {
+    const formattedDate = (date) => {
+      if (!date) return "";
+      const formattedDate = new Date(date).toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+      const formattedTime = new Date(date).toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      return `${formattedDate} ${formattedTime}`;
+    };
     
     return(
       <View style={styles.modal}>
@@ -164,7 +177,7 @@ export default function NewAnnouncement({ navigation }) {
               value={link}
             />
             
-            <InputSelectDateTime setDate2={(test) => setData(test)}/>
+            <InputSelectDateTime label={formattedDate(data)} setDate2={(test) => setData(test)}/>
 
 
             <View style={{flexDirection: "row-reverse", justifyContent: "space-evenly"}}>
