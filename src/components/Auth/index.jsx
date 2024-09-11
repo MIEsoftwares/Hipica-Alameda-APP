@@ -31,20 +31,20 @@ export default function Auth() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Login"
-        screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Login">
+        <Stack.Group></Stack.Group>
+        <Stack.Screen name="Login" >
           {(props) => <Login {...props} setToken={setToken} />}
         </Stack.Screen>
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="HomeTabs" component={HomeTabs} />
-        <Stack.Screen name="Profile" component={Profile} />
-        <Stack.Screen name="Planos" component={Planos} />
-        <Stack.Screen name="RealizarPagamento" component={RealizarPagamento} />
+        <Stack.Screen name="Register" component={Register} options={{title: "Adicionar Usuário", headerTitleAlign: "center", }} />
+        <Stack.Screen name="HomeTabs" options={{headerShown: false}} component={HomeTabs} />
+        <Stack.Screen name="Profile" component={Profile} options={{title: "Perfil", headerTitleAlign: "center", }}/>
+        <Stack.Screen name="Planos" component={Planos} options={{headerTitleAlign: "center", }}/>
+        <Stack.Screen name="RealizarPagamento" component={RealizarPagamento} options={{title: "Realizar Pagamento", headerTitleAlign: "center", }}/>
         <Stack.Screen name="EmBreve" component={EmBreve} />
-        <Stack.Screen name="ListUsers" component={ListUsers} />
-        <Stack.Screen name="EditUsers" component={EditUsers} />
-        <Stack.Screen name="NewAnnouncement" component={NewAnnouncement} />
+        <Stack.Screen name="ListUsers" component={ListUsers} options={{title: "Listar Usuários", headerTitleAlign: "center",  }}/>
+        <Stack.Screen name="EditUsers" component={EditUsers} options={{title: "Editar Usuário", headerTitleAlign: "center", }}/>
+        <Stack.Screen name="NewAnnouncement" component={NewAnnouncement} options={{title: "Comunicados", headerTitleAlign: "center", }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

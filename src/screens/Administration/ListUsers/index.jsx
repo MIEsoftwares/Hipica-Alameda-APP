@@ -5,6 +5,7 @@ import { FlatList } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import defaultStyles from "../../../constants/defaultStyles";
 import supabase from "../../../../database/SupabaseConfig";
+import { width } from "../../../constants/Dimensions";
 
 export default function ListUsers({navigation}) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -57,7 +58,7 @@ export default function ListUsers({navigation}) {
       <Searchbar
         placeholder="Pesquise um usuário"
         theme={{ colors: { elevation: { level3: "white" } } }}
-        style={{ borderWidth: 1, borderRadius: 26, marginBottom: 12 }}
+        style={{ borderWidth: 1, borderRadius: 20, marginBottom: 12 }}
         value={searchQuery}
         onChangeText={handleSearch}
       />

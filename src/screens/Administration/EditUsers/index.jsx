@@ -48,7 +48,6 @@ export default function EditUsers({ route, navigation }) {
     <SafeAreaView
       style={[defaultStyles.container, { backgroundColor: "white" }]}
     >
-      <Title>Editar Usuário:</Title>
       <Card style={styles.card}>
         <Card.Content style={styles.cardContent}>
           <LightGrayInputText value={nome} action={setNome} label="Nome" />
