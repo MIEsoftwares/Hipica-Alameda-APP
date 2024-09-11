@@ -6,9 +6,10 @@ export default function DefButton(props){
             onPress={props.onPress} 
             style={[styles.default, props.style]}
         >
-            <Text style={[styles.text, props.labelStyle]}>
-                {props.children || "Button"}
-            </Text>
+            { props.children && <Text style={[styles.text, props.labelStyle]}>
+                {props.children}
+            </Text>}
+            {props.icon}
         </Pressable>
     )
 }

@@ -1,5 +1,6 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, Pressable, Text, View } from "react-native";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import AnnouncementCard from "../../../components/AnnouncementCard";
 import { useEffect, useState } from "react";
 import { Button, Searchbar } from "react-native-paper";
@@ -12,7 +13,7 @@ import { deleteAnnouncement } from "../../../../database/actions/deleteAnnouncem
 import DefButton from "../../../components/DefButton";
 import LightGrayInputText from "../../../components/LightGrayInputText";
 import InputSelectDateTime from "../../../components/InputSelectDateTime";
-import { height } from "../../../constants/Dimensions";
+import { height, width } from "../../../constants/Dimensions";
 
 export default function NewAnnouncement({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,7 +59,7 @@ export default function NewAnnouncement({ navigation }) {
 
   
   const renderItem = ({ item }) => (
-    <View style={{ marginBottom: 12 }}>
+    <View style={{marginBottom: 4}}>
       <AnnouncementCard title={item.titulo} admin={true} description={item.descricao} event_date={item.data_evento} onPress={() => {setTitle(item.titulo); setDescription(item.descricao); setData(item.data_evento); setLink(item.link_externo); setUpdateModalVisibility(true); setId(item.id)}} onIconPress={() => deleteAnn(item.id)}/>
     </View>
   );
@@ -207,15 +208,14 @@ export default function NewAnnouncement({ navigation }) {
       <Searchbar
         placeholder="Pesquise um usuário"
         theme={{ colors: { elevation: { level3: "white" } } }}
-        style={{ borderWidth: 1, borderRadius: 26, marginBottom: 12 }}
+        style={{ borderWidth: 1, borderRadius: 20 }}
         value={searchQuery}
         onChangeText={handleSearch}
       />
-      <View style={styles.divisionBar} />
       <DefButton 
         onPress={() => {setModalVisibility(true); setTitle(undefined); setDescription(undefined); setData(undefined); setLink(undefined)}} 
-        children="Novo"
-        style={{alignSelf: "flex-end", marginTop: 12}}
+        icon={<Ionicons name="add" size={48} color="#FFFFFF"/>}
+        style={{alignSelf: "flex-end", marginTop: 12, position: "absolute", bottom: height*0.01, right: width*0.025 ,zIndex: 5, minWidth: 1, minHeight: 1, paddingHorizontal: 10, paddingVertical: 10,}}
         labelStyle={{fontSize: 20}}
       />
 
@@ -224,7 +224,7 @@ export default function NewAnnouncement({ navigation }) {
 
       <View style={styles.cardView}>
           <FlatList
-            style={{flexGrow: 1, height: height*0.8}}
+            style={{flexGrow: 1, height: height*0.76,}}
             data={filteredItems}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
