@@ -33,6 +33,27 @@ const styles = StyleSheet.create({
         fontSize: 17,
         color: "#999999",
         textAlign: "center",
+    },
+    modal:{
+        position: "absolute",
+        bottom: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 5,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    form: {
+        width: width*0.85, 
+        paddingVertical: 20, 
+        backgroundColor: "#ffffff", 
+        paddingHorizontal: width*0.025, 
+        paddingTop: height*0.02, 
+        zIndex: 10, 
+        position: "absolute", 
+        borderRadius: 16,
+        gap: 16,
     }
 });
 export default styles;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, Image, View, ActivityIndicator } from "react-native";
+import { FlatList, Image, View, ActivityIndicator, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import ProfileIcon from "../../../components/ProfileIcon"; 
@@ -15,6 +15,11 @@ export default function Home({ navigation }) {
     const [filteredAnnouncements, setFilteredAnnouncements] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const [title, setTitle] = useState()
+    const [description, setDescription] = useState()
+    const [link, setLink] = useState()
+    const [data, setData] = useState()
+    const [modalVisibility, setModalVisibility] = useState(false)
 
     const isFocused = useIsFocused();
 
@@ -69,9 +74,23 @@ export default function Home({ navigation }) {
                 title={item.titulo} 
                 description={item.descricao}
                 event_date={item.data_evento}
+                onPress={() => setModalVisibility(true)}
             />
         </View>
     );
+
+    function openModal() {
+        console.log("a");
+        return (
+            <View style={styles.modal}>
+                <Pressable style={styles.pressable} onPress={() => setModalVisibility(false)}/>
+                <View style={styles.form}>
+                    <Text>aaaaa</Text>
+
+                </View>
+            </View>
+        )
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -101,7 +120,10 @@ export default function Home({ navigation }) {
                         keyExtractor={(item) => item.id}
                     />
                 )}
+                {modalVisibility && 
+            openModal()}
             </View>
+            
         </SafeAreaView>
     );
 }
