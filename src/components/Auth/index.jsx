@@ -33,7 +33,7 @@ export default function Auth() {
         initialRouteName="Login"
       >
         <Stack.Group></Stack.Group>
-        <Stack.Screen name="Login" >
+        <Stack.Screen name="Login" options={{headerShown: false}}>
           {(props) => <Login {...props} setToken={setToken} />}
         </Stack.Screen>
         <Stack.Screen name="Register" component={Register} options={{title: "Adicionar Usuário", headerTitleAlign: "center", }} />

@@ -74,19 +74,35 @@ export default function Home({ navigation }) {
                 title={item.titulo} 
                 description={item.descricao}
                 event_date={item.data_evento}
-                onPress={() => setModalVisibility(true)}
+                onPress={() => {setModalVisibility(true); setTitle(item.titulo); setDescription(item.descricao); setData(item.data_evento)}}
             />
         </View>
     );
 
     function openModal() {
-        console.log("a");
+        
+        const formattedDate = (date) => {
+            if (!date) return "";
+            const formattedDate = new Date(date).toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            });
+            const formattedTime = new Date(date).toLocaleTimeString("pt-BR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+            return `Data: ${formattedDate} \n Horário: ${formattedTime}`;
+          };  
+        
         return (
             <View style={styles.modal}>
                 <Pressable style={styles.pressable} onPress={() => setModalVisibility(false)}/>
                 <View style={styles.form}>
-                    <Text>aaaaa</Text>
-
+                    <Text style={{fontWeight: "bold", fontSize: 18, textAlign: "center"}}>{title}</Text>
+                    <View style={{width:"100%", height:"1%", backgroundColor:"black", borderCurve: 5}}/>
+                    <Text>{description}</Text>
+                    <Text>{formattedDate(data)}</Text>
                 </View>
             </View>
         )
@@ -104,6 +120,8 @@ export default function Home({ navigation }) {
                 />
                 <ProfileIcon source={require('../../../assets/images/Logo1.png')} />
             </View>
+            {modalVisibility && 
+                        openModal()}
             <View style={{ alignItems: "center", justifyContent: "center", flexDirection: "column", flex: 1 }}>
                 {loading ? (
                     <ActivityIndicator size="large" color="#000000" />
@@ -120,8 +138,6 @@ export default function Home({ navigation }) {
                         keyExtractor={(item) => item.id}
                     />
                 )}
-                {modalVisibility && 
-            openModal()}
             </View>
             
         </SafeAreaView>

@@ -54,6 +54,15 @@ const styles = StyleSheet.create({
         position: "absolute", 
         borderRadius: 16,
         gap: 16,
-    }
+    },
+    pressable: {
+        position: "absolute",
+        bottom: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: "#00000080",
+        zIndex: 5,
+    },
 });
 export default styles;
