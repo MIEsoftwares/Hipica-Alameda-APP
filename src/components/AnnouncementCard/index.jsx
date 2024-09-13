@@ -38,7 +38,7 @@ export default function AnnouncementCard(props) {
         />
         <Text
           style={{
-            fontSize: 18,
+            fontSize: 16,
             color: "#888888",
             maxWidth: "90%",
             maxHeight: height * 0.055,
@@ -48,7 +48,7 @@ export default function AnnouncementCard(props) {
         <View>
           <Text
             style={{
-              fontSize: 14,
+              fontSize: 10,
               color: "#888888",
               maxWidth: "90%",
               maxHeight: height * 0.055,
@@ -57,7 +57,7 @@ export default function AnnouncementCard(props) {
           />
           <Text
             style={{
-              fontSize: 14,
+              fontSize: 10,
               color: "#888888",
               maxWidth: "90%",
               maxHeight: height * 0.055,

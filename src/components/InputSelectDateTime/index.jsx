@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { Provider, TextInput as PaperTextInput } from 'react-native-paper';
+import { View, TouchableOpacity } from 'react-native';
+import { Provider, TextInput as PaperTextInput, MD3LightTheme } from 'react-native-paper';
 import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
 import styles from './styles';
 
-const InputSelectDateTime = ({ label, setDate2}) => {
+export default function InputSelectDateTime ({ label, setDate2 }){
   const [visibleDate, setVisibleDate] = useState(false);
   const [visibleTime, setVisibleTime] = useState(false);
   const [date, setDate] = useState(undefined);
@@ -20,18 +20,18 @@ const InputSelectDateTime = ({ label, setDate2}) => {
   const onConfirmTime = ({ hours, minutes }) => {
     if (date) {
       setVisibleTime(false);
-  
+
       const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
       const formattedDateTime = `${formatDate(date)} - ${formattedTime}`;
       setTime({ hours, minutes });
-  
+
       setDate2(
         new Date(
           date.getFullYear(),
           date.getMonth(),
           date.getDate(),
-          {hours}.hours,
-          {minutes}.minutes,
+          hours,
+          minutes
         )
       );
     }
@@ -50,12 +50,42 @@ const InputSelectDateTime = ({ label, setDate2}) => {
     return `${hours}:${minutes}`;
   };
 
-  const formattedDateTime = date && time 
+  const formattedDateTime = date && time
     ? `${formatDate(date)} - ${formatTime(time)}`
     : '';
 
+
+  const theme = {
+    ...MD3LightTheme,
+    colors: {
+      ...MD3LightTheme.colors,
+      primary: 'black',
+      surface: 'white',
+      onSurface: 'black',
+      text: 'black',
+      backdrop: 'rgba(0, 0, 0, 0.5)',
+      placeholder: 'gray', 
+      disabled: 'gray',     
+    },
+
+    datePicker: {
+      backgroundColor: 'white',
+      textColor: 'black',
+      accentColor: 'black',
+      headerColor: 'black',
+      headerTextColor: 'white',
+    },
+    timePicker: {
+      backgroundColor: 'white',
+      textColor: 'black',
+      accentColor: 'black',
+      headerColor: 'black',
+      headerTextColor: 'white',
+    }
+  };
+
   return (
-    <Provider>
+    <Provider theme={theme}>
       <View>
         <TouchableOpacity style={styles.container} onPress={() => setVisibleDate(true)}>
           <PaperTextInput
@@ -68,7 +98,7 @@ const InputSelectDateTime = ({ label, setDate2}) => {
             activeUnderlineColor="#E0E0E0"
             outlineColor="#E0E0E0"
             activeOutlineColor="#E0E0E0"
-            outlineStyle={{borderRadius: 12}}
+            outlineStyle={{ borderRadius: 12 }}
           />
         </TouchableOpacity>
 
@@ -78,9 +108,12 @@ const InputSelectDateTime = ({ label, setDate2}) => {
           onDismiss={() => setVisibleDate(false)}
           date={date}
           onConfirm={onConfirmDate}
-          locale="pt" //Mudar para idioma selecionado quando tiver opção de idiomas(i18n)
+          locale="pt"
           startYear={now.getFullYear()}
           endYear={now.getFullYear() + 1}
+          validRange={{
+            startDate: now,
+          }}
         />
 
         <TimePickerModal
@@ -89,11 +122,9 @@ const InputSelectDateTime = ({ label, setDate2}) => {
           onConfirm={onConfirmTime}
           hours={time?.hours}
           minutes={time?.minutes}
-          locale="pt" //Mudar para idioma selecionado quando tiver opção de idiomas(i18n)
+          locale="pt"
         />
       </View>
     </Provider>
   );
 };
-
-export default InputSelectDateTime;

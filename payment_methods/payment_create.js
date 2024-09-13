@@ -1,6 +1,8 @@
+import paymentData from "../database/MercadoPagoData.json"
+
+
 export default async function paymentCreate(valor, desc, email) {
-    const accessToken = 'TEST-6684662862805898-090818-c1c5e6fc9a3414dc69429b2f1c896992-1407179279';
-    const idempotencyKey = 'some-unique-key';
+    const { accessToken, idempotencyKey } = paymentData;
 
     try {
         const response = await fetch('https://api.mercadopago.com/v1/payments', {

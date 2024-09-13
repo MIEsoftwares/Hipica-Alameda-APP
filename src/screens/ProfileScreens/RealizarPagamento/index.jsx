@@ -6,25 +6,30 @@ import { TextInput } from 'react-native-paper';
 import defaultStyles from '../../../constants/defaultStyles';
 import supabase from '../../../../database/SupabaseConfig';
 import paymentCreate from '../../../../payment_methods/payment_create';
+import { checkPaymentStatus } from '../../../../payment_methods/payment_check'; 
 import * as Clipboard from 'expo-clipboard';
 import { height } from '../../../constants/Dimensions';
+import config from "../../../../database/MercadoPagoData.json";
+
 
 export default function RealizarPagamento({ route, navigation }) {
   const [qrCodeValue, setQrCodeValue] = useState('');
   const [loading, setLoading] = useState(true);
+  const [paymentId, setPaymentId] = useState(null);
+  const [ paymentStatus, setPaymentStatus] = useState(null);
   const { plano } = route.params;
-  
-  useEffect(() => {
-    
-    const mercadoPagoKey = "TEST-6684662862805898-090818-c1c5e6fc9a3414dc69429b2f1c896992-1407179279";
 
+  useEffect(() => {
     const generatePayment = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         const userEmail = user.email;
 
-        const pagamento = await paymentCreate(plano.price, plano.desc, userEmail, mercadoPagoKey);
+        const pagamento = await paymentCreate(plano.price, plano.desc, userEmail, config.accessToken);
         setQrCodeValue(pagamento.point_of_interaction.transaction_data.qr_code);
+        console.log(pagamento.point_of_interaction.transaction_data.qr_code);
+        
+        setPaymentId(pagamento.id);
 
         setLoading(false);
       } catch (error) {
@@ -35,6 +40,34 @@ export default function RealizarPagamento({ route, navigation }) {
     
     generatePayment();
   }, [route.params]);
+
+  useEffect(() => {
+    const checkPayment = async () => {
+      if (paymentId) {
+        const payment = await checkPaymentStatus(paymentId);
+        if (payment) {
+          setPaymentStatus(payment.status);
+
+          if (payment.status === 'approved') {
+            // Navegar para tela de sucesso se o pagamento for aprovado
+            console.log("Ta pago!");
+            
+          } else if (payment.status === 'rejected') {
+            // Navegar para tela de falha se o pagamento for rejeitado
+            console.log("Deu merda!");
+            
+          }
+        }
+      }
+    };
+
+    // Verificar o status do pagamento a cada 5 segundos (5000 milissegundos)
+    const interval = setInterval(() => {
+      checkPayment();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [paymentId, navigation]);
 
   const copyToClipboard = () => {
     Clipboard.setString(qrCodeValue);
@@ -57,11 +90,11 @@ export default function RealizarPagamento({ route, navigation }) {
       <View style={styles.content}>
         {qrCodeValue ? (
           <>
-            <View style={{gap: height*0.015}}>
+            <View style={{ gap: height * 0.015 }}>
               <Text style={styles.title}>{plano.desc}</Text>
               <Text style={styles.price}>Preço: R$ {plano.price}/mês</Text>
             </View>
-            <View style={{alignItems: "center"}}>
+            <View style={{ alignItems: "center" }}>
               <QRCode
                 value={qrCodeValue}
                 size={200}
@@ -89,7 +122,7 @@ const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
     justifyContent: 'center',
-    gap: height*0.1,
+    gap: height * 0.1,
     flex: 1,
     padding: 20,
   },
