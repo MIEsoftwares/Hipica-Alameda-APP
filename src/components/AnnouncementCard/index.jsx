@@ -46,7 +46,7 @@ export default function AnnouncementCard(props) {
           children={props.description || "Descrição"}
         />
         <View>
-          <Text
+          {props.event_date && <Text
             style={{
               fontSize: 10,
               color: "#888888",
@@ -54,8 +54,8 @@ export default function AnnouncementCard(props) {
               maxHeight: height * 0.055,
             }}
             children={props.event_date ? `Data do evento: ${formattedDate}` : ""}
-          />
-          <Text
+          />}
+          {props.event_date && <Text
             style={{
               fontSize: 10,
               color: "#888888",
@@ -63,10 +63,10 @@ export default function AnnouncementCard(props) {
               maxHeight: height * 0.055,
             }}
             children={props.event_date ? `Horário: ${formattedTime}` : ""}
-          />
+          />}
         </View>
 
-        {props.admin === true ? (
+        {props.admin === true && 
           <IconButton
             icon="trash-can-outline"
             style={{ position: "absolute", right: 7, bottom: 7, height: 35, width: 35 }}
@@ -76,7 +76,7 @@ export default function AnnouncementCard(props) {
             size={30}
             onPress={props.onIconPress}
           />
-        ) : null}
+        }
       </View>
     </Pressable>
   );
