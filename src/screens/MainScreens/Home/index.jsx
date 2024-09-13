@@ -92,7 +92,7 @@ export default function Home({ navigation }) {
               hour: "2-digit",
               minute: "2-digit",
             });
-            return `Data: ${formattedDate} \n Horário: ${formattedTime}`;
+            return `Data: ${formattedDate} \nHorário: ${formattedTime}`;
           };  
         
         return (

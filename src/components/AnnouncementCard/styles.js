@@ -10,12 +10,12 @@ export default styles = StyleSheet.create({
         borderRadius: 20,
         backgroundColor: "white",
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 }, // Aumentado para maior profundidade
-        shadowOpacity: 0.15, // Reduzido para sombra mais suave
-        shadowRadius: 12, // Aumentado para um efeito de desfoque mais amplo
-        elevation: 6, // Aumentado para uma sombra mais pronunciada em dispositivos Android
-        padding: 10, // Adicionado padding para melhorar a disposição do conteúdo
-        margin: 10, // Adicionado margin para separar do conteúdo ao redor
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.15,
+        shadowRadius: 12,
+        elevation: 6,
+        padding: 10,
+        margin: 10,
     },
     imageView: {
         width: "35%",
