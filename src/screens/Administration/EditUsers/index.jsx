@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { View } from "react-native";
 import { deleteUser } from "../../../../database/auth/delete";
+import { updateUser } from "../../../../database/auth/update"
 import styles from "./styles";
 import defaultStyles from "../../../constants/defaultStyles";
 import LightGrayInputText from "../../../components/LightGrayInputText";
@@ -28,9 +29,16 @@ export default function EditUsers({ route, navigation }) {
 
   async function tryDelete(id) {
     const error = await deleteUser(id);
-    navigation.navigate("ListUsers");
+    navigation.goBack();
 
     return error;
+  }
+
+  async function tryUpdate(id) {
+    const error = await updateUser(id, email, nome, cpf, telefone, hasHorse, horseName, role,)
+    navigation.goBack();
+
+    return error
   }
 
   async function getId() {
@@ -141,7 +149,8 @@ export default function EditUsers({ route, navigation }) {
                 children="Salvar"
                 mode="contained"
                 theme={{ colors: { primary: "#53C64D" } }}
-                onPress={() => console.log("saved")}
+                onPress={() => {tryUpdate(item.id, email,  nome, cpf, telefone, hasHorse, horseName, role); console.log(role);
+                }}
               />
               <Button
                 icon="cancel"
