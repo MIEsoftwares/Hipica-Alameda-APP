@@ -138,7 +138,7 @@ export default function SignUpScreen({ navigation }) {
         <KeyboardAvoidingView
           behavior="position"
           enabled
-          contentContainerStyle={styles.inputs}
+          contentContainerStyle={[styles.inputs, {marginBottom: 0}]}
         >
           <View style={styles.inputs}>
             <SegmentedButtons
@@ -154,7 +154,7 @@ export default function SignUpScreen({ navigation }) {
                 {
                   value: "cliente",
                   label: "Cliente",
-                  style: {borderRadius: 8},
+                  style: { borderRadius: 8 },
                 },
                 {
                   value: "professor",
@@ -168,7 +168,7 @@ export default function SignUpScreen({ navigation }) {
                 {
                   value: "admin",
                   label: "Admin",
-                  style: {borderRadius: 8},
+                  style: { borderRadius: 8 },
                 },
               ]}
             />
@@ -235,32 +235,33 @@ export default function SignUpScreen({ navigation }) {
                 <Text children="Li e concordo" style={styles.text} />
               </View>
             </View>
+
+            <Button
+              disabled={
+                cpf === "" ||
+                role === "" ||
+                lgpdTerm === false ||
+                JSON.stringify(cpf).length - 2 < 11
+              }
+              textColor="#FFFFFF"
+              buttonColor="#000000"
+              labelStyle={{ fontSize: 16 }}
+              style={styles.buttonProceed}
+              onPress={() =>
+                tryRegister(
+                  email,
+                  password,
+                  name,
+                  cpf,
+                  phone,
+                  hasHorse,
+                  horseName,
+                  role
+                )
+              }
+              children="Cadastrar"
+            />
           </View>
-          <Button
-            disabled={
-              cpf === "" ||
-              role === "" ||
-              lgpdTerm === false ||
-              JSON.stringify(cpf).length - 2 < 11
-            }
-            textColor="#FFFFFF"
-            buttonColor="#000000"
-            labelStyle={{ fontSize: 16 }}
-            style={styles.buttonProceed}
-            onPress={() =>
-              tryRegister(
-                email,
-                password,
-                name,
-                cpf,
-                phone,
-                hasHorse,
-                horseName,
-                role
-              )
-            }
-            children="Cadastrar"
-          />
         </KeyboardAvoidingView>
       )}
     </SafeAreaView>

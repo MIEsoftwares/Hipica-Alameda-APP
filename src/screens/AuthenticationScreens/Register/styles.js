@@ -4,7 +4,7 @@ import { height, width } from "../../../constants/Dimensions";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: width*0.1,
+    marginTop: height*-0.015,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     gap: height*0.02,
     width: width * 0.83,
-    marginBottom: width * 0.04,
+    marginBottom: height * 0.1,
   },
   buttonProceed: {
     borderRadius: 12,

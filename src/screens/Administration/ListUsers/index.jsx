@@ -54,7 +54,7 @@ export default function ListUsers({navigation}) {
   );
 
   return (
-    <SafeAreaView style={defaultStyles.container}>
+    <SafeAreaView style={defaultStyles.containerWHeader}>
       <Searchbar
         placeholder="Pesquise um usuário"
         theme={{ colors: { elevation: { level3: "white" } } }}
