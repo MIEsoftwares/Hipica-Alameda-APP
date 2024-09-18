@@ -82,7 +82,7 @@ export default function NewAnnouncement({ navigation }) {
         <View style={styles.modal}>
           <Pressable style={styles.pressable} onPress={() => setModalVisibility(false)}/>
           <View style={styles.form}>
-            <Text style={{fontSize: 26, textAlign: "center"}}>Novo Anúncio</Text>
+            <Text style={{fontSize: 26, textAlign: "center"}}>Novo Comunicado</Text>
             <DefButton style={{alignSelf:"center"}}
               children="Selecione sua imagem"
             />
@@ -206,7 +206,7 @@ export default function NewAnnouncement({ navigation }) {
   return (
     <SafeAreaView style={defaultStyles.container}>
       <Searchbar
-        placeholder="Pesquise um usuário"
+        placeholder="Pesquise um comunicado"
         theme={{ colors: { elevation: { level3: "white" } } }}
         style={{ borderWidth: 1, borderRadius: 20 }}
         value={searchQuery}
