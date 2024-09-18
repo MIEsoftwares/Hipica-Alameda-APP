@@ -204,7 +204,7 @@ export default function NewAnnouncement({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={defaultStyles.container}>
+    <SafeAreaView style={defaultStyles.containerWHeader}>
       <Searchbar
         placeholder="Pesquise um comunicado"
         theme={{ colors: { elevation: { level3: "white" } } }}

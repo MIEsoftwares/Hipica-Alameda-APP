@@ -46,7 +46,7 @@ export default function EditUsers({ route, navigation }) {
 
   return (
     <SafeAreaView
-      style={[defaultStyles.container, { backgroundColor: "white" }]}
+      style={[defaultStyles.containerWHeader, { backgroundColor: "white" }]}
     >
       <Card style={styles.card}>
         <Card.Content style={styles.cardContent}>
