@@ -29,14 +29,14 @@ export default function Home({ navigation }) {
                 try {
                     const { data, error } = await supabase
                         .from('comunicados')
-                        .select('id, titulo, descricao, data_evento, link_externo');
+                        .select('id, titulo, descricao, data_evento, link_externo, imagem');
 
                     if (error) {
                         throw error;
                     }
 
                     setAnnouncements(data);
-                    setFilteredAnnouncements(data); // Set filtered announcements initially
+                    setFilteredAnnouncements(data);
                 } catch (error) {
                     console.error('Erro ao buscar dados:', error.message);
                 } finally {
@@ -71,9 +71,11 @@ export default function Home({ navigation }) {
         <View style={{ marginVertical: height*0.002 }}>
             <AnnouncementCard
                 admin={false}
-                title={item.titulo} 
+                title={item.titulo}
                 description={item.descricao}
                 event_date={item.data_evento}
+                imagem={item.imagem}
+                bucket="Announcement-Images"
                 onPress={() => {setModalVisibility(true); setTitle(item.titulo); setDescription(item.descricao); setData(item.data_evento)}}
             />
         </View>

@@ -48,7 +48,27 @@ const styles = StyleSheet.create({
         position: "absolute", 
         borderRadius: 16,
         gap: 16,
-    }
+    },
+    photoMethodButton: {
+        width: width * 0.25,
+        height: height * 0.12,
+        borderRadius: 15,
+        justifyContent: "center",
+        alignItems: "center",
+        elevation: 5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    },
+    photoMethodForm: {
+        gap: 20,
+        flexDirection: "row",
+        justifyContent: "space-around",
+    },
 })
 
 export default styles

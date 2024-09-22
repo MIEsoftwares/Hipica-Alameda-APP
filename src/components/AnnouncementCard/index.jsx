@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Pressable, Image, Text } from "react-native";
 import styles from "./styles";
 import Teste from "../../assets/images/logo_default_card.png";
 import { IconButton, MD3Colors } from "react-native-paper";
 import { height } from "../../constants/Dimensions";
+import supabase from "../../../database/SupabaseConfig";
 
 // Função para formatar a data e o horário
 const formatDateTime = (date) => {
@@ -26,10 +27,15 @@ const formatDateTime = (date) => {
 export default function AnnouncementCard(props) {
   const { formattedDate, formattedTime } = formatDateTime(props.event_date);
 
+    const getPublicUrl = () => {
+      const { data } = supabase.storage.from(props.bucket).getPublicUrl(props.imagem);
+      return data.publicUrl;
+    }
+
   return (
     <Pressable style={styles.container} onPress={props.onPress}>
       <View style={styles.imageView}>
-        <Image source={Teste} style={styles.image} />
+        <Image source={props.imagem ? { uri: getPublicUrl()} : Teste} style={styles.image} />
       </View>
       <View style={styles.infos}>
         <Text
