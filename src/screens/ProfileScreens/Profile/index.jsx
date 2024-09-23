@@ -1,6 +1,6 @@
-import { Image, Pressable } from "react-native";
-import { Text, View } from "react-native";
-import { Button, Icon, ActivityIndicator } from "react-native-paper"; // Adicionando o ActivityIndicator
+import { Pressable } from "react-native";
+import { Text, View, Image, ActivityIndicator } from "react-native";
+import { Button, Icon } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import supabase from "../../../../database/SupabaseConfig";
@@ -20,53 +20,46 @@ export default function Profile({ navigation }) {
   });
   const [photoMethodModal, setPhotoMethodModal] = useState(false);
   const [photoUri, setPhotoUri] = useState("");
-  const [loading, setLoading] = useState(true); // Variável de estado para controlar o carregamento
+  const [loading, setLoading] = useState(true); // Estado de carregamento
+
+  const getPublicUrl = (id) => {
+    const { data } = supabase.storage.from("Profile-Images").getPublicUrl(id);
+    return data.publicUrl;
+  };
+
+  const getImage = async () => {
+    try {
+      const image = await AsyncStorage.getItem("profile-icon");
+      if (image !== null) {
+        return image;
+      } else {
+        return "none";
+      }
+    } catch (error) {
+      console.error("Erro ao pegar o valor:", error);
+    }
+  };
+
+  const metadata = async () => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      const image = await getImage();
+      setProfileInfo({
+        nome: user.user_metadata.nome,
+        email: user.email,
+        imagem: getPublicUrl(image),
+      });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false); // Finaliza o carregamento
+    }
+  };
 
   useEffect(() => {
-    const getPublicUrl = (url) => {
-      const { data } = supabase.storage.from("Profile-Images").getPublicUrl(url);
-      return data.publicUrl;
-    };
-
-    const fetchImage = async (id) => {
-      if (!id) return null;
-
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("imagem")
-        .eq("id", id)
-        .single();
-
-      if (error) {
-        console.error("Erro ao buscar a imagem:", error.message);
-        return null;
-      }
-
-      return data.imagem;
-    };
-
-    const fetchMetadata = async () => {
-      try {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-
-        const userImage = await fetchImage(user.id);
-
-        setProfileInfo({
-          nome: user.user_metadata.nome,
-          email: user.email,
-          id: user.id,
-          imagem: getPublicUrl(userImage) || "none",
-        });
-        setLoading(false);
-      } catch (e) {
-        console.error("Erro ao buscar metadados do usuário:", e);
-        setLoading(false);
-      }
-    };
-
-    fetchMetadata();
+    metadata();
   }, []);
 
   const logout = async () => {
@@ -190,15 +183,16 @@ export default function Profile({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-          <ActivityIndicator size="large" color="black" />
-        </View>
+        // Exibe o ActivityIndicator enquanto carrega
+        <ActivityIndicator size="large" color="#000000" />
       ) : (
-       
-        <>
+        <View>
           <View style={styles.profileStylePic}>
             {profileInfo.imagem !== "none" ? (
-              <Image style={styles.profilePic} source={{ uri: profileInfo.imagem }} />
+              <Image
+                style={styles.profilePic}
+                source={{ uri: profileInfo.imagem }}
+              />
             ) : (
               <Ionicons name="person-circle" size={126} />
             )}
@@ -264,7 +258,7 @@ export default function Profile({ navigation }) {
               />
             </Pressable>
           </View>
-        </>
+        </View>
       )}
     </SafeAreaView>
   );
