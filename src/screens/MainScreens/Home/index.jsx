@@ -9,6 +9,7 @@ import supabase from "../../../../database/SupabaseConfig";
 import AnnouncementCard from "../../../components/AnnouncementCard";
 import { Searchbar } from 'react-native-paper';
 import { height, width } from "../../../constants/Dimensions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Home({ navigation }) {
     const [announcements, setAnnouncements] = useState([]);
@@ -65,6 +66,42 @@ export default function Home({ navigation }) {
         } else {
             setFilteredAnnouncements(announcements);
         }
+
+        const saveAsyncStorageProfileIcon = async (id) => {
+            if (!id) return null;
+      
+            const { data, error } = await supabase
+              .from("profiles")
+              .select("imagem")
+              .eq("id", id)
+              .single();
+      
+            if (error) {
+              console.error("Erro ao buscar a imagem:", error.message);
+              return null;
+            }
+      
+            AsyncStorage.setItem('profile-icon', data.imagem)
+            return
+          };
+          const fetchData = async () => {
+            try {
+                const data = await AsyncStorage.getItem('supabase_session');
+                
+                if (data !== null) {
+                    const parsedData = JSON.parse(data);
+                    const id = parsedData.user.id;
+                    return id;
+                } else {
+                    console.log("No session found");
+                }
+            } catch (error) {
+                console.error("Error fetching session:", error);
+            }
+        };
+        
+        const id = fetchData().then((data) => saveAsyncStorageProfileIcon(data));
+
     }, [searchQuery, announcements]);
 
     const renderItem = ({ item }) => (

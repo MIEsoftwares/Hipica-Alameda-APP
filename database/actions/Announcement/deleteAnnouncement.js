@@ -1,4 +1,5 @@
-import supabase from "../SupabaseConfig";
+import supabase from "../../SupabaseConfig";
+
 
 export const deleteAnnouncement = async (id) => {
     try {

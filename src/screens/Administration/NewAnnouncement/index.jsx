@@ -7,9 +7,9 @@ import { Button, Icon, Searchbar } from "react-native-paper";
 import supabase from "../../../../database/SupabaseConfig";
 import defaultStyles from "../../../constants/defaultStyles";
 import styles from "./styles";
-import { insertAnnouncement } from "../../../../database/actions/insertAnnouncement";
-import { updateAnnouncement } from "../../../../database/actions/updateAnnouncement";
-import { deleteAnnouncement } from "../../../../database/actions/deleteAnnouncement";
+import { insertAnnouncement } from "../../../../database/actions/Announcement/insertAnnouncement";
+import { updateAnnouncement } from "../../../../database/actions/Announcement/updateAnnouncement";
+import { deleteAnnouncement } from "../../../../database/actions/Announcement/deleteAnnouncement";
 import DefButton from "../../../components/DefButton";
 import LightGrayInputText from "../../../components/LightGrayInputText";
 import InputSelectDateTime from "../../../components/InputSelectDateTime";
@@ -39,7 +39,6 @@ export default function NewAnnouncement({ navigation }) {
   };
 
   const tryUptadeAnnouncement = async () => {
-    console.log(photoUri)
     try {
       await uploadImage(photoUri, "Announcement-Images").then(async (path) => {
         await update(id, title, description, data, link, path);
@@ -136,6 +135,7 @@ export default function NewAnnouncement({ navigation }) {
           setLink(item.link_externo);
           setUpdateModalVisibility(true);
           setId(item.id);
+          setImage(item.imagem);
         }}
         onIconPress={() => deleteAnn(item.id)}
       />
@@ -168,7 +168,10 @@ export default function NewAnnouncement({ navigation }) {
           <DefButton
             style={{ alignSelf: "center" }}
             children="Selecione sua imagem"
+            onPress={togglePhotoMethodModal}
           />
+
+          {photoMethodModal && openPhotoMethodModal()}
 
           <LightGrayInputText
             label={"Título:"}
@@ -232,7 +235,7 @@ export default function NewAnnouncement({ navigation }) {
       <View style={styles.modal}>
         <Pressable style={styles.pressable} onPress={togglePhotoMethodModal} />
         <View style={styles.form}>
-          {photoUri && <Image source={photoUri} />}
+          {/* {photoUri && <Image source={photoUri} />} */}
           <Text style={{ fontSize: 26, textAlign: "center" }}>
             Selecione a foto
           </Text>
@@ -360,6 +363,7 @@ export default function NewAnnouncement({ navigation }) {
           setDescription(undefined);
           setData(undefined);
           setLink(undefined);
+          setImage(undefined);
         }}
         icon={<Ionicons name="add" size={48} color="#FFFFFF" />}
         style={{
