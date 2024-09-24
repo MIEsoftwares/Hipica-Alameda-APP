@@ -1,4 +1,5 @@
-import supabase from "../SupabaseConfig";
+import supabase from "../../SupabaseConfig"
+
 
 export const updateAnnouncement = async (id, titulo, descricao, data_evento, link_externo, uri) => {
 

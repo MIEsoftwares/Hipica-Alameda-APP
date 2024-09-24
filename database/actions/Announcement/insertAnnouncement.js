@@ -1,4 +1,5 @@
-import supabase from "../SupabaseConfig";
+import supabase from "../../SupabaseConfig";
+
 
 export const insertAnnouncement = async (titulo, desc, created, data_evento, link) => {
 

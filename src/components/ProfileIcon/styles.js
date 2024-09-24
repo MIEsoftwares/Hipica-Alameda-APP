@@ -19,5 +19,11 @@ export default styles = StyleSheet.create({
 //         shadowOpacity: 0.8,
 //         shadowRadius: 2,
 //         elevation: 5,
+    },profileRenderIcon:{
+        width: width*0.13,
+        height: height*0.06,
+        borderRadius: 50,
+        borderWidth: 2,
+        marginTop: 5,
     }
 });
