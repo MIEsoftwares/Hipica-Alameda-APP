@@ -5,6 +5,7 @@ import { height, width } from "../../../constants/Dimensions";
 export default styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: height*-0.015,
         paddingHorizontal: width*0.025,
         justifyContent: "flex-start",
         backgroundColor: "#FFFFFF",
