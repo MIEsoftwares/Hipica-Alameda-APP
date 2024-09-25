@@ -17,7 +17,7 @@ import { height, width } from "../../../constants/Dimensions";
 import * as ImagePicker from "expo-image-picker";
 import uploadImage from "../../../../database/bucket/uploadImage";
 
-export default function NewAnnouncement({ navigation }) {
+export default function NewPlans({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [allItems, setAllItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
@@ -27,10 +27,10 @@ export default function NewAnnouncement({ navigation }) {
   const [link, setLink] = useState();
   const [data, setData] = useState();
   const [id, setId] = useState();
+  const [imagem, setImagem] = useState();
   const [updateModalVisibility, setUpdateModalVisibility] = useState(false);
   const [photoMethodModal, setPhotoMethodModal] = useState(false);
   const [photoUri, setPhotoUri] = useState("");
-
 
   const update = async (id, titulo, desc, data, link, uri) => {
     await updateAnnouncement(id, titulo, desc, data, link, uri);
@@ -45,7 +45,7 @@ export default function NewAnnouncement({ navigation }) {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const togglePhotoMethodModal = () => {
     setPhotoMethodModal(!photoMethodModal);
@@ -76,26 +76,25 @@ export default function NewAnnouncement({ navigation }) {
           setImage(result.assets[0].uri);
         }
       } else {
-      await ImagePicker.requestCameraPermissionsAsync();
-      result = await ImagePicker.launchCameraAsync({
-        cameraType: ImagePicker.CameraType.front,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
+        await ImagePicker.requestCameraPermissionsAsync();
+        result = await ImagePicker.launchCameraAsync({
+          cameraType: ImagePicker.CameraType.front,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 1,
+        });
 
-      if (!result.canceled) {
-        setImage(result.assets[0].uri);
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+        }
       }
-
-    }} catch (error) {
+    } catch (error) {
       alert("erro ao salvar a imagem: " + error);
     }
-    }
+  };
 
-  const newAnnouncement = async (titulo, desc, created, data, link, imagem) => {
-    imagem = await uploadImage(imagem, "Announcement-Images")
-    await insertAnnouncement(titulo, desc, created, data, link, imagem);
+  const newAnnouncement = async (titulo, desc, created, data, link) => {
+    await insertAnnouncement(titulo, desc, created, data, link);
     fetchItems();
   };
 
@@ -212,8 +211,7 @@ export default function NewAnnouncement({ navigation }) {
                   description,
                   new Date().toISOString(),
                   data,
-                  link,
-                  photoUri
+                  link
                 );
                 fetchItems();
                 setModalVisibility(false);
