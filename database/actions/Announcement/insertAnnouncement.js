@@ -1,7 +1,7 @@
 import supabase from "../../SupabaseConfig";
 
 
-export const insertAnnouncement = async (titulo, desc, created, data_evento, link) => {
+export const insertAnnouncement = async (titulo, desc, created, data_evento, link, imagem) => {
 
     try{
       const { data, error } = await supabase
@@ -11,7 +11,8 @@ export const insertAnnouncement = async (titulo, desc, created, data_evento, lin
         descricao: desc,
         created_at: created,
         data_evento: data_evento,
-        link_externo: link
+        link_externo: link,
+        imagem: imagem
       },])
       .select()
   
