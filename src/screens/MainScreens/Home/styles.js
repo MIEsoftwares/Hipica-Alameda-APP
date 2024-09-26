@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
-        marginTop:"30"
     },
     image: {
         width: width*0.7,

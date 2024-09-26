@@ -6,7 +6,7 @@ export default styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         width: width * 0.9,
-        paddingBottom:20,
+        paddingBottom: 10,
         borderRadius: 20,
         backgroundColor: "white",
         shadowColor: '#000',
@@ -19,17 +19,14 @@ export default styles = StyleSheet.create({
     },
     imageView: {
         width: width*0.3,
-        borderTopLeftRadius: 20,
-        borderBottomLeftRadius: 20,
-        aspectRatio: 16 / 9,
+        height: height*0.15,
         alignSelf: "center"
     },
     image: {
         width: "100%",
         height: "100%",
         resizeMode: "stretch",
-        borderTopLeftRadius: 20,
-        borderBottomLeftRadius: 20,
+        borderRadius: 8
     },
     infos: {
         width: "65%",

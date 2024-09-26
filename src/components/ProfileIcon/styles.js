@@ -24,6 +24,5 @@ export default styles = StyleSheet.create({
         height: height*0.06,
         borderRadius: 50,
         borderWidth: 2,
-        marginTop: 5,
     }
 });

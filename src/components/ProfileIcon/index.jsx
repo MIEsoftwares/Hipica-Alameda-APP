@@ -17,9 +17,8 @@ export default function ProfileIcon({navigation = useNavigation()}) {
         return data.publicUrl;
     };
     
-    AsyncStorage.getItem("profile-icon").then((data) => getPublicUrl(data)).then((data) => setProfile(data))
-
-
+    AsyncStorage.getItem("profile-icon").then((data) => data !== "none" && getPublicUrl(data)).then((data) => setProfile(data))
+    
     return (
         <TouchableRipple style={styles.profileIcon}
             onPress={() => {
