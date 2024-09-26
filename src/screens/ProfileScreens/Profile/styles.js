@@ -3,13 +3,6 @@ import { height, width } from "../../../constants/Dimensions";
 
 
 export default styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: height*-0.015,
-        paddingHorizontal: width*0.025,
-        justifyContent: "flex-start",
-        backgroundColor: "#FFFFFF",
-    },
     profileStylePic: {
         flexDirection: "column",
         alignItems: "center",
@@ -50,7 +43,8 @@ export default styles = StyleSheet.create({
         gap: 20,
         flexDirection: "row",
         justifyContent: "space-around",
-    },    modal:{
+    },
+    modal:{
         position: "absolute",
         bottom: 0,
         top: 0,

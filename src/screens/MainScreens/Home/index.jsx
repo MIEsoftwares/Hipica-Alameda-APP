@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, Image, View, ActivityIndicator, Pressable } from "react-native";
+import { FlatList, Image, View, ActivityIndicator, Pressable, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import ProfileIcon from "../../../components/ProfileIcon"; 
@@ -10,6 +10,7 @@ import AnnouncementCard from "../../../components/AnnouncementCard";
 import { Searchbar } from 'react-native-paper';
 import { height, width } from "../../../constants/Dimensions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import getPublicUrl from "../../../../database/bucket/getPublicUrl";
 
 export default function Home({ navigation }) {
     const [announcements, setAnnouncements] = useState([]);
@@ -18,9 +19,26 @@ export default function Home({ navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [title, setTitle] = useState()
     const [description, setDescription] = useState()
+    const [imagem, setImagem] = useState()
     const [link, setLink] = useState()
     const [data, setData] = useState()
     const [modalVisibility, setModalVisibility] = useState(false)
+    const [profile, setProfile] = useState("none");
+
+  useEffect(() => {
+    const fetchProfileIcon = async () => {
+      const icon = await AsyncStorage.getItem("profile-icon");
+
+      if (icon === "none" || !icon) {
+        setProfile("none");
+      } else {
+        const publicUrl = getPublicUrl("Profile-Images", icon);
+        setProfile(publicUrl);
+      }
+    };
+
+    fetchProfileIcon();
+  });
 
     const isFocused = useIsFocused();
 
@@ -113,7 +131,7 @@ export default function Home({ navigation }) {
                 event_date={item.data_evento}
                 imagem={item.imagem}
                 bucket="Announcement-Images"
-                onPress={() => {setModalVisibility(true); setTitle(item.titulo); setDescription(item.descricao); setData(item.data_evento)}}
+                onPress={() => {setModalVisibility(true); setTitle(item.titulo); setDescription(item.descricao); setData(item.data_evento); setImagem(item.imagem); setLink(item.link); }}
             />
         </View>
     );
@@ -138,10 +156,15 @@ export default function Home({ navigation }) {
             <View style={styles.modal}>
                 <Pressable style={styles.pressable} onPress={() => setModalVisibility(false)}/>
                 <View style={styles.form}>
-                    <Text style={{fontWeight: "bold", fontSize: 18, textAlign: "center"}}>{title}</Text>
-                    <View style={{width:"100%", height:"1%", backgroundColor:"black", borderCurve: 5}}/>
-                    <Text>{description}</Text>
-                    <Text>{formattedDate(data)}</Text>
+                    <ScrollView>
+                        <View style={{gap: 16}}>
+                            {imagem !== null ? (<View style={{height: height*0.15, width: "80%", alignSelf: "center"}}><Image style={{ resizeMode: "contain", width: "100%", height: "100%" }} source={{uri: getPublicUrl("Announcement-Images", imagem)}}/></View>) : <Text style={{fontWeight: "bold", fontSize: 18, textAlign: "center"}}>{title}</Text>}
+                            <View style={{width:"100%", height: 1, backgroundColor:"black", borderCurve: 5}}/>
+                            {imagem !== null && <Text style={{fontWeight: "bold", fontSize: 18, textAlign: "center"}}>{title}</Text>}
+                            <Text>{description}</Text>
+                            {formattedDate(data) && <Text>{formattedDate(data)}</Text>}
+                        </View>
+                    </ScrollView>
                 </View>
             </View>
         )
@@ -157,7 +180,7 @@ export default function Home({ navigation }) {
                     onChangeText={setSearchQuery}
                     value={searchQuery}
                 />
-                <ProfileIcon source={require('../../../assets/images/Logo1.png')} />
+                <ProfileIcon profile={profile} source={require('../../../assets/images/Logo1.png')} />
             </View>
             {modalVisibility && 
                         openModal()}

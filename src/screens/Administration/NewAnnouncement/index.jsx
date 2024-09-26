@@ -16,6 +16,7 @@ import InputSelectDateTime from "../../../components/InputSelectDateTime";
 import { height, width } from "../../../constants/Dimensions";
 import * as ImagePicker from "expo-image-picker";
 import uploadImage from "../../../../database/bucket/uploadImage";
+import getPublicUrl from "../../../../database/bucket/getPublicUrl";
 
 export default function NewAnnouncement({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,7 +32,6 @@ export default function NewAnnouncement({ navigation }) {
   const [photoMethodModal, setPhotoMethodModal] = useState(false);
   const [photoUri, setPhotoUri] = useState("");
 
-
   const update = async (id, titulo, desc, data, link, uri) => {
     await updateAnnouncement(id, titulo, desc, data, link, uri);
     fetchItems();
@@ -45,7 +45,7 @@ export default function NewAnnouncement({ navigation }) {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const togglePhotoMethodModal = () => {
     setPhotoMethodModal(!photoMethodModal);
@@ -76,25 +76,25 @@ export default function NewAnnouncement({ navigation }) {
           setImage(result.assets[0].uri);
         }
       } else {
-      await ImagePicker.requestCameraPermissionsAsync();
-      result = await ImagePicker.launchCameraAsync({
-        cameraType: ImagePicker.CameraType.front,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
+        await ImagePicker.requestCameraPermissionsAsync();
+        result = await ImagePicker.launchCameraAsync({
+          cameraType: ImagePicker.CameraType.front,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 1,
+        });
 
-      if (!result.canceled) {
-        setImage(result.assets[0].uri);
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+        }
       }
-
-    }} catch (error) {
+    } catch (error) {
       alert("erro ao salvar a imagem: " + error);
     }
-    }
+  };
 
   const newAnnouncement = async (titulo, desc, created, data, link, imagem) => {
-    imagem = await uploadImage(imagem, "Announcement-Images")
+    imagem = await uploadImage(imagem, "Announcement-Images");
     await insertAnnouncement(titulo, desc, created, data, link, imagem);
     fetchItems();
   };
@@ -165,14 +165,19 @@ export default function NewAnnouncement({ navigation }) {
           <Text style={{ fontSize: 26, textAlign: "center" }}>
             Novo Comunicado
           </Text>
+          {photoUri !== undefined && (
+            <View style={styles.selectedPhotoContainer}>
+              <Image
+                style={{ resizeMode: "contain", width: "100%", height: "100%" }}
+                source={{ uri: photoUri }}
+              />
+            </View>
+          )}
           <DefButton
             style={{ alignSelf: "center" }}
             children="Selecione sua imagem"
             onPress={togglePhotoMethodModal}
           />
-
-          {photoMethodModal && openPhotoMethodModal()}
-
           <LightGrayInputText
             label={"Título:"}
             action={setTitle}
@@ -233,10 +238,12 @@ export default function NewAnnouncement({ navigation }) {
   }
   function openPhotoMethodModal() {
     return (
-      <View style={styles.modal}>
-        <Pressable style={styles.pressable} onPress={togglePhotoMethodModal} />
+      <View style={[styles.modal, { zIndex: 10 }]}>
+        <Pressable
+          style={[styles.pressable]}
+          onPress={togglePhotoMethodModal}
+        />
         <View style={styles.form}>
-          {/* {photoUri && <Image source={photoUri} />} */}
           <Text style={{ fontSize: 26, textAlign: "center" }}>
             Selecione a foto
           </Text>
@@ -280,20 +287,34 @@ export default function NewAnnouncement({ navigation }) {
       <View style={styles.modal}>
         <Pressable
           style={styles.pressable}
-          onPress={() => setModalVisibility(false)}
+          onPress={() => setUpdateModalVisibility(false)}
         />
         <View style={styles.form}>
           <Text style={{ fontSize: 26, textAlign: "center" }}>
             Editar Anúncio
           </Text>
+          {photoUri !== null && (
+            <View style={styles.selectedPhotoContainer}>
+              <Image
+                style={{ resizeMode: "contain", width: "100%", height: "100%" }}
+                source={{
+                  uri:
+                    photoUri[0] === "f" &&
+                    photoUri[1] === "i" &&
+                    photoUri[2] === "l" &&
+                    photoUri[3] === "e"
+                      ? photoUri
+                      : getPublicUrl("Announcement-Images", photoUri),
+                }}
+              />
+            </View>
+          )}
           <DefButton
             children="Selecione sua imagem"
             labelStyle={{ fontSize: 18 }}
             style={{ alignSelf: "center", marginTop: 4 }}
             onPress={togglePhotoMethodModal}
           />
-
-          {photoMethodModal && openPhotoMethodModal()}
 
           <LightGrayInputText
             label={"Título:"}
@@ -350,6 +371,7 @@ export default function NewAnnouncement({ navigation }) {
 
   return (
     <SafeAreaView style={defaultStyles.containerWHeader}>
+      {photoMethodModal && openPhotoMethodModal()}
       <Searchbar
         placeholder="Pesquise um comunicado"
         theme={{ colors: { elevation: { level3: "white" } } }}
