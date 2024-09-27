@@ -10,6 +10,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from "expo-image-picker";
 import uploadImage from "../../../../database/bucket/uploadImage";
 import updateProfilePic from "../../../../database/actions/Profile/updateProfilePic";
+import getPublicUrl from "../../../../database/bucket/getPublicUrl";
+import defaultStyles from "../../../constants/defaultStyles";
 
 export default function Profile({ navigation }) {
   const [profileInfo, setProfileInfo] = useState({
@@ -22,16 +24,12 @@ export default function Profile({ navigation }) {
   const [photoUri, setPhotoUri] = useState("");
   const [loading, setLoading] = useState(true); // Estado de carregamento
 
-  const getPublicUrl = (id) => {
-    const { data } = supabase.storage.from("Profile-Images").getPublicUrl(id);
-    return data.publicUrl;
-  };
-
-  const getImage = async () => {
+  const getImagem = async () => {
     try {
       const image = await AsyncStorage.getItem("profile-icon");
-      if (image !== null) {
+      if (image !== "none") {
         return image;
+        
       } else {
         return "none";
       }
@@ -45,11 +43,11 @@ export default function Profile({ navigation }) {
       const {
         data: { user },
       } = await supabase.auth.getUser();
-      const image = await getImage();
+      const image = await getImagem();
       setProfileInfo({
         nome: user.user_metadata.nome,
         email: user.email,
-        imagem: getPublicUrl(image),
+        imagem: image !== "none" ? getPublicUrl("Profile-Images", image) : image,
       });
     } catch (e) {
       console.error(e);
@@ -181,11 +179,9 @@ export default function Profile({ navigation }) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      {loading ? (
-        // Exibe o ActivityIndicator enquanto carrega
-        <ActivityIndicator size="large" color="#000000" />
-      ) : (
+    <SafeAreaView style={defaultStyles.containerWHeader}>
+      {photoMethodModal && openPhotoMethodModal()}
+      {loading ? (<ActivityIndicator size="large" color="#000000" />) : (
         <View>
           <View style={styles.profileStylePic}>
             {profileInfo.imagem !== "none" ? (
@@ -202,9 +198,6 @@ export default function Profile({ navigation }) {
               onPress={togglePhotoMethodModal}
             />
           </View>
-
-          {photoMethodModal && openPhotoMethodModal()}
-
           <View>
             <Pressable
               onPress={() => navigation.navigate("EmBreve")}

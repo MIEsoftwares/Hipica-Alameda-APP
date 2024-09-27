@@ -18,6 +18,7 @@ import NewAnnouncement from "../../screens/Administration/NewAnnouncement";
 import { en, pt, registerTranslation } from 'react-native-paper-dates'
 import Planos from "../../screens/ProfileScreens/Planos";
 import RealizarPagamento from "../../screens/ProfileScreens/RealizarPagamento";
+import NewPlan from "../../screens/Administration/NewPlans";
 import 'react-native-get-random-values';
 registerTranslation('en', en)
 registerTranslation('pt', pt)
@@ -45,6 +46,7 @@ export default function Auth() {
         <Stack.Screen name="ListUsers" component={ListUsers} options={{title: "Listar Usuários", headerTitleAlign: "center",  }}/>
         <Stack.Screen name="EditUsers" component={EditUsers} options={{title: "Editar Usuário", headerTitleAlign: "center", }}/>
         <Stack.Screen name="NewAnnouncement" component={NewAnnouncement} options={{title: "Comunicados", headerTitleAlign: "center", }}/>
+        <Stack.Screen name="NewPlan" component={NewPlan} options={{title: "Planos", headerTitleAlign: "center", }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

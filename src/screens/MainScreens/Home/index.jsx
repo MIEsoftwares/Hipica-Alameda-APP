@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, Image, View, ActivityIndicator, Pressable } from "react-native";
+import { FlatList, Image, View, ActivityIndicator, Pressable, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import ProfileIcon from "../../../components/ProfileIcon"; 
-import { Text } from "react-native-paper";
 import { useIsFocused } from "@react-navigation/native";
 import supabase from "../../../../database/SupabaseConfig";
 import AnnouncementCard from "../../../components/AnnouncementCard";
 import { Searchbar } from 'react-native-paper';
 import { height, width } from "../../../constants/Dimensions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import getPublicUrl from "../../../../database/bucket/getPublicUrl";
 
 export default function Home({ navigation }) {
     const [announcements, setAnnouncements] = useState([]);
@@ -18,9 +18,26 @@ export default function Home({ navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [title, setTitle] = useState()
     const [description, setDescription] = useState()
+    const [imagem, setImagem] = useState()
     const [link, setLink] = useState()
     const [data, setData] = useState()
     const [modalVisibility, setModalVisibility] = useState(false)
+    const [profile, setProfile] = useState("none");
+
+  useEffect(() => {
+    const fetchProfileIcon = async () => {
+      const icon = await AsyncStorage.getItem("profile-icon");
+
+      if (icon === "none" || !icon) {
+        setProfile("none");
+      } else {
+        const publicUrl = getPublicUrl("Profile-Images", icon);
+        setProfile(publicUrl);
+      }
+    };
+
+    fetchProfileIcon();
+  });
 
     const isFocused = useIsFocused();
 
@@ -113,7 +130,7 @@ export default function Home({ navigation }) {
                 event_date={item.data_evento}
                 imagem={item.imagem}
                 bucket="Announcement-Images"
-                onPress={() => {setModalVisibility(true); setTitle(item.titulo); setDescription(item.descricao); setData(item.data_evento)}}
+                onPress={() => {setModalVisibility(true); setTitle(item.titulo); setDescription(item.descricao); setData(item.data_evento); setImagem(item.imagem); setLink(item.link); }}
             />
         </View>
     );
@@ -138,10 +155,33 @@ export default function Home({ navigation }) {
             <View style={styles.modal}>
                 <Pressable style={styles.pressable} onPress={() => setModalVisibility(false)}/>
                 <View style={styles.form}>
-                    <Text style={{fontWeight: "bold", fontSize: 18, textAlign: "center"}}>{title}</Text>
-                    <View style={{width:"100%", height:"1%", backgroundColor:"black", borderCurve: 5}}/>
-                    <Text>{description}</Text>
-                    <Text>{formattedDate(data)}</Text>
+                    <ScrollView>
+                        <View style={{gap: 16}}>
+                            {imagem !== null ? (
+                                <View style={{flexDirection: "row", justifyContent: "space-evenly"}}>
+                                    <View style={{height: height*0.15, width: "50%", alignSelf: "flex-start"}}>
+                                        <Image style={{height: "100%", resizeMode: "stretch", borderRadius: 8, borderWidth: 1, borderColor: "#f5f5f5" }} source={{uri: getPublicUrl("Announcement-Images", imagem)}}/>
+                                    </View>
+                                    <View style={{ flexShrink: 1, justifyContent: "center", height: height*0.15}}>
+                                        <Text style={{position: "absolute", zIndex: 5,fontWeight: "bold", fontSize: 18, color: "#fff", backgroundColor: "#000", alignSelf: "center", paddingHorizontal: 16, paddingVertical: 4, borderRadius: 8, textAlign: "center"}}>
+                                            {title}
+                                        </Text>
+                                        <View style={{height: "100%" }}>
+                                            {formattedDate(data) && <Text style={{marginTop: "auto"}}>{formattedDate(data)}</Text>}
+                                        </View>
+                                    </View>
+                                </View>
+                            ) : 
+                                <Text style={{fontWeight: "bold", fontSize: 18, color: "#fff", backgroundColor: "#000", alignSelf: "center", paddingHorizontal: 16, paddingVertical: 4, borderRadius: 8}}>
+                                    {title}
+                                </Text>
+                            }
+                           
+                                <View style={{backgroundColor: "#f5f5f5", width: "90%", alignSelf: "center", paddingVertical: 8, borderRadius: 8}}>
+                                    <Text style={{ minWidth: "85%", maxWidth: "80%", alignSelf: "center"}}>{description}</Text>
+                                </View>
+                        </View>
+                    </ScrollView>
                 </View>
             </View>
         )
@@ -157,7 +197,7 @@ export default function Home({ navigation }) {
                     onChangeText={setSearchQuery}
                     value={searchQuery}
                 />
-                <ProfileIcon source={require('../../../assets/images/Logo1.png')} />
+                <ProfileIcon profile={profile} source={require('../../../assets/images/Logo1.png')} />
             </View>
             {modalVisibility && 
                         openModal()}

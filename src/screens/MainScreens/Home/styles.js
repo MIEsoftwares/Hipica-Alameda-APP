@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
-        marginTop:"30"
     },
     image: {
         width: width*0.7,
@@ -46,6 +45,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     form: {
+        maxHeight: "95%",
         width: width*0.85, 
         paddingVertical: 20, 
         backgroundColor: "#ffffff", 
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         paddingTop: height*0.02, 
         zIndex: 10, 
         position: "absolute", 
-        borderRadius: 16,
+        borderRadius: 8,
         gap: 16,
     },
     pressable: {

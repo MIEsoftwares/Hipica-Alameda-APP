@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     },
     form: {
         width: width*0.85, 
-        paddingVertical: 20, 
+        paddingVertical: 20,
         backgroundColor: "#ffffff", 
         paddingHorizontal: width*0.025, 
         paddingTop: height*0.02, 
@@ -69,6 +69,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
     },
+    selectedPhotoContainer: {
+        height: height*0.15, 
+        width: "80%", 
+        alignSelf: "center"
+    }
 })
 
 export default styles

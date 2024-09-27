@@ -17,7 +17,7 @@ import { height, width } from "../../../constants/Dimensions";
 import * as ImagePicker from "expo-image-picker";
 import uploadImage from "../../../../database/bucket/uploadImage";
 
-export default function NewPlans({ navigation }) {
+export default function NewPlan({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [allItems, setAllItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);

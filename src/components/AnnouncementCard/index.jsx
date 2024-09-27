@@ -39,7 +39,7 @@ export default function AnnouncementCard(props) {
       </View>
       <View style={styles.infos}>
         <Text
-          style={{ fontSize: 20, color: "#545454" }}
+          style={{ fontSize: 20, color: "#fff", backgroundColor: "#000", alignSelf: "flex-start", paddingHorizontal: 16, paddingVertical: 4, borderRadius: 8, fontWeight: "bold" }}
           children={props.title || "Titulo"}
         />
         <Text
