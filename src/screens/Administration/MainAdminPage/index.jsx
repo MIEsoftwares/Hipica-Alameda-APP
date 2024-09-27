@@ -37,6 +37,16 @@ export default function MainAdminPage ({navigation}){
                     style={{backgroundColor:"#ffffff", borderRadius: 14}}
                 />
             </Card>
+
+            <Card onPress={() => navigation.navigate("NewPlan")} elevation={2} style={{marginBottom: height*0.015}}>
+                <Card.Title
+                    titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
+                    title="Planos"
+                    left={(props) => <Ionicons name="add" size={40}/>}
+                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("NewAnnouncement")} rippleColor="transparent"/>}
+                    style={{backgroundColor:"#ffffff", borderRadius: 14}}
+                />
+            </Card>
             
         </SafeAreaView>
     )
