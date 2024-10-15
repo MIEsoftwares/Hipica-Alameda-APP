@@ -30,7 +30,7 @@ Este é um aplicativo desenvolvido em **React Native** voltado para **cobrança 
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/nome-do-repositorio.git
+   git clone https://github.com/MIEsoftwares/Hipica-Alameda-App.git
     ```
 
 2. Instale as dependências:
