@@ -27,7 +27,6 @@ export default function RealizarPagamento({ route, navigation }) {
 
         const pagamento = await paymentCreate(plano.price, plano.desc, userEmail, config.accessToken);
         setQrCodeValue(pagamento.point_of_interaction.transaction_data.qr_code);
-        console.log(pagamento.point_of_interaction.transaction_data.qr_code);
         
         setPaymentId(pagamento.id);
 
@@ -49,11 +48,9 @@ export default function RealizarPagamento({ route, navigation }) {
           setPaymentStatus(payment.status);
 
           if (payment.status === 'approved') {
-            // Navegar para tela de sucesso se o pagamento for aprovado
             console.log("Ta pago!");
             
           } else if (payment.status === 'rejected') {
-            // Navegar para tela de falha se o pagamento for rejeitado
             console.log("Deu merda!");
             
           }
@@ -61,7 +58,6 @@ export default function RealizarPagamento({ route, navigation }) {
       }
     };
 
-    // Verificar o status do pagamento a cada 5 segundos (5000 milissegundos)
     const interval = setInterval(() => {
       checkPayment();
     }, 5000);

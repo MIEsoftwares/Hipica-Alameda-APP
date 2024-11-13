@@ -33,5 +33,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
-
+# Supabase
 database/SupabaseConfig.js
+
+# MercadoPago
+database/MercadoPagoData.json
