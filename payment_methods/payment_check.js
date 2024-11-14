@@ -12,6 +12,7 @@ export default async function payment_check(paymentId) {
         });
 
         const data = await response.json();
+        console.log(data)
         return data;
     } catch (error) {
         console.error('Erro ao verificar o status do pagamento:', error);

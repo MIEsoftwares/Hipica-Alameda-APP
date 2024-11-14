@@ -21,6 +21,7 @@ export default function SignUpScreen({ navigation }) {
   const [lgpdTerm, setLgpdTerm] = useState(false);
   const [role, setRole] = useState("");
   const [page, setPage] = useState(0);
+  const [tipoDeAula, setTipoDeAula] = useState("abaco");
 
   const [showError, setShowError] = useState({
     render: false,
@@ -35,7 +36,8 @@ export default function SignUpScreen({ navigation }) {
     phone,
     hasHorse,
     horseName,
-    role
+    role,
+    tipoDeAula
   ) => {
     const error = await signUpWithEmail(
       email,
@@ -45,7 +47,8 @@ export default function SignUpScreen({ navigation }) {
       phone,
       hasHorse,
       horseName,
-      role
+      role,
+      tipoDeAula
     );
 
     if (error.error) {

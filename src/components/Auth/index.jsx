@@ -20,6 +20,8 @@ import Planos from "../../screens/ProfileScreens/Planos";
 import RealizarPagamento from "../../screens/ProfileScreens/RealizarPagamento";
 import NewPlan from "../../screens/Administration/NewPlans";
 import 'react-native-get-random-values';
+import RegisterBySheet from "../../screens/Administration/RegisterBySheet";
+
 registerTranslation('en', en)
 registerTranslation('pt', pt)
 
@@ -43,6 +45,7 @@ export default function Auth() {
         <Stack.Screen name="Planos" component={Planos} options={{headerTitleAlign: "center", }}/>
         <Stack.Screen name="RealizarPagamento" component={RealizarPagamento} options={{title: "Realizar Pagamento", headerTitleAlign: "center", }}/>
         <Stack.Screen name="EmBreve" component={EmBreve} />
+        <Stack.Screen name="RegisterBySheet" component={RegisterBySheet} options={{title: "Adicionar Usuário", headerTitleAlign: "center", }} />
         <Stack.Screen name="ListUsers" component={ListUsers} options={{title: "Listar Usuários", headerTitleAlign: "center",  }}/>
         <Stack.Screen name="EditUsers" component={EditUsers} options={{title: "Editar Usuário", headerTitleAlign: "center", }}/>
         <Stack.Screen name="NewAnnouncement" component={NewAnnouncement} options={{title: "Comunicados", headerTitleAlign: "center", }}/>

@@ -12,8 +12,8 @@ export default function MainAdminPage ({navigation}){
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Adicionar Usuário"
-                    left={(props) => <Ionicons name="person-add" size={32}/>}
-                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("Register")} rippleColor="transparent"/>}
+                    left={(props) => <Ionicons name="person-add" size={32}/> }
+                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("Register")} rippleColor="transparent"/> }
                     style={{backgroundColor:"#ffffff", borderRadius: 14}}
                 />
             </Card>
@@ -22,8 +22,8 @@ export default function MainAdminPage ({navigation}){
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Listar Usuários"
-                    left={(props) => <Ionicons name="id-card-outline" size={40}/>}
-                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("ListUsers")} rippleColor="transparent"/>}
+                    left={(props) => <Ionicons name="id-card-outline" size={40}/> }
+                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("ListUsers")} rippleColor="transparent"/> }
                     style={{backgroundColor:"#ffffff", borderRadius: 14}}
                 />
             </Card>
@@ -32,8 +32,8 @@ export default function MainAdminPage ({navigation}){
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Comunicados"
-                    left={(props) => <Ionicons name="add" size={40}/>}
-                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("NewAnnouncement")} rippleColor="transparent"/>}
+                    left={(props) => <Ionicons name="add" size={40}/> }
+                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("NewAnnouncement")} rippleColor="transparent"/> }
                     style={{backgroundColor:"#ffffff", borderRadius: 14}}
                 />
             </Card>
@@ -42,8 +42,19 @@ export default function MainAdminPage ({navigation}){
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Planos"
-                    left={(props) => <Ionicons name="add" size={40}/>}
-                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("NewAnnouncement")} rippleColor="transparent"/>}
+                    left={(props) => <Ionicons name="add" size={40}/> }
+                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("NewPlan")} rippleColor="transparent"/> }
+                    style={{backgroundColor:"#ffffff", borderRadius: 14}}
+                />
+            </Card>
+
+            {/* Novo card para registrar por planilha */}
+            <Card onPress={() => navigation.navigate("RegisterBySheet")} elevation={2} style={{marginBottom: height*0.015}}>
+                <Card.Title
+                    titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
+                    title="Registrar por Planilha"
+                    left={(props) => <Ionicons name="document-attach-outline" size={40}/> }
+                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("RegisterBySheet")} rippleColor="transparent"/> }
                     style={{backgroundColor:"#ffffff", borderRadius: 14}}
                 />
             </Card>
