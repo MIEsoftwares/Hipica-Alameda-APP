@@ -12,17 +12,17 @@ export default function RegisterBySheet() {
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({
         type: [
-            "text/csv", 
-            "application/vnd.ms-excel", // Para arquivos Excel mais antigos (.xls)
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Para arquivos Excel (.xlsx)
+            "text/comma-separated-values",
+            "text/csv",
+            "application/csv",
         ],
       copyToCacheDirectory: true,
     });
 
-    if (result.type === "success") {
-      setFileName(result.name);
-      setFileUri(result.uri);
-      console.log("Arquivo selecionado:", result.name, result.uri); // Depuração
+    if (result.size !== 0) {
+      setFileName(result.assets[0].name);
+      setFileUri(result.assets[0].uri);
+      console.log("Arquivo selecionado:", result.assets[0].name, result.assets[0].uri); // Depuração
     } else {
       setFileName(null);
       setFileUri(null);
@@ -54,7 +54,8 @@ export default function RegisterBySheet() {
                 role,
                 tipoDeAula,
               } = user;
-
+              console.log(user);
+              
               // Chama a função para registrar o usuário
               signUpWithEmail(
                 email,
@@ -62,7 +63,7 @@ export default function RegisterBySheet() {
                 name,
                 cpf,
                 phone,
-                hasHorse === "true",
+                hasHorse,
                 horseName,
                 role,
                 tipoDeAula
