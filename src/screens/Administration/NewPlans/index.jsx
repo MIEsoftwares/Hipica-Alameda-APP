@@ -7,15 +7,13 @@ import { Button, Icon, Searchbar } from "react-native-paper";
 import supabase from "../../../../database/SupabaseConfig";
 import defaultStyles from "../../../constants/defaultStyles";
 import styles from "./styles";
-import { insertAnnouncement } from "../../../../database/actions/Announcement/insertAnnouncement";
-import { updateAnnouncement } from "../../../../database/actions/Announcement/updateAnnouncement";
-import { deleteAnnouncement } from "../../../../database/actions/Announcement/deleteAnnouncement";
 import DefButton from "../../../components/DefButton";
 import LightGrayInputText from "../../../components/LightGrayInputText";
 import InputSelectDateTime from "../../../components/InputSelectDateTime";
 import { height, width } from "../../../constants/Dimensions";
-import * as ImagePicker from "expo-image-picker";
-import uploadImage from "../../../../database/bucket/uploadImage";
+import { deletePlans } from "../../../../database/actions/Plans/deletePlans";
+import { insertPlans } from "../../../../database/actions/Plans/insertPlans";
+import { updatePlans } from "../../../../database/actions/Plans/updatePlans";
 
 export default function NewPlan({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,87 +22,24 @@ export default function NewPlan({ navigation }) {
   const [modalVisibility, setModalVisibility] = useState(false);
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
-  const [link, setLink] = useState();
-  const [data, setData] = useState();
-  const [id, setId] = useState();
-  const [imagem, setImagem] = useState();
-  const [updateModalVisibility, setUpdateModalVisibility] = useState(false);
-  const [photoMethodModal, setPhotoMethodModal] = useState(false);
-  const [photoUri, setPhotoUri] = useState("");
 
-  const update = async (id, titulo, desc, data, link, uri) => {
-    await updateAnnouncement(id, titulo, desc, data, link, uri);
+  const deletePlan = async (id) => {
+    await deletePlans(id);
     fetchItems();
   };
 
-  const tryUptadeAnnouncement = async () => {
-    try {
-      await uploadImage(photoUri, "Announcement-Images").then(async (path) => {
-        await update(id, title, description, data, link, path);
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const togglePhotoMethodModal = () => {
-    setPhotoMethodModal(!photoMethodModal);
-  };
-
-  const setImage = (uri) => {
-    try {
-      setPhotoUri(uri);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const uploadImageCamera = async (mode) => {
-    try {
-      let result = {};
-
-      if (mode === "gallery") {
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-        result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [1, 1],
-          quality: 1,
-        });
-
-        if (!result.canceled) {
-          setImage(result.assets[0].uri);
-        }
-      } else {
-        await ImagePicker.requestCameraPermissionsAsync();
-        result = await ImagePicker.launchCameraAsync({
-          cameraType: ImagePicker.CameraType.front,
-          allowsEditing: true,
-          aspect: [1, 1],
-          quality: 1,
-        });
-
-        if (!result.canceled) {
-          setImage(result.assets[0].uri);
-        }
-      }
-    } catch (error) {
-      alert("erro ao salvar a imagem: " + error);
-    }
-  };
-
-  const newAnnouncement = async (titulo, desc, created, data, link) => {
-    await insertAnnouncement(titulo, desc, created, data, link);
+  const insertPlan = async (nome, duracao, valor, quantidadeaulas) => {
+    await insertPlans(nome, duracao, valor, quantidadeaulas);
     fetchItems();
   };
 
-  const deleteAnn = async (id) => {
-    await deleteAnnouncement(id);
+  const updatePlan = async (id, nome, duracao, valor, quantidadeaulas) => {
+    await updatePlans(id, nome, duracao, valor, quantidadeaulas);
     fetchItems();
   };
 
   const fetchItems = async () => {
-    const { data, error } = await supabase.from("comunicados").select("*");
+    const { data, error } = await supabase.from("planosaula").select("*");
 
     if (error) {
       console.error("Erro ao buscar dados:", error);
@@ -121,22 +56,12 @@ export default function NewPlan({ navigation }) {
   const renderItem = ({ item }) => (
     <View style={{ marginBottom: 4 }}>
       <AnnouncementCard
-        title={item.titulo}
+        title={item.nome}
         admin={true}
-        description={item.descricao}
-        event_date={item.data_evento}
-        imagem={item.imagem}
-        bucket="Announcement-Images"
-        onPress={() => {
-          setTitle(item.titulo);
-          setDescription(item.descricao);
-          setData(item.data_evento);
-          setLink(item.link_externo);
-          setUpdateModalVisibility(true);
-          setId(item.id);
-          setImage(item.imagem);
-        }}
-        onIconPress={() => deleteAnn(item.id)}
+        description={item.duracao}
+        imagem="noImage"
+        // onPress={() => }
+        onIconPress={() => deletePlan(item.id)}
       />
     </View>
   );
@@ -145,7 +70,7 @@ export default function NewPlan({ navigation }) {
     setSearchQuery(query);
     if (query.length > 0) {
       const filtered = allItems.filter((item) =>
-        item.titulo.toLowerCase().includes(query.toLowerCase())
+        item.nome.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredItems(filtered);
     } else {
@@ -164,35 +89,26 @@ export default function NewPlan({ navigation }) {
           <Text style={{ fontSize: 26, textAlign: "center" }}>
             Novo Comunicado
           </Text>
-          <DefButton
-            style={{ alignSelf: "center" }}
-            children="Selecione sua imagem"
-            onPress={togglePhotoMethodModal}
-          />
-
-          {photoMethodModal && openPhotoMethodModal()}
 
           <LightGrayInputText
-            label={"Título:"}
-            action={setTitle}
-            value={title}
+            label={"Nome:"}
+            // action={}
+            // value={}
           />
 
           <LightGrayInputText
-            label={"Descrição:"}
-            action={setDescription}
-            value={description}
+            label={"Duração:"}
+            // action={}
+            // value={}
           />
 
           <LightGrayInputText
-            label={"Link:"}
+            label={"Valor:"}
             style={{ marginBottom: 8 }}
-            action={setLink}
-            value={link}
+            // action={}
+            // value={}
+            keyboardType="numeric"
           />
-
-          <InputSelectDateTime setDate2={(test) => setData(test)} />
-
           <View
             style={{
               flexDirection: "row-reverse",
@@ -206,13 +122,6 @@ export default function NewPlan({ navigation }) {
               theme={{ colors: { primary: "#53C64D" } }}
               disabled={title === undefined || description === undefined}
               onPress={() => {
-                newAnnouncement(
-                  title,
-                  description,
-                  new Date().toISOString(),
-                  data,
-                  link
-                );
                 fetchItems();
                 setModalVisibility(false);
               }}
@@ -229,141 +138,19 @@ export default function NewPlan({ navigation }) {
       </View>
     );
   }
-  function openPhotoMethodModal() {
-    return (
-      <View style={styles.modal}>
-        <Pressable style={styles.pressable} onPress={togglePhotoMethodModal} />
-        <View style={styles.form}>
-          {/* {photoUri && <Image source={photoUri} />} */}
-          <Text style={{ fontSize: 26, textAlign: "center" }}>
-            Selecione a foto
-          </Text>
-          <View style={styles.photoMethodForm}>
-            <Pressable
-              style={styles.photoMethodButton}
-              onPress={() => uploadImageCamera()}
-            >
-              <Icon source="camera" size={45} color="#999999" />
-              <Text children="Camera" style={{ color: "#999999" }} />
-            </Pressable>
-            <Pressable
-              style={styles.photoMethodButton}
-              onPress={() => uploadImageCamera("gallery")}
-            >
-              <Icon source="folder" size={45} color="#999999" />
-              <Text children="Galeria" style={{ color: "#999999" }} />
-            </Pressable>
-          </View>
-        </View>
-      </View>
-    );
-  }
-
-  function updateModal() {
-    const formattedDate = (date) => {
-      if (!date) return "";
-      const formattedDate = new Date(date).toLocaleDateString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
-      const formattedTime = new Date(date).toLocaleTimeString("pt-BR", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-      return `${formattedDate} ${formattedTime}`;
-    };
-
-    return (
-      <View style={styles.modal}>
-        <Pressable
-          style={styles.pressable}
-          onPress={() => setModalVisibility(false)}
-        />
-        <View style={styles.form}>
-          <Text style={{ fontSize: 26, textAlign: "center" }}>
-            Editar Anúncio
-          </Text>
-          <DefButton
-            children="Selecione sua imagem"
-            labelStyle={{ fontSize: 18 }}
-            style={{ alignSelf: "center", marginTop: 4 }}
-            onPress={togglePhotoMethodModal}
-          />
-
-          {photoMethodModal && openPhotoMethodModal()}
-
-          <LightGrayInputText
-            label={"Título:"}
-            action={setTitle}
-            value={title}
-          />
-
-          <LightGrayInputText
-            label={"Descrição:"}
-            action={setDescription}
-            value={description}
-          />
-
-          <LightGrayInputText
-            label={"Link:"}
-            style={{ marginBottom: 8 }}
-            action={setLink}
-            value={link}
-          />
-
-          <InputSelectDateTime
-            label={formattedDate(data)}
-            setDate2={(test) => setData(test)}
-          />
-
-          <View
-            style={{
-              flexDirection: "row-reverse",
-              justifyContent: "space-evenly",
-            }}
-          >
-            <Button
-              icon="content-save"
-              children="Salvar"
-              mode="contained"
-              theme={{ colors: { primary: "#53C64D" } }}
-              onPress={() => {
-                tryUptadeAnnouncement();
-                setUpdateModalVisibility(false);
-              }}
-            />
-            <Button
-              icon="cancel"
-              children="Cancelar"
-              mode="contained"
-              theme={{ colors: { primary: "#ff0000" } }}
-              onPress={() => setUpdateModalVisibility(false)}
-            />
-          </View>
-        </View>
-      </View>
-    );
-  }
+  
 
   return (
     <SafeAreaView style={defaultStyles.containerWHeader}>
       <Searchbar
-        placeholder="Pesquise um comunicado"
+        placeholder="Pesquise um plano"
         theme={{ colors: { elevation: { level3: "white" } } }}
         style={{ borderWidth: 1, borderRadius: 20 }}
         value={searchQuery}
         onChangeText={handleSearch}
       />
       <DefButton
-        onPress={() => {
-          setModalVisibility(true);
-          setTitle(undefined);
-          setDescription(undefined);
-          setData(undefined);
-          setLink(undefined);
-          setImage(undefined);
-        }}
+        onPress={() => setModalVisibility(true)}
         icon={<Ionicons name="add" size={48} color="#FFFFFF" />}
         style={{
           alignSelf: "flex-end",
@@ -379,9 +166,8 @@ export default function NewPlan({ navigation }) {
         }}
         labelStyle={{ fontSize: 20 }}
       />
-
+     
       {modalVisibility && openNewModal()}
-      {updateModalVisibility && updateModal()}
 
       <View style={styles.cardView}>
         <FlatList
