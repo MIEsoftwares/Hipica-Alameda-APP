@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import { View, Pressable, Image, Text } from "react-native";
 import styles from "./styles";
-import Teste from "../../assets/images/logo_default_card.png";
+import DefaultImage from "../../assets/images/logo_default_card.png";
 import { IconButton, MD3Colors } from "react-native-paper";
 import { height } from "../../constants/Dimensions";
 import supabase from "../../../database/SupabaseConfig";
+
+/*ESTE COMPONENTE RECEBE AS SEGUINTES PROPS 
+ event_date (string ou Date): Data e hora do evento, usada para exibir a data e hora formatadas.
+ bucket (string): Nome do bucket no Supabase para acessar a imagem.
+ imagem (string): Nome da imagem armazenada no Supabase (se houver). Exibida no card, caso não haja imagem, exibe um logo padrão, se receber "noImage" não apresentará logo padrão.
+ onPress (function): Função chamada ao pressionar o Pressable que envolve o card.
+ title (string): Título do anúncio exibido no card.
+ description (string): Descrição do anúncio exibida no card.
+ admin (boolean): Indica se o usuário é administrador. Se for true, exibe o ícone de lixeira para ações administrativas.
+ onIconPress (function): Função chamada ao pressionar o ícone de lixeira quando admin é true.
+*/
 
 // Função para formatar a data e o horário
 const formatDateTime = (date) => {
@@ -34,10 +45,10 @@ export default function AnnouncementCard(props) {
 
   return (
     <Pressable style={styles.container} onPress={props.onPress}>
-      <View style={styles.imageView}>
-        <Image source={props.imagem ? { uri: getPublicUrl()} : Teste} style={styles.image} />
-      </View>
-      <View style={styles.infos}>
+      {props.imagem !== "noImage" && <View style={styles.imageView}>
+        <Image source={props.imagem ? { uri: getPublicUrl()} : DefaultImage} style={styles.image} />
+      </View>}
+      <View style={props.imagem === "noImage" ? [styles.infos, { width: "100%"}] : styles.infos} >
         <Text
           style={{ fontSize: 20, color: "#fff", backgroundColor: "#000", alignSelf: "flex-start", paddingHorizontal: 16, paddingVertical: 4, borderRadius: 8, fontWeight: "bold" }}
           children={props.title || "Titulo"}

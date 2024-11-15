@@ -1,10 +1,7 @@
-import { useState } from "react";
 import { TextInput } from "react-native-paper";
 import styles from "./styles";
 
 export default function LightGrayInputText(props) {
-  
-  const [text, setText] = useState(props.value);
 
   return (
     <TextInput

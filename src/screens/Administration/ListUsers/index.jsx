@@ -1,11 +1,12 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ActivityIndicator, Card, Searchbar} from "react-native-paper";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FlatList } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import defaultStyles from "../../../constants/defaultStyles";
 import supabase from "../../../../database/SupabaseConfig";
 import { width } from "../../../constants/Dimensions";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function ListUsers({navigation}) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,21 +14,22 @@ export default function ListUsers({navigation}) {
   const [filteredItems, setFilteredItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      const { data, error } = await supabase.from("profiles").select("*");
+  const fetchItems = async () => {
+    const { data, error } = await supabase.from("profiles").select("*");
 
-      if (error) {
-        console.error("Erro ao buscar dados:", error);
-      } else {
-        setAllItems(data);
-        setFilteredItems(data);
-        setLoading(false);
-      }
-    };
+    if (error) {
+      console.error("Erro ao buscar dados:", error);
+    } else {
+      setAllItems(data);
+      setFilteredItems(data);
+      setLoading(false);
+    }
+  };
 
-    fetchItems();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchItems();
+    }, []))
 
   const handleSearch = (query) => {
     setSearchQuery(query);
