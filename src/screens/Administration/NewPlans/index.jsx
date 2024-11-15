@@ -20,8 +20,15 @@ export default function NewPlan({ navigation }) {
   const [allItems, setAllItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [modalVisibility, setModalVisibility] = useState(false);
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
+  const [updateModalVisibility, setUpdateModalVisibility] = useState(false);
+  const [newPlan, setNewPlan] = useState({
+    id: undefined,
+    nome: undefined,
+    valor: undefined,
+    quantidadeaulas: undefined,
+    duracao: undefined,
+  })
+
 
   const deletePlan = async (id) => {
     await deletePlans(id);
@@ -60,7 +67,8 @@ export default function NewPlan({ navigation }) {
         admin={true}
         description={item.duracao}
         imagem="noImage"
-        // onPress={() => }
+        onPress={() => {setNewPlan({id: item.id, nome: item.nome, duracao: item.duracao, valor: item.valor.toString(), quantidadeaulas: item.quantidadeaulas.toString()}); setUpdateModalVisibility(true);
+        }}
         onIconPress={() => deletePlan(item.id)}
       />
     </View>
@@ -87,26 +95,33 @@ export default function NewPlan({ navigation }) {
         />
         <View style={styles.form}>
           <Text style={{ fontSize: 26, textAlign: "center" }}>
-            Novo Comunicado
+            Novo Plano
           </Text>
 
           <LightGrayInputText
             label={"Nome:"}
-            // action={}
-            // value={}
+            action={(value) => setNewPlan( (prevState) => ({ ...prevState, nome: value}))}
+            value={newPlan.nome}
+          />
+
+          <LightGrayInputText
+            label={"Quantidade de aulas:"}
+            action={(value) => setNewPlan( (prevState) => ({ ...prevState, quantidadeaulas: value}))}
+            value={newPlan.quantidadeaulas}
+            keyboardType="numeric"
           />
 
           <LightGrayInputText
             label={"Duração:"}
-            // action={}
-            // value={}
+            action={(value) => setNewPlan( (prevState) => ({ ...prevState, duracao: value}))}
+            value={newPlan.duracao}
           />
 
           <LightGrayInputText
             label={"Valor:"}
             style={{ marginBottom: 8 }}
-            // action={}
-            // value={}
+            action={(value) => setNewPlan( (prevState) => ({ ...prevState, valor: value}))}
+            value={newPlan.valor}
             keyboardType="numeric"
           />
           <View
@@ -120,9 +135,12 @@ export default function NewPlan({ navigation }) {
               children="Salvar"
               mode="contained"
               theme={{ colors: { primary: "#53C64D" } }}
-              disabled={title === undefined || description === undefined}
+              disabled={newPlan.nome === undefined || newPlan.duracao === undefined || newPlan.valor === undefined}
               onPress={() => {
                 fetchItems();
+                insertPlan(newPlan.nome, newPlan.duracao, Number(newPlan.valor), Number(newPlan.quantidadeaulas));
+                console.log(newPlan);
+                
                 setModalVisibility(false);
               }}
             />
@@ -132,6 +150,75 @@ export default function NewPlan({ navigation }) {
               mode="contained"
               theme={{ colors: { primary: "#ff0000" } }}
               onPress={() => setModalVisibility(false)}
+            />
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  function openUpdateModal() {
+    return (
+      <View style={styles.modal}>
+        <Pressable
+          style={styles.pressable}
+          onPress={() => setUpdateModalVisibility(false)}
+        />
+        <View style={styles.form}>
+          <Text style={{ fontSize: 26, textAlign: "center" }}>
+            Editar Plano
+          </Text>
+
+          <LightGrayInputText
+            label={"Nome:"}
+            action={(value) => setNewPlan( (prevState) => ({ ...prevState, nome: value}))}
+            value={newPlan.nome}
+          />
+
+          <LightGrayInputText
+            label={"Quantidade de aulas:"}
+            action={(value) => setNewPlan( (prevState) => ({ ...prevState, quantidadeaulas: value}))}
+            value={newPlan.quantidadeaulas}
+            keyboardType="numeric"
+          />
+
+          <LightGrayInputText
+            label={"Duração:"}
+            action={(value) => setNewPlan( (prevState) => ({ ...prevState, duracao: value}))}
+            value={newPlan.duracao}
+          />
+
+          <LightGrayInputText
+            label={"Valor:"}
+            style={{ marginBottom: 8 }}
+            action={(value) => setNewPlan( (prevState) => ({ ...prevState, valor: value}))}
+            value={newPlan.valor}
+            keyboardType="numeric"
+          />
+          <View
+            style={{
+              flexDirection: "row-reverse",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <Button
+              icon="content-save"
+              children="Salvar"
+              mode="contained"
+              theme={{ colors: { primary: "#53C64D" } }}
+              disabled={newPlan.nome === undefined || newPlan.duracao === undefined || newPlan.valor === undefined}
+              onPress={() => {
+                fetchItems();
+                updatePlan(newPlan.id, newPlan.nome, newPlan.duracao, Number(newPlan.valor), Number(newPlan.quantidadeaulas));
+                setUpdateModalVisibility(false);
+              }}
+            />
+            <Button
+              icon="cancel"
+              children="Cancelar"
+              mode="contained"
+              theme={{ colors: { primary: "#ff0000" } }}
+              onPress={() => setUpdateModalVisibility(false)}
             />
           </View>
         </View>
@@ -168,6 +255,7 @@ export default function NewPlan({ navigation }) {
       />
      
       {modalVisibility && openNewModal()}
+      {updateModalVisibility && openUpdateModal()}
 
       <View style={styles.cardView}>
         <FlatList
@@ -175,6 +263,7 @@ export default function NewPlan({ navigation }) {
           data={filteredItems}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
+          
         />
       </View>
     </SafeAreaView>

@@ -9,7 +9,7 @@ export const insertPlans = async (nome, duracao, valor, quantidadeaulas) => {
         nome: nome, 
         duracao: duracao, 
         valor: valor, 
-        quantidadeaulas: quantidadeaulas
+        quantidadeaulas: quantidadeaulas,
       },])
       .select()
   
