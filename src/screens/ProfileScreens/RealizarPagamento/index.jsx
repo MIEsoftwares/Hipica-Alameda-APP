@@ -6,29 +6,23 @@ import { TextInput } from 'react-native-paper';
 import defaultStyles from '../../../constants/defaultStyles';
 import supabase from '../../../../database/SupabaseConfig';
 import paymentCreate from '../../../../payment_methods/payment_create';
-import { checkPaymentStatus } from '../../../../payment_methods/payment_check'; 
 import * as Clipboard from 'expo-clipboard';
 import { height } from '../../../constants/Dimensions';
 import config from "../../../../database/MercadoPagoData.json";
 
-
 export default function RealizarPagamento({ route, navigation }) {
   const [qrCodeValue, setQrCodeValue] = useState('');
   const [loading, setLoading] = useState(true);
-  const [paymentId, setPaymentId] = useState(null);
-  const [ paymentStatus, setPaymentStatus] = useState(null);
   const { plano } = route.params;
-
+  
   useEffect(() => {
     const generatePayment = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         const userEmail = user.email;
 
-        const pagamento = await paymentCreate(plano.price, plano.desc, userEmail, config.accessToken);
+        const pagamento = await paymentCreate(plano.valor, plano.nome, userEmail, config.accessToken);
         setQrCodeValue(pagamento.point_of_interaction.transaction_data.qr_code);
-        
-        setPaymentId(pagamento.id);
 
         setLoading(false);
       } catch (error) {
@@ -36,34 +30,9 @@ export default function RealizarPagamento({ route, navigation }) {
         setLoading(false);
       }
     };
-    
+
     generatePayment();
   }, [route.params]);
-
-  useEffect(() => {
-    const checkPayment = async () => {
-      if (paymentId) {
-        const payment = await checkPaymentStatus(paymentId);
-        if (payment) {
-          setPaymentStatus(payment.status);
-
-          if (payment.status === 'approved') {
-            console.log("Ta pago!");
-            
-          } else if (payment.status === 'rejected') {
-            console.log("Deu merda!");
-            
-          }
-        }
-      }
-    };
-
-    const interval = setInterval(() => {
-      checkPayment();
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [paymentId, navigation]);
 
   const copyToClipboard = () => {
     Clipboard.setString(qrCodeValue);
@@ -87,8 +56,8 @@ export default function RealizarPagamento({ route, navigation }) {
         {qrCodeValue ? (
           <>
             <View style={{ gap: height * 0.015 }}>
-              <Text style={styles.title}>{plano.desc}</Text>
-              <Text style={styles.price}>Preço: R$ {plano.price}/mês</Text>
+              <Text style={styles.title}>{plano.nome}</Text>
+              <Text style={styles.price}>Preço: R$ {plano.valor}/mês</Text>
             </View>
             <View style={{ alignItems: "center" }}>
               <QRCode
