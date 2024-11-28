@@ -147,8 +147,8 @@ export default function NewPlan({ navigation }) {
             <Button
               icon="cancel"
               children="Cancelar"
-              mode="contained"
-              theme={{ colors: { primary: "#ff0000" } }}
+              mode="outlined"
+              theme={{ colors: { primary: "#E74848", outline: "#E74848" } }}
               onPress={() => setModalVisibility(false)}
             />
           </View>
@@ -263,7 +263,6 @@ export default function NewPlan({ navigation }) {
           data={filteredItems}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
-          
         />
       </View>
     </SafeAreaView>
