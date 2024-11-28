@@ -28,12 +28,12 @@ export default function Relatorios() {
   const [modalVisible, setModalVisible] = useState(false);
   const [novoRelatorio, setNovoRelatorio] = useState({
     titulo: "",
-    professorId: "",
-    nomeProfessor: "",
-    userId: "",
+    professorid: "",
+    nomeprofessor: "",
+    userid: "",
     equitacao: 0,
     manejo: 0,
-    manejoPuxado: 0,
+    manejopuxado: 0,
     salto04: 0,
     salto06: 0,
     salto08: 0,
@@ -44,6 +44,7 @@ export default function Relatorios() {
   });
   const [open, setOpen] = useState(false); // Controle de abertura do dropdown
   const [selectedCliente, setSelectedCliente] = useState(null); // Cliente selecionado
+  const [indice, setIndice] = useState()
 
   useEffect(() => {
     fetchRelatorios();
@@ -76,7 +77,7 @@ export default function Relatorios() {
       // Transformando os dados no formato esperado pelo Dropdown Picker
       const formattedData = data.map((cliente) => ({
         label: cliente.nome, // O que será exibido
-        value: cliente.id, // O valor associado
+        value: {id: cliente.id, nome: cliente.nome}, // O valor associado
       }));
       setClientes(formattedData);
     }
@@ -93,13 +94,10 @@ export default function Relatorios() {
     }));
   };
 
-  const criarRelatorio = async () => {
-    if (!novoRelatorio.titulo || !novoRelatorio.userid) {
-      Alert.alert("Erro", "Preencha todos os campos do relatório.");
-      return;
-    }
-
-    const { error } = await supabase.from("relatorios").insert([novoRelatorio]);
+  const criarRelatorio = async (relatorioAtualizado) => {
+    const { error } = await supabase
+      .from("relatorios")
+      .insert([relatorioAtualizado]);
     if (error) {
       console.error("Erro ao criar relatório:", error);
       Alert.alert("Erro", "Não foi possível criar o relatório.");
@@ -122,7 +120,7 @@ export default function Relatorios() {
         salto11: 0,
         salto12: 0,
       });
-      setSelectedAluno(null);
+      setSelectedCliente(null);
     }
   };
 
@@ -134,7 +132,7 @@ export default function Relatorios() {
       />
       <Card.Content>
         <Text>Relatório ID: {item.id}</Text>
-        <Text>Aluno: {item.alunoNome}</Text>
+        <Text>Aluno: {item.nomealuno}</Text>
       </Card.Content>
     </Card>
   );
@@ -158,8 +156,8 @@ export default function Relatorios() {
             setModalVisible(true),
               setNovoRelatorio((prevState) => ({
                 ...prevState,
-                professorId: professor.id,
-                nomeProfessor: professor.nome,
+                professorid: professor.id,
+                nomeprofessor: professor.nome,
               }));
           }}
           icon={<Ionicons name="add" size={48} color="#FFFFFF" />}
@@ -203,7 +201,9 @@ export default function Relatorios() {
                 value={selectedCliente}
                 items={clientes}
                 setOpen={setOpen}
-                setValue={setSelectedCliente}
+                setValue={(value) => {
+                  setSelectedCliente(value);
+                }}
                 setItems={setClientes}
                 placeholder="Selecione um Aluno"
                 style={styles.dropdown}
@@ -233,16 +233,94 @@ export default function Relatorios() {
               />
 
               <LightGrayInputText
-                label={"Manejo"}
+                label={"Manejo Puxado"}
                 action={(value) =>
                   setNovoRelatorio((prevState) => ({
                     ...prevState,
-                    manejo: value,
+                    manejopuxado: value,
                   }))
                 }
-                value={novoRelatorio.manejo}
+                value={novoRelatorio.manejopuxado}
               />
-              
+              <View
+                style={{ flexDirection: "row", justifyContent: "space-around" }}
+              >
+                <LightGrayInputText
+                  label={"0,40"}
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto04: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto04}
+                />
+                <LightGrayInputText
+                  label={"0,60"}
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto06: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto06}
+                />
+
+                <LightGrayInputText
+                  label={"0,80"}
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto08: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto08}
+                />
+              </View>
+              <View
+                style={{ flexDirection: "row", justifyContent: "space-around" }}
+              >
+                <LightGrayInputText
+                  label={"0,90"}
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto09: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto09}
+                />
+                <LightGrayInputText
+                  label={"1,00"}
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto1: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto1}
+                />
+                <LightGrayInputText
+                  label={"1,10"}
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto11: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto11}
+                />
+              </View>
+              <LightGrayInputText
+                label={"1,20"}
+                action={(value) =>
+                  setNovoRelatorio((prevState) => ({
+                    ...prevState,
+                    salto12: value,
+                  }))
+                }
+                value={novoRelatorio.salto12}
+              />
             </View>
             <View
               style={{ flexDirection: "row", justifyContent: "space-around" }}
@@ -252,14 +330,46 @@ export default function Relatorios() {
                 children="Salvar"
                 mode="contained"
                 theme={{ colors: { primary: "#53C64D" } }}
-                onPress={() => {}}
+                onPress={() => {
+                  if (!selectedCliente) {
+                    Alert.alert(
+                      "Erro",
+                      "Selecione um aluno para criar o relatório."
+                    );
+                    return;
+                  }
+                  const relatorioCompleto = {
+                    ...novoRelatorio,
+                    userid: selectedCliente.id,
+                    nomealuno: selectedCliente.nome,
+                  };
+                  criarRelatorio(relatorioCompleto); // Passa o novo relatorio atualizado
+                }}
               />
+
               <Button
                 icon="cancel"
                 children="Cancelar"
                 mode="outlined"
                 theme={{ colors: { primary: "#E74848", outline: "#E74848" } }}
-                onPress={() => setModalVisible(false)}
+                onPress={() => {
+                  setNovoRelatorio({
+                    titulo: "",
+                    nomeprofessor: "",
+                    userid: "",
+                    equitacao: 0,
+                    manejo: 0,
+                    manejopuxado: 0,
+                    salto04: 0,
+                    salto06: 0,
+                    salto08: 0,
+                    salto09: 0,
+                    salto1: 0,
+                    salto11: 0,
+                    salto12: 0,
+                  }),
+                    setModalVisible(false);
+                }}
               />
             </View>
           </Modal>

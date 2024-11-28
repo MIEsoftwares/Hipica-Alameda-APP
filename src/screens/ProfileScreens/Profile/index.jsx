@@ -12,6 +12,7 @@ import uploadImage from "../../../../database/bucket/uploadImage";
 import updateProfilePic from "../../../../database/actions/Profile/updateProfilePic";
 import getPublicUrl from "../../../../database/bucket/getPublicUrl";
 import defaultStyles from "../../../constants/defaultStyles";
+import { width } from "../../../constants/Dimensions";
 
 export default function Profile({ navigation }) {
   const [profileInfo, setProfileInfo] = useState({
@@ -29,7 +30,6 @@ export default function Profile({ navigation }) {
       const image = await AsyncStorage.getItem("profile-icon");
       if (image !== "none") {
         return image;
-        
       } else {
         return "none";
       }
@@ -47,7 +47,8 @@ export default function Profile({ navigation }) {
       setProfileInfo({
         nome: user.user_metadata.nome,
         email: user.email,
-        imagem: image !== "none" ? getPublicUrl("Profile-Images", image) : image,
+        imagem:
+          image !== "none" ? getPublicUrl("Profile-Images", image) : image,
       });
     } catch (e) {
       console.error(e);
@@ -114,7 +115,9 @@ export default function Profile({ navigation }) {
   const tryUpdateProfilePic = () => {
     try {
       uploadImage(photoUri, "Profile-Images").then(async (path) =>
-        updateProfilePic(profileInfo.id, path).then(setPhotoMethodModal(togglePhotoMethodModal))
+        updateProfilePic(profileInfo.id, path).then(
+          setPhotoMethodModal(togglePhotoMethodModal)
+        )
       );
     } catch (error) {
       alert(`Error ao tentar selecionar imagem ${error}`);
@@ -181,7 +184,9 @@ export default function Profile({ navigation }) {
   return (
     <SafeAreaView style={defaultStyles.containerWHeader}>
       {photoMethodModal && openPhotoMethodModal()}
-      {loading ? (<ActivityIndicator size="large" color="#000000" />) : (
+      {loading ? (
+        <ActivityIndicator size="large" color="#000000" />
+      ) : (
         <View>
           <View style={styles.profileStylePic}>
             {profileInfo.imagem !== "none" ? (
@@ -199,13 +204,11 @@ export default function Profile({ navigation }) {
             />
           </View>
           <View>
-            <Pressable
-              onPress={() => navigation.navigate("EmBreve")}
-              style={styles.lineComponents}
-            >
-              <Text style={styles.titles}>Nome</Text>
-              <Text>{profileInfo.nome}</Text>
-              <Icon source={"menu-right"} size={25} />
+            <Pressable onPress={() => navigation.navigate("EmBreve")}>
+              <View style={styles.row}>
+                <Text style={styles.leftText}>Nome</Text>
+                <Text style={styles.centeredText}>{profileInfo.nome}</Text>
+              </View>
             </Pressable>
 
             <Pressable
@@ -225,15 +228,6 @@ export default function Profile({ navigation }) {
               <Text>{profileInfo.email}</Text>
               <Icon source={"menu-right"} size={25} />
             </Pressable>
-
-            <Pressable
-              onPress={() => navigation.navigate("EmBreve")}
-              style={styles.lineComponents}
-            >
-              <Text style={styles.titles}>Proprietário</Text>
-              <Icon source={"menu-right"} size={25} />
-            </Pressable>
-
             <Pressable
               onPress={() => navigation.navigate("Planos")}
               style={styles.lineComponents}
