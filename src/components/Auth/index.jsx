@@ -7,7 +7,7 @@ import Login from "../../screens/AuthenticationScreens/Login";
 import Home from "../../screens/MainScreens/Home";
 import Register from "../../screens/AuthenticationScreens/Register";
 import Schedule from "../../screens/MainScreens/Schedule";
-import Report from "../../screens/MainScreens/Report";
+import AdminReport from "../../screens/Administration/AdminReport";
 import Profile from "../../screens/ProfileScreens/Profile";
 import MainAdminPage from "../../screens/Administration/MainAdminPage";
 import EditUsers from "../../screens/Administration/EditUsers";
@@ -21,6 +21,7 @@ import RealizarPagamento from "../../screens/ProfileScreens/RealizarPagamento";
 import NewPlan from "../../screens/Administration/NewPlans";
 import 'react-native-get-random-values';
 import RegisterBySheet from "../../screens/Administration/RegisterBySheet";
+import ClientReport from "../../screens/MainScreens/ClientReport";
 
 registerTranslation('en', en)
 registerTranslation('pt', pt)
@@ -81,8 +82,6 @@ export function HomeTabs() {
 
           if (route.name === "Início") {
             iconName = focused ? "home" : "home-outline";
-          } else if (route.name === "Agenda") {
-            iconName = focused ? "calendar-clear" : "calendar-clear-outline";
           } else if (route.name === "Relatórios") {
             iconName = focused ? "book" : "book-outline";
           } else if (route.name === "Administração") {
@@ -96,8 +95,7 @@ export function HomeTabs() {
       })}
     >
       <Tab.Screen name="Início" component={Home} />
-      <Tab.Screen name="Agenda" component={Schedule} />
-      <Tab.Screen name="Relatórios" component={Report} />
+      <Tab.Screen name="Relatórios" component={userRole === "admin" ? AdminReport : ClientReport} />
       {userRole === "admin" && (
         <Tab.Screen name="Administração" component={MainAdminPage} />
       )}

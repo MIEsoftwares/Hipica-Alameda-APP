@@ -359,8 +359,8 @@ export default function NewAnnouncement({ navigation }) {
             <Button
               icon="cancel"
               children="Cancelar"
-              mode="contained"
-              theme={{ colors: { primary: "#ff0000" } }}
+              mode="outlined"
+              theme={{ colors: { primary: "#E74848", outline: "#E74848" } }}
               onPress={() => setUpdateModalVisibility(false)}
             />
           </View>
