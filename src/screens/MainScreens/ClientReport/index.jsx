@@ -5,6 +5,7 @@ import supabase from '../../../../database/SupabaseConfig';
 import PlanCard from '../../../components/PlanCard';
 import defaultStyles from '../../../constants/defaultStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { height } from '../../../constants/Dimensions';
 
 export default ClientReport = () => {
   const [relatorios, setRelatorios] = useState([]);
@@ -79,11 +80,10 @@ export default ClientReport = () => {
           data={relatorios}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            // <Pressable style={styles.item} onPress={() => openModal(item)}>
-            //   <Text style={styles.itemText}>{item.titulo}</Text>
-            // </Pressable>
             <PlanCard
               title={item.titulo}
+              titleStyle={{height: "100%", width: "100%", marginTop: height*-0.01, verticalAlign: "middle"}}
+              onPress={() => openModal(item)}
             />
           )}
         />
