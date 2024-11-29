@@ -21,6 +21,7 @@ import createReport from "../../../../database/report/createReport";
 import defaultStlyes from "../../../constants/defaultStyles";
 import updateRelatorio from "../../../../database/report/editReport";
 import { useFocusEffect } from "@react-navigation/native";
+import { deleteReport } from "../../../../database/report/deleteReports";
 
 export default function Relatorios() {
   const [idReport, setIdReport] = useState();
@@ -153,9 +154,17 @@ export default function Relatorios() {
       setSelectedCliente(null);
     }
   };
+
+  const tryDelete = async (id) => {
+    await deleteReport(id);
+    fetchRelatorios();
+    return;
+  }
   
   const renderRelatorio = ({ item }) => (
     <AnnouncementCard
+      admin={true}
+      onIconPress={async () => await tryDelete(item.id)}
       imagem="noImage"
       title={item.titulo}
       description={`Professor: ${item.nomeprofessor} \nAluno: ${item.nomealuno}`}
