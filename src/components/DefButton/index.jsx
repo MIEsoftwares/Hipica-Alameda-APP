@@ -2,11 +2,12 @@ import { Pressable, Text, StyleSheet } from "react-native";
 
 export default function DefButton(props){
     return (
-        <Pressable 
+        <Pressable
+            disabled={props.disabled} 
             onPress={props.onPress} 
-            style={[styles.default, props.style]}
+            style={props.disabled ? [styles.default, props.style, {backgroundColor: "#dfdfdf"}] : [styles.default, props.style]}
         >
-            { props.children && <Text style={[styles.text, props.labelStyle]}>
+            { props.children && <Text style={props.disabled? [styles.text, props.labelStyle, {color: "#a8a8a8"}] : [styles.text, props.labelStyle]}>
                 {props.children}
             </Text>}
             {props.icon}

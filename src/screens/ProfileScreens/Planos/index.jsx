@@ -27,8 +27,10 @@ export default function Planos({ navigation }) {
 
   const renderItem = ({ item }) => (
     <PlanCard
+    admin={true}
       title={item.nome}
-      description={`Valor: R$${item.valor}/mês`}
+      duracao={item.duracao}
+      valor={`Valor: R$${item.valor}/mês`}
       onPress={() =>
         navigation.navigate('RealizarPagamento', { plano: item })
       }
@@ -36,7 +38,7 @@ export default function Planos({ navigation }) {
   );
 
   return (
-    <SafeAreaView style={defaultStyles.container}>
+    <SafeAreaView style={defaultStyles.containerWHeader}>
       {loading ? (
         <View>
           <Text>Carregando planos...</Text>

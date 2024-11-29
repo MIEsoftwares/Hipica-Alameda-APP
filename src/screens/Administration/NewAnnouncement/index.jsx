@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList, Image, Pressable, Text, View } from "react-native";
+import { Alert, FlatList, Image, Pressable, Text, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AnnouncementCard from "../../../components/AnnouncementCard";
 import { useEffect, useState } from "react";
@@ -42,6 +42,7 @@ export default function NewAnnouncement({ navigation }) {
       await uploadImage(photoUri, "Announcement-Images").then(async (path) => {
         await update(id, title, description, data, link, path);
       });
+      Alert.alert("Sucesso!", "Comunicado atualizado");
     } catch (error) {
       console.error(error);
     }
@@ -96,11 +97,13 @@ export default function NewAnnouncement({ navigation }) {
   const newAnnouncement = async (titulo, desc, created, data, link, imagem) => {
     imagem = await uploadImage(imagem, "Announcement-Images");
     await insertAnnouncement(titulo, desc, created, data, link, imagem);
+    Alert.alert("Sucesso!", "Comunicado criado");
     fetchItems();
   };
 
   const deleteAnn = async (id) => {
     await deleteAnnouncement(id);
+    Alert.alert("Sucesso!", "comunicado deletado");
     fetchItems();
   };
 
@@ -235,7 +238,8 @@ export default function NewAnnouncement({ navigation }) {
         </View>
       </View>
     );
-  }
+  };
+
   function openPhotoMethodModal() {
     return (
       <View style={[styles.modal, { zIndex: 10 }]}>
@@ -266,7 +270,7 @@ export default function NewAnnouncement({ navigation }) {
         </View>
       </View>
     );
-  }
+  };
 
   function updateModal() {
     const formattedDate = (date) => {
@@ -367,7 +371,7 @@ export default function NewAnnouncement({ navigation }) {
         </View>
       </View>
     );
-  }
+  };
 
   return (
     <SafeAreaView style={defaultStyles.containerWHeader}>

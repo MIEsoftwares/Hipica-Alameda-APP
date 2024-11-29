@@ -1,19 +1,19 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList, Image, Pressable, Text, View } from "react-native";
+import { Alert, FlatList, Image, Pressable, Text, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AnnouncementCard from "../../../components/AnnouncementCard";
 import { useEffect, useState } from "react";
-import { Button, Icon, Searchbar } from "react-native-paper";
+import { Button, Searchbar } from "react-native-paper";
 import supabase from "../../../../database/SupabaseConfig";
 import defaultStyles from "../../../constants/defaultStyles";
 import styles from "./styles";
 import DefButton from "../../../components/DefButton";
 import LightGrayInputText from "../../../components/LightGrayInputText";
-import InputSelectDateTime from "../../../components/InputSelectDateTime";
 import { height, width } from "../../../constants/Dimensions";
 import { deletePlans } from "../../../../database/actions/Plans/deletePlans";
 import { insertPlans } from "../../../../database/actions/Plans/insertPlans";
 import { updatePlans } from "../../../../database/actions/Plans/updatePlans";
+import PlanCard from "../../../components/PlanCard";
 
 export default function NewPlan({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -27,21 +27,23 @@ export default function NewPlan({ navigation }) {
     valor: undefined,
     quantidadeaulas: undefined,
     duracao: undefined,
-  })
-
+  });
 
   const deletePlan = async (id) => {
     await deletePlans(id);
+    Alert.alert("Sucesso!", "plano excluído");
     fetchItems();
   };
 
   const insertPlan = async (nome, duracao, valor, quantidadeaulas) => {
     await insertPlans(nome, duracao, valor, quantidadeaulas);
+    Alert.alert("Sucesso!", "plano criado");
     fetchItems();
   };
 
   const updatePlan = async (id, nome, duracao, valor, quantidadeaulas) => {
     await updatePlans(id, nome, duracao, valor, quantidadeaulas);
+    Alert.alert("Sucesso!", "plano atualizado");
     fetchItems();
   };
 
@@ -61,17 +63,23 @@ export default function NewPlan({ navigation }) {
   }, []);
 
   const renderItem = ({ item }) => (
-    <View style={{ marginBottom: 4 }}>
-      <AnnouncementCard
-        title={item.nome}
-        admin={true}
-        description={item.duracao}
-        imagem="noImage"
-        onPress={() => {setNewPlan({id: item.id, nome: item.nome, duracao: item.duracao, valor: item.valor.toString(), quantidadeaulas: item.quantidadeaulas.toString()}); setUpdateModalVisibility(true);
-        }}
-        onIconPress={() => deletePlan(item.id)}
-      />
-    </View>
+    <PlanCard
+      admin={true}
+      title={item.nome}
+      duracao={item.duracao}
+      valor={`Valor: R$${item.valor}/mês`}
+      onPress={() => {
+        setNewPlan({
+          id: item.id,
+          nome: item.nome,
+          duracao: item.duracao,
+          valor: item.valor.toString(),
+          quantidadeaulas: item.quantidadeaulas.toString(),
+        });
+        setUpdateModalVisibility(true);
+      }}
+      onIconPress={() => deletePlan(item.id)}
+    />
   );
 
   const handleSearch = (query) => {
@@ -94,33 +102,42 @@ export default function NewPlan({ navigation }) {
           onPress={() => setModalVisibility(false)}
         />
         <View style={styles.form}>
-          <Text style={{ fontSize: 26, textAlign: "center" }}>
-            Novo Plano
-          </Text>
+          <Text style={{ fontSize: 26, textAlign: "center" }}>Novo Plano</Text>
 
           <LightGrayInputText
             label={"Nome:"}
-            action={(value) => setNewPlan( (prevState) => ({ ...prevState, nome: value}))}
+            action={(value) =>
+              setNewPlan((prevState) => ({ ...prevState, nome: value }))
+            }
             value={newPlan.nome}
           />
 
           <LightGrayInputText
             label={"Quantidade de aulas:"}
-            action={(value) => setNewPlan( (prevState) => ({ ...prevState, quantidadeaulas: value}))}
+            action={(value) =>
+              setNewPlan((prevState) => ({
+                ...prevState,
+                quantidadeaulas: value,
+              }))
+            }
             value={newPlan.quantidadeaulas}
             keyboardType="numeric"
           />
 
           <LightGrayInputText
             label={"Duração:"}
-            action={(value) => setNewPlan( (prevState) => ({ ...prevState, duracao: value}))}
+            action={(value) =>
+              setNewPlan((prevState) => ({ ...prevState, duracao: value }))
+            }
             value={newPlan.duracao}
           />
 
           <LightGrayInputText
             label={"Valor:"}
             style={{ marginBottom: 8 }}
-            action={(value) => setNewPlan( (prevState) => ({ ...prevState, valor: value}))}
+            action={(value) =>
+              setNewPlan((prevState) => ({ ...prevState, valor: value }))
+            }
             value={newPlan.valor}
             keyboardType="numeric"
           />
@@ -135,12 +152,19 @@ export default function NewPlan({ navigation }) {
               children="Salvar"
               mode="contained"
               theme={{ colors: { primary: "#53C64D" } }}
-              disabled={newPlan.nome === undefined || newPlan.duracao === undefined || newPlan.valor === undefined}
+              disabled={
+                newPlan.nome === undefined ||
+                newPlan.duracao === undefined ||
+                newPlan.valor === undefined
+              }
               onPress={() => {
                 fetchItems();
-                insertPlan(newPlan.nome, newPlan.duracao, Number(newPlan.valor), Number(newPlan.quantidadeaulas));
-                console.log(newPlan);
-                
+                insertPlan(
+                  newPlan.nome,
+                  newPlan.duracao,
+                  Number(newPlan.valor),
+                  Number(newPlan.quantidadeaulas)
+                );
                 setModalVisibility(false);
               }}
             />
@@ -171,27 +195,38 @@ export default function NewPlan({ navigation }) {
 
           <LightGrayInputText
             label={"Nome:"}
-            action={(value) => setNewPlan( (prevState) => ({ ...prevState, nome: value}))}
+            action={(value) =>
+              setNewPlan((prevState) => ({ ...prevState, nome: value }))
+            }
             value={newPlan.nome}
           />
 
           <LightGrayInputText
             label={"Quantidade de aulas:"}
-            action={(value) => setNewPlan( (prevState) => ({ ...prevState, quantidadeaulas: value}))}
+            action={(value) =>
+              setNewPlan((prevState) => ({
+                ...prevState,
+                quantidadeaulas: value,
+              }))
+            }
             value={newPlan.quantidadeaulas}
             keyboardType="numeric"
           />
 
           <LightGrayInputText
             label={"Duração:"}
-            action={(value) => setNewPlan( (prevState) => ({ ...prevState, duracao: value}))}
+            action={(value) =>
+              setNewPlan((prevState) => ({ ...prevState, duracao: value }))
+            }
             value={newPlan.duracao}
           />
 
           <LightGrayInputText
             label={"Valor:"}
             style={{ marginBottom: 8 }}
-            action={(value) => setNewPlan( (prevState) => ({ ...prevState, valor: value}))}
+            action={(value) =>
+              setNewPlan((prevState) => ({ ...prevState, valor: value }))
+            }
             value={newPlan.valor}
             keyboardType="numeric"
           />
@@ -206,10 +241,20 @@ export default function NewPlan({ navigation }) {
               children="Salvar"
               mode="contained"
               theme={{ colors: { primary: "#53C64D" } }}
-              disabled={newPlan.nome === undefined || newPlan.duracao === undefined || newPlan.valor === undefined}
+              disabled={
+                newPlan.nome === undefined ||
+                newPlan.duracao === undefined ||
+                newPlan.valor === undefined
+              }
               onPress={() => {
                 fetchItems();
-                updatePlan(newPlan.id, newPlan.nome, newPlan.duracao, Number(newPlan.valor), Number(newPlan.quantidadeaulas));
+                updatePlan(
+                  newPlan.id,
+                  newPlan.nome,
+                  newPlan.duracao,
+                  Number(newPlan.valor),
+                  Number(newPlan.quantidadeaulas)
+                );
                 setUpdateModalVisibility(false);
               }}
             />
@@ -225,7 +270,6 @@ export default function NewPlan({ navigation }) {
       </View>
     );
   }
-  
 
   return (
     <SafeAreaView style={defaultStyles.containerWHeader}>
@@ -253,7 +297,7 @@ export default function NewPlan({ navigation }) {
         }}
         labelStyle={{ fontSize: 20 }}
       />
-     
+
       {modalVisibility && openNewModal()}
       {updateModalVisibility && openUpdateModal()}
 

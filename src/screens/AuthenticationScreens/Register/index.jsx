@@ -1,4 +1,4 @@
-import { View, KeyboardAvoidingView, Image, Pressable } from "react-native";
+import { View, KeyboardAvoidingView, Image, Pressable, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import LightGrayInputText from "../../../components/LightGrayInputText";
@@ -59,7 +59,7 @@ export default function SignUpScreen({ navigation }) {
 
       return;
     }
-
+    Alert.alert("Sucesso!", "Novo usuário criado")
     navigation.goBack();
   };
 

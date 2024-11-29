@@ -6,7 +6,7 @@ export default styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         width: width * 0.9,
-        height: height * 0.12,
+        height: height * 0.13,
         borderRadius: width*0.06,
         borderTopLeftRadius: width*0.03,
         borderBottomLeftRadius: width*0.03,
