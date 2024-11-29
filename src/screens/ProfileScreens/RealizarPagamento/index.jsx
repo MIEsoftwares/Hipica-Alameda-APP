@@ -41,7 +41,7 @@ export default function RealizarPagamento({ route, navigation }) {
 
   if (loading) {
     return (
-      <SafeAreaView style={defaultStyles.container}>
+      <SafeAreaView style={defaultStyles.containerWHeader}>
         <View style={styles.content}>
           <ActivityIndicator size="large" color="#000000" />
           <Text style={styles.loadingText}>Carregando...</Text>
@@ -51,15 +51,15 @@ export default function RealizarPagamento({ route, navigation }) {
   }
 
   return (
-    <SafeAreaView style={defaultStyles.container}>
-      <View style={styles.content}>
+    <SafeAreaView style={defaultStyles.containerWHeader}>
+      <View>
         {qrCodeValue ? (
           <>
-            <View style={{ gap: height * 0.015 }}>
-              <Text style={styles.title}>{plano.nome}</Text>
-              <Text style={styles.price}>Preço: R$ {plano.valor}/mês</Text>
+            <View style={{position: "absolute", top: height*0.05, left: 0, zIndex: 5}}>
+            <Text style={styles.title}>{plano.nome}</Text>
+            <Text style={styles.price}>Preço: R$ {plano.valor}/mês</Text>
             </View>
-            <View style={{ alignItems: "center" }}>
+            <View style={{ alignItems: "center", gap: height*0.05, justifyContent: "center", height: "100%"}}>  
               <QRCode
                 value={qrCodeValue}
                 size={200}

@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native-paper";
 import { useState } from "react";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { deleteUser } from "../../../../database/auth/delete";
 import { updateUser } from "../../../../database/auth/update"
 import styles from "./styles";
@@ -30,6 +30,7 @@ export default function EditUsers({ route, navigation }) {
   async function tryDelete(id) {
     const error = await deleteUser(id);
     navigation.goBack();
+    Alert.alert("Sucesso!", "Usuário excluído");
 
     return error;
   }
@@ -37,6 +38,7 @@ export default function EditUsers({ route, navigation }) {
   async function tryUpdate(id) {
     const error = await updateUser(id, email, nome, cpf, telefone, hasHorse, horseName, role,)
     navigation.goBack();
+    Alert.alert("Sucesso!", "Usuário atualizado");
 
     return error
   }
@@ -149,7 +151,7 @@ export default function EditUsers({ route, navigation }) {
                 children="Salvar"
                 mode="contained"
                 theme={{ colors: { primary: "#53C64D" } }}
-                onPress={() => {tryUpdate(item.id, email,  nome, cpf, telefone, hasHorse, horseName, role); console.log(role);
+                onPress={() => {tryUpdate(item.id, email,  nome, cpf, telefone, hasHorse, horseName, role);
                 }}
               />
               <Button
