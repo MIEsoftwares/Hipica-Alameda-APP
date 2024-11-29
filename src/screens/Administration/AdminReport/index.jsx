@@ -5,8 +5,6 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import {
   Text,
   Button,
-  TextInput,
-  Card,
   Modal,
   Portal,
   Provider,

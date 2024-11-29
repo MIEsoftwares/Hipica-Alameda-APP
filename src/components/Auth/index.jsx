@@ -6,7 +6,6 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Login from "../../screens/AuthenticationScreens/Login";
 import Home from "../../screens/MainScreens/Home";
 import Register from "../../screens/AuthenticationScreens/Register";
-import Schedule from "../../screens/MainScreens/Schedule";
 import AdminReport from "../../screens/Administration/AdminReport";
 import Profile from "../../screens/ProfileScreens/Profile";
 import MainAdminPage from "../../screens/Administration/MainAdminPage";
@@ -22,6 +21,7 @@ import NewPlan from "../../screens/Administration/NewPlans";
 import 'react-native-get-random-values';
 import RegisterBySheet from "../../screens/Administration/RegisterBySheet";
 import ClientReport from "../../screens/MainScreens/ClientReport";
+import ScheduleClass from "../../screens/Administration/ScheduleClass";
 
 registerTranslation('en', en)
 registerTranslation('pt', pt)
@@ -51,6 +51,7 @@ export default function Auth() {
         <Stack.Screen name="EditUsers" component={EditUsers} options={{title: "Editar Usuário", headerTitleAlign: "center", }}/>
         <Stack.Screen name="NewAnnouncement" component={NewAnnouncement} options={{title: "Comunicados", headerTitleAlign: "center", }}/>
         <Stack.Screen name="NewPlan" component={NewPlan} options={{title: "Planos", headerTitleAlign: "center", }}/>
+        <Stack.Screen name="ScheduleClass" component={ScheduleClass} options={{title: "Marcar Aula", headerTitleAlign: "center", }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

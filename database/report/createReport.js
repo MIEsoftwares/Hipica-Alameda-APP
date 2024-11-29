@@ -10,7 +10,7 @@ export default createReport = async (relatorioAtualizado) => {
           Alert.alert("Erro", "Não foi possível criar o relatório.");
           return false;
         } else {
-          Alert.alert("Sucesso", "Relatório criado com sucesso!");
+          Alert.alert("Sucesso!", "Relatório criado");
           return true;
         }
 }
