@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, StyleSheet, FlatList, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -16,8 +16,14 @@ import DropDownPicker from "react-native-dropdown-picker";
 import DefButton from "../../../components/DefButton";
 import { height, width } from "../../../constants/Dimensions";
 import LightGrayInputText from "../../../components/LightGrayInputText";
+import AnnouncementCard from "../../../components/AnnouncementCard";
+import createReport from "../../../../database/report/createReport";
+import defaultStlyes from "../../../constants/defaultStyles";
+import updateRelatorio from "../../../../database/report/editReport";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Relatorios() {
+  const [idReport, setIdReport] = useState();
   const [relatorios, setRelatorios] = useState([]);
   const [professor, setProfessor] = useState({
     id: "",
@@ -26,6 +32,7 @@ export default function Relatorios() {
   const [clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [editVisible, setEditVisible] = useState(false);
   const [novoRelatorio, setNovoRelatorio] = useState({
     titulo: "",
     professorid: "",
@@ -42,16 +49,18 @@ export default function Relatorios() {
     salto11: 0,
     salto12: 0,
   });
-  const [open, setOpen] = useState(false); // Controle de abertura do dropdown
-  const [selectedCliente, setSelectedCliente] = useState(null); // Cliente selecionado
-  const [indice, setIndice] = useState()
+  const [open, setOpen] = useState(false);
+  const [selectedCliente, setSelectedCliente] = useState(null);
+  const [indice, setIndice] = useState();
 
-  useEffect(() => {
-    fetchRelatorios();
-    fetchClientes();
-    fetchProfessor();
-  }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      fetchRelatorios();
+      fetchClientes();
+      fetchProfessor();
+    }, [])
+  );
+   
   const fetchRelatorios = async () => {
     setLoading(true);
     const { data, error } = await supabase.from("relatorios").select("*");
@@ -67,17 +76,16 @@ export default function Relatorios() {
   const fetchClientes = async () => {
     const { data, error } = await supabase
       .from("profiles")
-      .select("id, nome") // Altere os campos para os que você precisa
-      .eq("role", "user"); // Filtra registros onde role é "cliente"
+      .select("id, nome")
+      .eq("role", "user");
 
     if (error) {
       console.error("Erro ao buscar clientes:", error);
       Alert.alert("Erro", "Não foi possível carregar os alunos");
     } else {
-      // Transformando os dados no formato esperado pelo Dropdown Picker
       const formattedData = data.map((cliente) => ({
-        label: cliente.nome, // O que será exibido
-        value: {id: cliente.id, nome: cliente.nome}, // O valor associado
+        label: cliente.nome,
+        value: { id: cliente.id, nome: cliente.nome },
       }));
       setClientes(formattedData);
     }
@@ -94,15 +102,9 @@ export default function Relatorios() {
     }));
   };
 
-  const criarRelatorio = async (relatorioAtualizado) => {
-    const { error } = await supabase
-      .from("relatorios")
-      .insert([relatorioAtualizado]);
-    if (error) {
-      console.error("Erro ao criar relatório:", error);
-      Alert.alert("Erro", "Não foi possível criar o relatório.");
-    } else {
-      Alert.alert("Sucesso", "Relatório criado com sucesso!");
+  const tryCreateRelatorio = async (relatorioAtualizado) => {
+    const response = await createReport(relatorioAtualizado);
+    if (response) {
       fetchRelatorios();
       setModalVisible(false);
       setNovoRelatorio({
@@ -124,22 +126,64 @@ export default function Relatorios() {
     }
   };
 
+  const toggleEditModal = () => {
+    setEditVisible(!editVisible);
+  };
+
+  const tryEditRelatorio = async (id, relatorio) => {
+    const response = await updateRelatorio(id, relatorio);
+    if (response) {
+      fetchRelatorios();
+      setModalVisible(false);
+      setNovoRelatorio({
+        titulo: "",
+        nomeprofessor: "",
+        userid: "",
+        equitacao: 0,
+        manejo: 0,
+        manejopuxado: 0,
+        salto04: 0,
+        salto06: 0,
+        salto08: 0,
+        salto09: 0,
+        salto1: 0,
+        salto11: 0,
+        salto12: 0,
+      });
+      setSelectedCliente(null);
+    }
+  };
+  
   const renderRelatorio = ({ item }) => (
-    <Card style={styles.card}>
-      <Card.Title
-        title={<Text>{item.titulo}</Text>}
-        subtitle={<Text>{`Professor: ${item.nomeprofessor}`}</Text>}
-      />
-      <Card.Content>
-        <Text>Relatório ID: {item.id}</Text>
-        <Text>Aluno: {item.nomealuno}</Text>
-      </Card.Content>
-    </Card>
+    <AnnouncementCard
+      imagem="noImage"
+      title={item.titulo}
+      description={`Professor: ${item.nomeprofessor} \nAluno: ${item.nomealuno}`}
+      onPress={() => {
+        toggleEditModal();
+        setIdReport(item.id);
+        setNovoRelatorio({
+          titulo: item.titulo.toString(),
+          nomeprofessor: item.nomeprofessor.toString(),
+          userid: item.userid.toString(),
+          equitacao: item.equitacao.toString(),
+          manejo: item.manejo.toString(),
+          manejopuxado: item.manejopuxado.toString(),
+          salto04: item.salto04.toString(),
+          salto06: item.salto06.toString(),
+          salto08: item.salto08.toString(),
+          salto09: item.salto09.toString(),
+          salto1: item.salto1.toString(),
+          salto11: item.salto11.toString(),
+          salto12: item.salto12.toString(),
+        });
+      }}
+    />
   );
 
   return (
     <Provider>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={defaultStlyes.container}>
         {loading ? (
           <Text style={styles.loadingText}>Carregando...</Text>
         ) : (
@@ -148,7 +192,7 @@ export default function Relatorios() {
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderRelatorio}
             style={styles.list}
-            contentContainerStyle={{ paddingBottom: 16 }} // Para adicionar espaçamento inferior
+            contentContainerStyle={{ paddingBottom: 16 }}
           />
         )}
         <DefButton
@@ -212,6 +256,7 @@ export default function Relatorios() {
 
               <LightGrayInputText
                 label={"Equitação"}
+                keyboardType="numeric"
                 action={(value) =>
                   setNovoRelatorio((prevState) => ({
                     ...prevState,
@@ -223,6 +268,7 @@ export default function Relatorios() {
 
               <LightGrayInputText
                 label={"Manejo"}
+                keyboardType="numeric"
                 action={(value) =>
                   setNovoRelatorio((prevState) => ({
                     ...prevState,
@@ -234,6 +280,7 @@ export default function Relatorios() {
 
               <LightGrayInputText
                 label={"Manejo Puxado"}
+                keyboardType="numeric"
                 action={(value) =>
                   setNovoRelatorio((prevState) => ({
                     ...prevState,
@@ -247,6 +294,7 @@ export default function Relatorios() {
               >
                 <LightGrayInputText
                   label={"0,40"}
+                  keyboardType="numeric"
                   action={(value) =>
                     setNovoRelatorio((prevState) => ({
                       ...prevState,
@@ -257,6 +305,7 @@ export default function Relatorios() {
                 />
                 <LightGrayInputText
                   label={"0,60"}
+                  keyboardType="numeric"
                   action={(value) =>
                     setNovoRelatorio((prevState) => ({
                       ...prevState,
@@ -268,6 +317,7 @@ export default function Relatorios() {
 
                 <LightGrayInputText
                   label={"0,80"}
+                  keyboardType="numeric"
                   action={(value) =>
                     setNovoRelatorio((prevState) => ({
                       ...prevState,
@@ -282,6 +332,7 @@ export default function Relatorios() {
               >
                 <LightGrayInputText
                   label={"0,90"}
+                  keyboardType="numeric"
                   action={(value) =>
                     setNovoRelatorio((prevState) => ({
                       ...prevState,
@@ -292,6 +343,7 @@ export default function Relatorios() {
                 />
                 <LightGrayInputText
                   label={"1,00"}
+                  keyboardType="numeric"
                   action={(value) =>
                     setNovoRelatorio((prevState) => ({
                       ...prevState,
@@ -302,6 +354,7 @@ export default function Relatorios() {
                 />
                 <LightGrayInputText
                   label={"1,10"}
+                  keyboardType="numeric"
                   action={(value) =>
                     setNovoRelatorio((prevState) => ({
                       ...prevState,
@@ -313,6 +366,7 @@ export default function Relatorios() {
               </View>
               <LightGrayInputText
                 label={"1,20"}
+                keyboardType="numeric"  
                 action={(value) =>
                   setNovoRelatorio((prevState) => ({
                     ...prevState,
@@ -343,7 +397,7 @@ export default function Relatorios() {
                     userid: selectedCliente.id,
                     nomealuno: selectedCliente.nome,
                   };
-                  criarRelatorio(relatorioCompleto); // Passa o novo relatorio atualizado
+                  tryCreateRelatorio(relatorioCompleto);
                 }}
               />
 
@@ -374,9 +428,220 @@ export default function Relatorios() {
             </View>
           </Modal>
         </Portal>
+
+        <Portal>
+          <Modal
+            visible={editVisible}
+            onDismiss={() => setEditVisible(false)}
+            contentContainerStyle={styles.modal}
+          >
+            <Text style={styles.modalHeader}>Editar Relatório</Text>
+
+            <View style={{ gap: 12, marginBottom: 12 }}>
+              <LightGrayInputText
+                label={"Título"}
+                action={(value) =>
+                  setNovoRelatorio((prevState) => ({
+                    ...prevState,
+                    titulo: value,
+                  }))
+                }
+                value={novoRelatorio.titulo}
+              />
+
+              <DropDownPicker
+                open={open}
+                value={selectedCliente}
+                items={clientes}
+                setOpen={setOpen}
+                setValue={(value) => {
+                  setSelectedCliente(value);
+                }}
+                setItems={setClientes}
+                placeholder="Selecione um Aluno"
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownContainer}
+              />
+
+              <LightGrayInputText
+                label={"Equitação"}
+                keyboardType="numeric"
+                action={(value) =>
+                  setNovoRelatorio((prevState) => ({
+                    ...prevState,
+                    equitacao: value,
+                  }))
+                }
+                value={novoRelatorio.equitacao}
+              />
+
+              <LightGrayInputText
+                label={"Manejo"}
+                keyboardType="numeric"
+                action={(value) =>
+                  setNovoRelatorio((prevState) => ({
+                    ...prevState,
+                    manejo: value,
+                  }))
+                }
+                value={novoRelatorio.manejo}
+              />
+
+              <LightGrayInputText
+                label={"Manejo Puxado"}
+                keyboardType="numeric"
+                action={(value) =>
+                  setNovoRelatorio((prevState) => ({
+                    ...prevState,
+                    manejopuxado: value,
+                  }))
+                }
+                value={novoRelatorio.manejopuxado}
+              />
+              <View
+                style={{ flexDirection: "row", justifyContent: "space-around" }}
+              >
+                <LightGrayInputText
+                  label={"0,40"}
+                  keyboardType="numeric"
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto04: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto04}
+                />
+                <LightGrayInputText
+                  label={"0,60"}
+                  keyboardType="numeric"
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto06: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto06}
+                />
+
+                <LightGrayInputText
+                  label={"0,80"}
+                  keyboardType="numeric"
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto08: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto08}
+                />
+              </View>
+              <View
+                style={{ flexDirection: "row", justifyContent: "space-around" }}
+              >
+                <LightGrayInputText
+                  label={"0,90"}
+                  keyboardType="numeric"
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto09: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto09}
+                />
+                <LightGrayInputText
+                  label={"1,00"}
+                  keyboardType="numeric"
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto1: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto1}
+                />
+                <LightGrayInputText
+                  label={"1,10"}
+                  keyboardType="numeric"
+                  action={(value) =>
+                    setNovoRelatorio((prevState) => ({
+                      ...prevState,
+                      salto11: value,
+                    }))
+                  }
+                  value={novoRelatorio.salto11}
+                />
+              </View>
+              <LightGrayInputText
+                label={"1,20"}
+                keyboardType="numeric"
+                action={(value) =>
+                  setNovoRelatorio((prevState) => ({
+                    ...prevState,
+                    salto12: value,
+                  }))
+                }
+                value={novoRelatorio.salto12}
+              />
+            </View>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-around" }}
+            >
+              <Button
+                icon="content-save"
+                children="Salvar"
+                mode="contained"
+                theme={{ colors: { primary: "#53C64D" } }}
+                onPress={() => {
+                  if (!selectedCliente) {
+                    Alert.alert(
+                      "Erro",
+                      "Selecione um aluno para editar o relatório."
+                    );
+                    return;
+                  }
+                  const relatorioCompleto = {
+                    ...novoRelatorio,
+                    userid: selectedCliente.id,
+                    nomealuno: selectedCliente.nome,
+                  };
+                  tryEditRelatorio(idReport,relatorioCompleto);
+                  toggleEditModal();
+                }}
+              />
+
+              <Button
+                icon="cancel"
+                children="Cancelar"
+                mode="outlined"
+                theme={{ colors: { primary: "#E74848", outline: "#E74848" } }}
+                onPress={() => {
+                  setNovoRelatorio({
+                    titulo: "",
+                    nomeprofessor: "",
+                    userid: "",
+                    equitacao: 0,
+                    manejo: 0,
+                    manejopuxado: 0,
+                    salto04: 0,
+                    salto06: 0,
+                    salto08: 0,
+                    salto09: 0,
+                    salto1: 0,
+                    salto11: 0,
+                    salto12: 0,
+                  }),
+                    setEditVisible(false);
+                    setIdReport();
+                }}
+              />
+            </View>
+          </Modal>
+        </Portal>
       </SafeAreaView>
     </Provider>
-  );
+);
 }
 
 const styles = StyleSheet.create({

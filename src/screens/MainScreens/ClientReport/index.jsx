@@ -2,6 +2,9 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, FlatList, Modal, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import supabase from '../../../../database/SupabaseConfig';
+import PlanCard from '../../../components/PlanCard';
+import defaultStyles from '../../../constants/defaultStyles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default ClientReport = () => {
   const [relatorios, setRelatorios] = useState([]);
@@ -68,7 +71,7 @@ export default ClientReport = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={defaultStyles.container}>
       {loading ? (
         <ActivityIndicator size="large" color="#000000" />
       ) : (
@@ -76,9 +79,12 @@ export default ClientReport = () => {
           data={relatorios}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <Pressable style={styles.item} onPress={() => openModal(item)}>
-              <Text style={styles.itemText}>{item.titulo}</Text>
-            </Pressable>
+            // <Pressable style={styles.item} onPress={() => openModal(item)}>
+            //   <Text style={styles.itemText}>{item.titulo}</Text>
+            // </Pressable>
+            <PlanCard
+              title={item.titulo}
+            />
           )}
         />
       )}
@@ -111,7 +117,7 @@ export default ClientReport = () => {
           </View>
         </Modal>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
