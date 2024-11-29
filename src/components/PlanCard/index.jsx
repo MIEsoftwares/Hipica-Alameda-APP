@@ -13,11 +13,11 @@ export default function PlanCard(props) {
       <View style={styles.verticalBar}/>
       <View style={styles.infos}>
         <Text
-          style={{ fontSize: 20, color: "#545454", fontWeight: "bold"}}
-          children={ props.title || "Titulo" }
+          style={[props.titleStyle, { fontSize: 20, color: "#545454", fontWeight: "bold"}]}
+          children={ props.title || "" }
         />
-        <Text style={{ fontSize: 18, color: "#888888", maxWidth: "90%", maxHeight: height*0.055 }} children={ props.duracao || "Descrição" } />
-        <Text style={{ fontSize: 18, color: "#888888", maxWidth: "90%", maxHeight: height*0.055, }} children={ props.valor || "Descrição" } />
+        <Text style={{ fontSize: 18, color: "#888888", maxWidth: "90%", maxHeight: height*0.055 }} children={ props.duracao || "" } />
+        <Text style={{ fontSize: 18, color: "#888888", maxWidth: "90%", maxHeight: height*0.055, }} children={ props.valor || ""} />
       </View>
       {props.admin === true && 
           <IconButton
