@@ -38,6 +38,37 @@ const formatDateTime = (date) => {
 export default function AnnouncementCard(props) {
   const { formattedDate, formattedTime } = formatDateTime(props.event_date);
 
+  // Função para retornar o estilo e texto baseado no status
+  const getStatusStyle = () => {
+    switch (props.status) {
+      case "finalizada":
+        return {
+          containerStyle: { borderColor: "#4CAF50", borderWidth: 2 }, // Verde
+          statusText: "Finalizada",
+          statusColor: "#4CAF50",
+        };
+      case "pendente":
+        return {
+          containerStyle: { borderColor: "#FFC107", borderWidth: 2 }, // Amarelo
+          statusText: "Pendente",
+          statusColor: "#FFC107",
+        };
+      case "cancelada":
+        return {
+          containerStyle: { borderColor: "#F44336", borderWidth: 2 }, // Vermelho
+          statusText: "Cancelada",
+          statusColor: "#F44336",
+        };
+      default:
+        return null; // Mantém o estilo padrão
+    }
+  };
+
+  const statusStyle = getStatusStyle();
+  const containerStyle = statusStyle ? statusStyle.containerStyle : null;
+  const statusText = statusStyle ? statusStyle.statusText : null;
+  const statusColor = statusStyle ? statusStyle.statusColor : null;
+
   const getPublicUrl = () => {
     const { data } = supabase.storage
       .from(props.bucket)
@@ -46,7 +77,10 @@ export default function AnnouncementCard(props) {
   };
 
   return (
-    <Pressable style={styles.container} onPress={props.onPress}>
+    <Pressable
+      style={[styles.container, containerStyle]} // Aplica o estilo dinâmico baseado no status, ou mantém o padrão
+      onPress={props.onPress}
+    >
       {props.imagem !== "noImage" && (
         <View style={styles.imageView}>
           <Image
@@ -111,9 +145,33 @@ export default function AnnouncementCard(props) {
           )}
         </View>
 
+        {/* Texto indicando o status, apenas se o status for válido */}
+        {statusText && (
+          <View
+            style={{
+              backgroundColor: statusColor,
+              paddingHorizontal: 10,
+              paddingVertical: 4,
+              borderRadius: 8,
+              alignSelf: "flex-start",
+              marginTop: 8,
+            }}
+          >
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 12,
+                fontWeight: "bold",
+              }}
+            >
+              {statusText}
+            </Text>
+          </View>
+        )}
+
         {props.admin === true && (
           <IconButton
-            icon="trash-can-outline"
+            icon={props.icon || "trash-can-outline"}
             style={{
               position: "absolute",
               right: 7,

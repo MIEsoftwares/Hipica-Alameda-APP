@@ -7,8 +7,8 @@ import styles from "../../../constants/defaultStyles";
 export default function MainAdminPage ({navigation}){
 
     return (
-        <SafeAreaView style={styles.container}> 
-            <Card onPress={() => navigation.navigate("Register")} elevation={2} style={{marginBottom: height*0.015}}>
+        <SafeAreaView style={[,styles.container, { gap: 32}]}> 
+            <Card onPress={() => navigation.navigate("Register")} elevation={2} >
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Adicionar Usuário"
@@ -18,7 +18,7 @@ export default function MainAdminPage ({navigation}){
                 />
             </Card>
 
-            <Card onPress={() => navigation.navigate("RegisterBySheet")} elevation={2} style={{marginBottom: height*0.015}}>
+            <Card onPress={() => navigation.navigate("RegisterBySheet")} elevation={2} >
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Registrar por Planilha"
@@ -28,7 +28,7 @@ export default function MainAdminPage ({navigation}){
                 />
             </Card>
 
-            <Card onPress={() => navigation.navigate("ListUsers")} elevation={2} style={{marginBottom: height*0.015}}>
+            <Card onPress={() => navigation.navigate("ListUsers")} elevation={2} >
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Listar Usuários"
@@ -38,7 +38,7 @@ export default function MainAdminPage ({navigation}){
                 />
             </Card>
 
-            <Card onPress={() => navigation.navigate("NewAnnouncement")} elevation={2} style={{marginBottom: height*0.015}}>
+            <Card onPress={() => navigation.navigate("NewAnnouncement")} elevation={2} >
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Comunicados"
@@ -48,7 +48,7 @@ export default function MainAdminPage ({navigation}){
                 />
             </Card>
 
-            <Card onPress={() => navigation.navigate("NewPlan")} elevation={2} style={{marginBottom: height*0.015}}>
+            <Card onPress={() => navigation.navigate("NewPlan")} elevation={2} >
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Planos"
@@ -57,7 +57,7 @@ export default function MainAdminPage ({navigation}){
                     style={{backgroundColor:"#ffffff", borderRadius: 14}}
                 />
             </Card>
-            <Card onPress={() => navigation.navigate("ScheduleClass")} elevation={2} style={{marginBottom: height*0.015}}>
+            <Card onPress={() => navigation.navigate("ScheduleClass")} elevation={2} >
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
                     title="Marcar aula"

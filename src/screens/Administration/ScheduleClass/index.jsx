@@ -8,38 +8,39 @@ import supabase from "../../../../database/SupabaseConfig";
 import defaultStyles from "../../../constants/defaultStyles";
 import styles from "./styles";
 import DefButton from "../../../components/DefButton";
-import LightGrayInputText from "../../../components/LightGrayInputText";
 import InputSelectDateTime from "../../../components/InputSelectDateTime";
 import { height, width } from "../../../constants/Dimensions";
 import DropDownPicker from "react-native-dropdown-picker";
 import createSchedule from "../../../../database/actions/ScheduleClass/insertSchedule";
+import updateSchedule from "../../../../database/actions/ScheduleClass/updateSchedule";
 
-export default function NewAnnouncement({ navigation }) {
+export default function ScheduleClass({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [allItems, setAllItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [modalVisibility, setModalVisibility] = useState(false);
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
-  const [link, setLink] = useState();
   const [data, setData] = useState();
-  const [id, setId] = useState();
   const [updateModalVisibility, setUpdateModalVisibility] = useState(false);
-
+  const [id, setId] = useState("");
   const [alunos, setAlunos] = useState([]); // Lista de alunos para o dropdown
   const [selectedAlunos, setSelectedAlunos] = useState([]); // Alunos selecionados
   const [open, setOpen] = useState(false); // Controla a abertura do dropdown
-
   const [professores, setProfessores] = useState([]); // Lista de professores
   const [selectedProfessor, setSelectedProfessor] = useState(null); // Professor selecionado
   const [openProfessores, setOpenProfessores] = useState(false); // Controla a abertura do dropdown de professores
-
   const [aula, setAula] = useState({
     dia: "",
     alunos: [],
     idprofessor: "",
     status: "",
   });
+  const [openStatus, setOpenStatus] = useState(false)
+  const [status, setStatus] = useState()
+  const [items, setItems] = useState([
+    { label: "Cancelada", value: "cancelada" },
+    { label: "Finalizada", value: "finalizada" },
+    { label: "Pendente", value: "pendente" },
+  ]);
 
   const formattedDate = (date) => {
     if (!date) return "";
@@ -66,6 +67,17 @@ export default function NewAnnouncement({ navigation }) {
     fetchItems();
   };
 
+  const tryUpdateSchedule = async (id, newSchedule) => {
+    const response = await updateSchedule(id, newSchedule);
+    if (response) {
+      fetchItems();
+      setUpdateModalVisibility(false);
+      setAula({ dia: "", alunos: [], idprofessor: "", status: "" });
+      setSelectedAlunos(null);
+      setSelectedProfessor(null);
+    }
+  };
+
   const fetchItems = async () => {
     const { data, error } = await supabase.from("aulas").select("*");
 
@@ -83,16 +95,31 @@ export default function NewAnnouncement({ navigation }) {
         title={`Aula do dia: ${formattedDate(item.dia)}`}
         admin={true}
         imagem="noImage"
+        status={item.status}
         onPress={() => {
           setAula((prevState) => ({
             ...prevState,
             dia: item.dia,
             alunos: item.alunos,
             idprofessor: item.idprofessor,
+            status: item.status,
           }));
+          setId(item.id);
+          setSelectedAlunos(item.alunos);
+          setSelectedProfessor(item.idprofessor);
+          setStatus(item.status);
           setUpdateModalVisibility(true);
         }}
-        onIconPress={() => deleteAnn(item.id)}
+        icon="close-circle-outline"
+        onIconPress={() =>{
+          const updatedSchedule = {
+          ...aula,
+          dia: data,
+          alunos: selectedAlunos,
+          idprofessor: selectedProfessor,
+          status: "cancelada",
+        };
+        tryUpdateSchedule(id, updatedSchedule);}}
       />
     </View>
   );
@@ -101,7 +128,7 @@ export default function NewAnnouncement({ navigation }) {
     setSearchQuery(query);
     if (query.length > 0) {
       const filtered = allItems.filter((item) =>
-        item.titulo.toLowerCase().includes(query.toLowerCase())
+        item.dia.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredItems(filtered);
     } else {
@@ -224,17 +251,7 @@ export default function NewAnnouncement({ navigation }) {
         </View>
       </View>
     );
-}
-
-    const [selected, setSelected] = useState();
-
-  function teste() {
-    console.log(selected);
-    
   }
-
-
-
 
   function updateModal() {
     const formattedDate = (date) => {
@@ -263,15 +280,17 @@ export default function NewAnnouncement({ navigation }) {
           <View style={{ zIndex: open ? 1000 : 1 }}>
             <DropDownPicker
               open={open}
-              value={aula.alunos} // Alunos selecionados previamente
-              items={alunos} // Opções de alunos
+              value={selectedAlunos} // IDs dos alunos selecionados
+              items={alunos} // Dados para o dropdown
               setOpen={setOpen}
-              setValue={setSelected}
+              setValue={setSelectedAlunos}
               setItems={setAlunos}
-              multiple={true}
-              mode="BADGE"
+              multiple={true} // Permitir múltiplas seleções
+              mode="BADGE" // Mostra os selecionados como badges
               placeholder="Selecione os alunos"
-              searchable={true}
+              searchable={true} // Adiciona um campo de busca
+              badgeColors={["#E57373", "#81C784"]} // Cores dos badges
+              badgeDotColors={["#E53935", "#388E3C"]}
             />
           </View>
 
@@ -280,19 +299,30 @@ export default function NewAnnouncement({ navigation }) {
             setDate2={(test) => setData(test)}
           />
 
+          <View style={{ zIndex: openProfessores ? 1000 : 1 }}>
+            <DropDownPicker
+              open={openProfessores}
+              value={selectedProfessor} // ID do professor selecionado
+              items={professores} // Dados para o dropdown
+              setOpen={setOpenProfessores}
+              setValue={setSelectedProfessor}
+              setItems={setProfessores}
+              multiple={false} // Permite apenas uma seleção
+              placeholder="Selecione o professor"
+              searchable={true} // Adiciona um campo de busca
+            />
+          </View>
+          <View style={{ zIndex: openStatus ? 1000 : 1 }}>
           <DropDownPicker
-            open={openProfessores}
-            value={aula.idprofessor} // Professor selecionado previamente
-            items={professores} // Opções de professores
-            setOpen={setOpenProfessores}
-            setValue={(value) =>
-              setAula((prevState) => ({ ...prevState, idprofessor: value }))
-            }
-            setItems={setProfessores}
-            multiple={false}
-            placeholder="Selecione o professor"
-            searchable={true}
+            open={openStatus}
+            value={status}
+            items={items}
+            setOpen={setOpenStatus}
+            setValue={setStatus}
+            setItems={setItems}
+            placeholder="Escolha o status"
           />
+          </View>
 
           <View
             style={{
@@ -304,11 +334,17 @@ export default function NewAnnouncement({ navigation }) {
               icon="content-save"
               children="Salvar"
               mode="contained"
+              disabled={selectedAlunos.length === 0 || aula.status === ""}
               theme={{ colors: { primary: "#53C64D" } }}
               onPress={() => {
-                teste();
-                
-                // setUpdateModalVisibility(false);
+                const updatedSchedule = {
+                  ...aula,
+                  dia: data,
+                  alunos: selectedAlunos,
+                  idprofessor: selectedProfessor,
+                  status: status,
+                };
+                tryUpdateSchedule(id, updatedSchedule);
               }}
             />
             <Button
@@ -327,7 +363,7 @@ export default function NewAnnouncement({ navigation }) {
   return (
     <SafeAreaView style={defaultStyles.containerWHeader}>
       <Searchbar
-        placeholder="Pesquise um comunicado"
+        placeholder="Pesquise a data de uma aula"
         theme={{ colors: { elevation: { level3: "white" } } }}
         style={{ borderWidth: 1, borderRadius: 20 }}
         value={searchQuery}
