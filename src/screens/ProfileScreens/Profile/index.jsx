@@ -45,6 +45,7 @@ export default function Profile({ navigation }) {
       } = await supabase.auth.getUser();
       const image = await getImagem();
       setProfileInfo({
+        id: user.id,
         nome: user.user_metadata.nome,
         email: user.email,
         imagem:
