@@ -205,7 +205,7 @@ export default function Profile({ navigation }) {
             />
           </View>
           <View>
-            <Pressable onPress={() => navigation.navigate("EmBreve")}>
+            <Pressable>
               <View style={styles.row}>
                 <Text style={styles.leftText}>Nome</Text>
                 <Text style={styles.centeredText}>{profileInfo.nome}</Text>
@@ -213,7 +213,6 @@ export default function Profile({ navigation }) {
             </Pressable>
 
             <Pressable
-              onPress={() => navigation.navigate("EmBreve")}
               style={styles.lineComponents}
             >
               <Text style={styles.titles}>Senha</Text>
@@ -222,7 +221,6 @@ export default function Profile({ navigation }) {
             </Pressable>
 
             <Pressable
-              onPress={() => navigation.navigate("EmBreve")}
               style={styles.lineComponents}
             >
               <Text style={styles.titles}>Email</Text>
