@@ -190,7 +190,7 @@ export default function Relatorios() {
 
   return (
     <Provider>
-      <SafeAreaView style={defaultStlyes.container}>
+      <SafeAreaView style={defaultStlyes.containerWHeader}>
         {loading ? (
           <Text style={styles.loadingText}>Carregando...</Text>
         ) : (

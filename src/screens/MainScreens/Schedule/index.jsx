@@ -29,6 +29,7 @@ export default function Schedule({ navigation }) {
     disabled: false,
     alunosConfirmados: [],
     alunosCancelados: [],
+    status: "",
   });
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
@@ -208,6 +209,7 @@ export default function Schedule({ navigation }) {
           disabled: confirmado,
           alunosConfirmados: alunosC,
           alunosCancelados: alunosCancelados,
+          status: item.status,
         }));
 
         setModalVisibility(true);
@@ -424,7 +426,7 @@ export default function Schedule({ navigation }) {
                 onPress={() => {
                   updateAlunosConfirmados(aula.id, user.user.id);
                 }}
-                disabled={aula.disabled}
+                disabled={aula.disabled || aula.status === "cancelada" || aula.status === "finalizada"}
                 icon={<Ionicons name="checkmark" size={18} color="#FFFFFF" />}
               />
               <DefButton
@@ -441,7 +443,7 @@ export default function Schedule({ navigation }) {
                 onPress={() => {
                   updateAlunosCancelados(aula.id, user.user.id);
                 }}
-                disabled={!aula.disabled}
+                disabled={!aula.disabled || aula.status === "cancelada" || aula.status === "finalizada"}
                 icon={<Ionicons name="close" size={18} color="#FFFFFF" />}
               />
             </View>

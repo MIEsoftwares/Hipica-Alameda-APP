@@ -1,11 +1,19 @@
-import React, { useState, useCallback } from 'react';
-import { View, Text, FlatList, Modal, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
-import supabase from '../../../../database/SupabaseConfig';
-import PlanCard from '../../../components/PlanCard';
-import defaultStyles from '../../../constants/defaultStyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { height } from '../../../constants/Dimensions';
+import React, { useState, useCallback } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  Modal,
+  Pressable,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import supabase from "../../../../database/SupabaseConfig";
+import PlanCard from "../../../components/PlanCard";
+import defaultStyles from "../../../constants/defaultStyles";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { height } from "../../../constants/Dimensions";
 
 export default ClientReport = () => {
   const [relatorios, setRelatorios] = useState([]);
@@ -16,26 +24,37 @@ export default ClientReport = () => {
   const fetchRelatorios = async () => {
     setLoading(true);
     try {
-      const { data: userResponse, error: userError } = await supabase.auth.getUser();
+      const { data: userResponse, error: userError } =
+        await supabase.auth.getUser();
       if (userError) throw userError;
 
       const userId = userResponse?.user?.id;
       if (!userId) {
-        console.error('Usuário não autenticado ou ID não encontrado.');
+        console.error("Usuário não autenticado ou ID não encontrado.");
         setLoading(false);
         return;
       }
 
-      const { data, error } = await supabase
-        .from('relatorios')
-        .select('*')
-        .eq('userid', userId);
+      const query =
+        userResponse.user.user_metadata.role !== "admin"
+          ? supabase.from("relatorios").select("*").eq("userid", userId)
+          : supabase.from("relatorios").select("*");
+
+      const { data, error } = await query;
+
+      // const { data, error } = await supabase
+      //   .from("relatorios")
+      //   .select("*")
+      //   .eq(
+      //     "userid",
+      //     userResponse.user.user_metadata.role !== "admin" ? userId : undefined
+      //   );
 
       if (error) throw error;
 
       setRelatorios(data);
     } catch (error) {
-      console.error('Erro ao buscar relatórios:', error.message);
+      console.error("Erro ao buscar relatórios:", error.message);
     } finally {
       setLoading(false);
     }
@@ -60,12 +79,14 @@ export default ClientReport = () => {
   const criarRelatorio = async (novoRelatorio) => {
     try {
       setLoading(true);
-      const { error } = await supabase.from('relatorios').insert([novoRelatorio]);
+      const { error } = await supabase
+        .from("relatorios")
+        .insert([novoRelatorio]);
       if (error) throw error;
 
       await fetchRelatorios();
     } catch (error) {
-      console.error('Erro ao criar relatório:', error.message);
+      console.error("Erro ao criar relatório:", error.message);
     } finally {
       setLoading(false);
     }
@@ -82,7 +103,12 @@ export default ClientReport = () => {
           renderItem={({ item }) => (
             <PlanCard
               title={item.titulo}
-              titleStyle={{height: "100%", width: "100%", marginTop: height*-0.01, verticalAlign: "middle"}}
+              titleStyle={{
+                height: "100%",
+                width: "100%",
+                marginTop: height * -0.01,
+                verticalAlign: "middle",
+              }}
               onPress={() => openModal(item)}
             />
           )}
@@ -98,18 +124,75 @@ export default ClientReport = () => {
         >
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}><Text>Detalhes do Relatório - {selectedRelatorio.titulo}</Text></Text>
-              <Text><Text style={styles.label}>Professor:</Text> <Text style={styles.resultText}>{selectedRelatorio.nomeprofessor}</Text></Text>
-              <Text><Text style={styles.label}>Equitação:</Text> <Text style={styles.resultText}>{selectedRelatorio.equitacao}</Text></Text>
-              <Text><Text style={styles.label}>Manejo:</Text> <Text style={styles.resultText}>{selectedRelatorio.manejo}</Text></Text>
-              <Text><Text style={styles.label}>Manejo Puxado:</Text> <Text style={styles.resultText}>{selectedRelatorio.manejopuxado}</Text></Text>
-              <Text><Text style={styles.label}>Salto 0.4:</Text> <Text style={styles.resultText}>{selectedRelatorio.salto04}</Text></Text>
-              <Text><Text style={styles.label}>Salto 0.6:</Text> <Text style={styles.resultText}>{selectedRelatorio.salto06}</Text></Text>
-              <Text><Text style={styles.label}>Salto 0.8:</Text> <Text style={styles.resultText}>{selectedRelatorio.salto08}</Text></Text>
-              <Text><Text style={styles.label}>Salto 0.9:</Text> <Text style={styles.resultText}>{selectedRelatorio.salto09}</Text></Text>
-              <Text><Text style={styles.label}>Salto 1.0:</Text> <Text style={styles.resultText}>{selectedRelatorio.salto1}</Text></Text>
-              <Text><Text style={styles.label}>Salto 1.1:</Text> <Text style={styles.resultText}>{selectedRelatorio.salto11}</Text></Text>
-              <Text><Text style={styles.label}>Salto 1.2:</Text> <Text style={styles.resultText}>{selectedRelatorio.salto12}</Text></Text>
+              <Text style={styles.modalTitle}>
+                <Text>Detalhes do Relatório - {selectedRelatorio.titulo}</Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Professor:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.nomeprofessor}
+                </Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Equitação:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.equitacao}
+                </Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Manejo:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.manejo}
+                </Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Manejo Puxado:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.manejopuxado}
+                </Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Salto 0.4:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.salto04}
+                </Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Salto 0.6:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.salto06}
+                </Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Salto 0.8:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.salto08}
+                </Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Salto 0.9:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.salto09}
+                </Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Salto 1.0:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.salto1}
+                </Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Salto 1.1:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.salto11}
+                </Text>
+              </Text>
+              <Text>
+                <Text style={styles.label}>Salto 1.2:</Text>{" "}
+                <Text style={styles.resultText}>
+                  {selectedRelatorio.salto12}
+                </Text>
+              </Text>
               <Pressable style={styles.closeButton} onPress={closeModal}>
                 <Text style={styles.closeButtonText}>Fechar</Text>
               </Pressable>
@@ -124,31 +207,31 @@ export default ClientReport = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EEEEEE',
+    backgroundColor: "#EEEEEE",
     padding: 20,
   },
   item: {
-    backgroundColor: '#000000',
+    backgroundColor: "#000000",
     padding: 15,
     marginVertical: 8,
     borderRadius: 10,
   },
   itemText: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 18,
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    width: '90%',
-    backgroundColor: '#FFFFFF',
+    width: "90%",
+    backgroundColor: "#FFFFFF",
     padding: 20,
     borderRadius: 12,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 6,
@@ -156,31 +239,31 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 25,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   label: {
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     fontSize: 20,
   },
   resultText: {
     fontSize: 22,
-    color: '#333',
+    color: "#333",
   },
   closeButton: {
     marginTop: 20,
-    backgroundColor: '#000000',
+    backgroundColor: "#000000",
     padding: 12,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 10,
   },
   closeButtonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
+    color: "#FFFFFF",
+    fontWeight: "bold",
     fontSize: 16,
   },
   textContent: {

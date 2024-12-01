@@ -57,6 +57,17 @@ export default function MainAdminPage ({navigation}){
                     style={{backgroundColor:"#ffffff", borderRadius: 14}}
                 />
             </Card>
+
+            <Card onPress={() => navigation.navigate("AdminReport")} elevation={2} >
+                <Card.Title
+                    titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
+                    title="Relatórios"
+                    left={(props) => <Ionicons name="book-outline" size={40}/> }
+                    right={(props) => <IconButton {...props} icon="arrow-right" onPress={() => navigation.navigate("AdminReport")} rippleColor="transparent"/> }
+                    style={{backgroundColor:"#ffffff", borderRadius: 14}}
+                />
+            </Card>
+
             <Card onPress={() => navigation.navigate("ScheduleClass")} elevation={2} >
                 <Card.Title
                     titleStyle={{marginBottom: 0, verticalAlign: "middle"}} 
