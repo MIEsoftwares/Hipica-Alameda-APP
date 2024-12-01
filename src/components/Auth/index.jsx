@@ -22,6 +22,7 @@ import 'react-native-get-random-values';
 import RegisterBySheet from "../../screens/Administration/RegisterBySheet";
 import ClientReport from "../../screens/MainScreens/ClientReport";
 import ScheduleClass from "../../screens/Administration/ScheduleClass";
+import Schedule from "../../screens/MainScreens/Schedule";
 
 registerTranslation('en', en)
 registerTranslation('pt', pt)
@@ -87,6 +88,8 @@ export function HomeTabs() {
             iconName = focused ? "book" : "book-outline";
           } else if (route.name === "Administração") {
             iconName = focused ? "settings-sharp" : "settings-outline";
+          }else if (route.name === "Aulas") {
+            iconName = focused ? "today" : "today-outline";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -97,6 +100,7 @@ export function HomeTabs() {
     >
       <Tab.Screen name="Início" component={Home} />
       <Tab.Screen name="Relatórios" component={userRole === "admin" ? AdminReport : ClientReport} />
+      <Tab.Screen name="Aulas" component={Schedule} />
       {userRole === "admin" && (
         <Tab.Screen name="Administração" component={MainAdminPage} />
       )}

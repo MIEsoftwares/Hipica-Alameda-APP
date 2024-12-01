@@ -53,6 +53,18 @@ export default function AnnouncementCard(props) {
           statusText: "Pendente",
           statusColor: "#FFC107",
         };
+        case "alerta":
+        return {
+          containerStyle: { borderColor: "#FFC107", borderWidth: 2 }, // Amarelo
+          statusText: "Alerta",
+          statusColor: "#FFC107",
+        };
+        case "urgente":
+        return {
+          containerStyle: { borderColor: "#F44336", borderWidth: 2 }, // Vermelho
+          statusText: "Urgente",
+          statusColor: "#F44336",
+        };
       case "cancelada":
         return {
           containerStyle: { borderColor: "#F44336", borderWidth: 2 }, // Vermelho
