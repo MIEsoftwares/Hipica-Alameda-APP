@@ -53,6 +53,7 @@ export default function Auth() {
         <Stack.Screen name="NewAnnouncement" component={NewAnnouncement} options={{title: "Comunicados", headerTitleAlign: "center", }}/>
         <Stack.Screen name="NewPlan" component={NewPlan} options={{title: "Planos", headerTitleAlign: "center", }}/>
         <Stack.Screen name="ScheduleClass" component={ScheduleClass} options={{title: "Marcar Aula", headerTitleAlign: "center", }}/>
+        <Stack.Screen name="AdminReport" component={AdminReport} options={{title: "Relatórios", headerTitleAlign: "center", }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -99,7 +100,7 @@ export function HomeTabs() {
       })}
     >
       <Tab.Screen name="Início" component={Home} />
-      <Tab.Screen name="Relatórios" component={userRole === "admin" ? AdminReport : ClientReport} />
+      <Tab.Screen name="Relatórios" component={ClientReport} />
       <Tab.Screen name="Aulas" component={Schedule} />
       {userRole === "admin" && (
         <Tab.Screen name="Administração" component={MainAdminPage} />
