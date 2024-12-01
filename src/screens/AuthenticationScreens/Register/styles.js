@@ -4,7 +4,6 @@ import { height, width } from "../../../constants/Dimensions";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 8,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",

@@ -11,8 +11,7 @@ const defaultStyles = StyleSheet.create({
     containerWHeader: {
         flex: 1,
         paddingHorizontal: width*0.025,
-        paddingTop: height*0.02,
-        marginTop: height*-0.015,
+        paddingTop: 8,
         backgroundColor: "#fff"
     }
 })
