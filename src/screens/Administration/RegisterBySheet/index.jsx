@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Button, Alert } from "react-native";
+import { View, Text, Alert } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 import * as Papa from "papaparse";
 import { signUpWithEmail } from "../../../../database/auth/register";
@@ -10,39 +10,37 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function RegisterBySheet() {
   const [fileName, setFileName] = useState(null);
-  const [fileUri, setFileUri] = useState(null); // Adicionando estado para armazenar o URI do arquivo
+  const [fileUri, setFileUri] = useState(null);
 
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({
-        type: [
-            "text/comma-separated-values",
-            "text/csv",
-            "application/csv",
-        ],
+      type: [
+        "text/comma-separated-values",
+        "text/csv",
+        "application/csv",
+      ],
       copyToCacheDirectory: true,
     });
 
-    if (result.size !== 0) {
-      setFileName(result.assets[0].name);
-      setFileUri(result.assets[0].uri);
+    if (result.type === "success") {
+      setFileName(result.name);
+      setFileUri(result.uri);
     } else {
       setFileName(null);
       setFileUri(null);
+      Alert.alert("Ação cancelada", "Nenhum arquivo foi selecionado.");
     }
   };
 
   const processCSV = (uri) => {
-    // Lê o arquivo CSV ou Excel
     fetch(uri)
-      .then((response) => response.text()) // Lê o arquivo como texto
+      .then((response) => response.text())
       .then((csvText) => {
         Papa.parse(csvText, {
-          header: true, // Garante que a primeira linha é tratada como cabeçalho
-          skipEmptyLines: true, // Ignora linhas vazias
+          header: true,
+          skipEmptyLines: true,
           complete: (result) => {
-            const users = result.data; // Dados do CSV
-
-            // Para cada usuário no arquivo, chama a função de registro
+            const users = result.data;
             users.forEach((user) => {
               const {
                 email,
@@ -55,8 +53,7 @@ export default function RegisterBySheet() {
                 role,
                 tipoDeAula,
               } = user;
-              
-              // Chama a função para registrar o usuário
+
               signUpWithEmail(
                 email,
                 password,
@@ -89,7 +86,7 @@ export default function RegisterBySheet() {
 
   const handleConfirm = () => {
     if (fileUri) {
-      processCSV(fileUri); // Processa o arquivo e registra os usuários
+      processCSV(fileUri);
     } else {
       Alert.alert("Erro", "Nenhum arquivo selecionado.");
     }
@@ -120,17 +117,24 @@ export default function RegisterBySheet() {
 
       {fileName && (
         <>
-          <Text style={{ marginTop: 32, fontSize: 22, fontWeight: "500", marginBottom: 12,}}>
+          <Text
+            style={{
+              marginTop: 32,
+              fontSize: 22,
+              fontWeight: "500",
+              marginBottom: 12,
+            }}
+          >
             O Arquivo foi selecionado!
           </Text>
-          <View style={{ flexDirection: "row", gap: 12,}}>
-            <Text style={{fontSize: 18, fontWeight: "400"}}>Arquivo:</Text> 
-            <View style={{flexDirection: "row", alignItems: "center", gap: 8}}>
-              <Ionicons name="document-attach-outline" size={24}/>
-              <Text style={{fontSize: 16}}>{fileName}</Text>
+          <View style={{ flexDirection: "row", gap: 12 }}>
+            <Text style={{ fontSize: 18, fontWeight: "400" }}>Arquivo:</Text>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <Ionicons name="document-attach-outline" size={24} />
+              <Text style={{ fontSize: 16 }}>{fileName}</Text>
             </View>
           </View>
-          
+
           <DefButton
             children="Limpar arquivo"
             style={{
@@ -143,7 +147,6 @@ export default function RegisterBySheet() {
               gap: 5,
               position: "absolute",
               bottom: 259,
-              
             }}
             labelStyle={{ fontSize: 22 }}
             icon={<Ionicons name="close" size={24} color="#FFFFFF" />}
@@ -162,7 +165,7 @@ export default function RegisterBySheet() {
           flexDirection: "row-reverse",
           gap: 16,
           position: "absolute",
-          bottom: 214
+          bottom: 214,
         }}
         labelStyle={{ fontSize: 22 }}
         icon={<Ionicons name="save" size={24} color="#FFFFFF" />}
