@@ -16,20 +16,25 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/Logo2.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.mockjk.HipicaAlamedaApp",
+      "npminSdkVersion": 24
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "cli": {
+      "appVersionSource": "local"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8d66abac-6977-4c54-929c-1d97d2667dc2"
+      }
+    },
     "plugins": [
-      [
-        "expo-font",
-        {
-          "fonts": ["src/fonts"]
-        }
-      ]
+      "expo-build-properties"
     ]
   }
 }

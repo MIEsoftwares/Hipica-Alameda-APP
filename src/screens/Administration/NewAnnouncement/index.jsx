@@ -295,7 +295,7 @@ export default function NewAnnouncement({ navigation }) {
         />
         <View style={styles.form}>
           <Text style={{ fontSize: 26, textAlign: "center" }}>
-            Editar Anúncio
+            Editar Comunicado
           </Text>
           {photoUri !== null && (
             <View style={styles.selectedPhotoContainer}>

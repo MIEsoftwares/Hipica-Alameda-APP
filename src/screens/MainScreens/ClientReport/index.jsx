@@ -76,21 +76,21 @@ export default ClientReport = () => {
     setSelectedRelatorio(null);
   };
 
-  const criarRelatorio = async (novoRelatorio) => {
-    try {
-      setLoading(true);
-      const { error } = await supabase
-        .from("relatorios")
-        .insert([novoRelatorio]);
-      if (error) throw error;
+  // const criarRelatorio = async (novoRelatorio) => {
+  //   try {
+  //     setLoading(true);
+  //     const { error } = await supabase
+  //       .from("relatorios")
+  //       .insert([novoRelatorio]);
+  //     if (error) throw error;
 
-      await fetchRelatorios();
-    } catch (error) {
-      console.error("Erro ao criar relatório:", error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     await fetchRelatorios();
+  //   } catch (error) {
+  //     console.error("Erro ao criar relatório:", error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <SafeAreaView style={defaultStyles.container}>

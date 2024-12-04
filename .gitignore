@@ -33,6 +33,7 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
 # Supabase
 database/SupabaseConfig.js
 
