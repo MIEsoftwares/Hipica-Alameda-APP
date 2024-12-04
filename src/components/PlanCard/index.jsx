@@ -17,7 +17,7 @@ export default function PlanCard(props) {
           children={ props.title || "" }
         />
         <Text style={{ fontSize: 18, color: "#888888", maxWidth: "90%", maxHeight: height*0.055 }} children={ props.duracao || "" } />
-        <Text style={{ fontSize: 18, color: "#888888", maxWidth: "90%", maxHeight: height*0.055, }} children={ props.valor || ""} />
+        <Text style={{ fontSize: 18, color: "#888888", maxWidth: "90%", maxHeight: height*0.055 }} children={ props.valor || ""} />
       </View>
       {props.admin === true && 
           <IconButton

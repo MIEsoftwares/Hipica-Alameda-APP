@@ -34,10 +34,10 @@ export default styles = StyleSheet.create({
     },
     infos: {
         width: "65%",
-        height: "100%",
+        height: "95%",
         borderTopRightRadius: 20,
         borderBottomRightRadius: 20,
-        marginTop: height*0.01,
+        paddingTop: height*0.01,
         marginLeft: width*0.02,
         gap: 10,
     }

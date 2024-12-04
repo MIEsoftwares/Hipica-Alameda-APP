@@ -67,6 +67,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#929292",
     marginTop: 5,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+  },
+  loadingImage: {
+    width: 250, // Largura da imagem
+    height: 250, // Altura da imagem
+    resizeMode: "contain", // Ajusta a imagem para caber no espaço definido
+  },
+  
 });
 
 export default styles;
