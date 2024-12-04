@@ -16,7 +16,7 @@ export default {
       },
       android: {
         adaptiveIcon: {
-          foregroundImage: "./assets/adaptive-icon.png",
+          foregroundImage: "./src/assets/images/Logo2.png",
           backgroundColor: "#ffffff",
         },
         package: "com.mockjk.HipicaAlamedaApp",
